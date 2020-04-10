@@ -13,6 +13,7 @@ Welcome to logfile-warning-suppressor's documentation!
    overview
    installation
    usage
+   suppression_rules
 
 Indices and tables
 ==================
