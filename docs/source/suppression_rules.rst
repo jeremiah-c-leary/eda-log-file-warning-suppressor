@@ -8,8 +8,8 @@ The suppression rules are a YAML formatted file with the following basic form:
    suppress:
      no_id:
        msg: 'Unused port'
-         comment: 'This port is not used.'
-         author: 'mpw'
+       comment: 'This port is not used.'
+       author: 'mpw'
      <warning_id>:
        msg: 'Port I_CLK not used'
        comment: 'This port is not used.'
@@ -38,7 +38,8 @@ Each suppression rule will have the following fields available:
 +====================+==========+=================================================+
 | msg                |          | The message to suppress. This will be a regular |
 |                    |   Yes    | a regular expression which will match after the |
-|                    |          | defined message ID.                             |
+|                    |          | defined message ID.  LSW will prepend a .* to   |
+|                    |          | this field.                                     |
 +--------------------+----------+-------------------------------------------------+
 | comment            |   No     | While optional, it is strongly recommened to    |
 |                    |          | use this field to document why the warning was  |
@@ -47,4 +48,4 @@ Each suppression rule will have the following fields available:
 | author             |   No     | Document who created the suppression.           |
 +--------------------+----------+-------------------------------------------------+
 
-.. jcl - Need some real world examples.
+.. jcl - Need some real world examples that show the warning message and a corresponding suppression rule.
