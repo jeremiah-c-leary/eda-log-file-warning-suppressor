@@ -41,8 +41,8 @@ Key Features
 * Command line tool
 * Integrates into CI flow tools using JUNIT.XML files
 * Uses YAML to define suppressed warnings
-* Reports
-
-  * warnings not suppressed
+* Reports for auditing suppressions
+  * Warnings not suppressed
   * Which warnings were suppressed by which suppression rule
-  * Any warning suppression rule that did not suppress any warnings
+  * Suppression rules which did not suppress any warnings
+  * Warnings suppressed by multiple rules

@@ -11,7 +11,8 @@ Welcome to logfile-warning-suppressor's documentation!
    :caption: Contents:
 
    overview
-
+   installation
+   usage
 
 Indices and tables
 ==================
