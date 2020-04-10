@@ -14,6 +14,7 @@ Welcome to logfile-warning-suppressor's documentation!
    installation
    usage
    suppression_rules
+   theory_of_operation/theory_of_operation
 
 Indices and tables
 ==================
