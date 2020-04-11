@@ -64,7 +64,7 @@ version
 
 Use the version subcommand to report the installed version of LWS.
 
-.. code-block:: lws
+.. code-block:: bash
 
    $ lws version
 

@@ -7,7 +7,7 @@ Welcome to logfile-warning-suppressor's documentation!
 ======================================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    overview
@@ -15,6 +15,7 @@ Welcome to logfile-warning-suppressor's documentation!
    usage
    suppression_rules
    theory_of_operation/theory_of_operation
+   vendors/vendors
 
 Indices and tables
 ==================
