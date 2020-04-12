@@ -11,21 +11,26 @@ class testSuppressionClassMethods(unittest.TestCase):
         self.assertEqual(None, oSuppression.warning_id)
         self.assertEqual(None, oSuppression.message)
         self.assertEqual(None, oSuppression.author)
+        self.assertEqual(None, oSuppression.comment)
         
     def test_assignment_class_creation(self):
-        oSuppression = suppression.create('WID', 'Message', 'Author')
+        oSuppression = suppression.create('WID', 'Message', 'Author', 'comment')
         self.assertEqual('WID', oSuppression.warning_id)
         self.assertEqual('Message', oSuppression.message)
         self.assertEqual('Author', oSuppression.author)
 
     def test_get_warning_id_method(self):
-        oSuppression = suppression.create('WID', 'Message', 'Author')
+        oSuppression = suppression.create('WID', 'Message', 'Author', 'comment')
         self.assertEqual('WID', oSuppression.get_warning_id())
 
     def test_get_message_method(self):
-        oSuppression = suppression.create('WID', 'Message', 'Author')
+        oSuppression = suppression.create('WID', 'Message', 'Author', 'comment')
         self.assertEqual('Message', oSuppression.get_message())
 
     def test_get_author_method(self):
-        oSuppression = suppression.create('WID', 'Message', 'Author')
+        oSuppression = suppression.create('WID', 'Message', 'Author', 'comment')
         self.assertEqual('Author', oSuppression.get_author())
+
+    def test_get_comment_method(self):
+        oSuppression = suppression.create('WID', 'Message', 'Author', 'comment')
+        self.assertEqual('comment', oSuppression.get_comment())

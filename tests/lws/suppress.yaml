@@ -1,0 +1,16 @@
+suppress:
+  SYN001:
+    - msg: 'This is the message'
+      author: 'jcleary'
+      comment: 'This is fine because...'
+    - msg: 'This is another message'
+      comment : 'Just ignore this...'
+  NO_ID:
+    - msg: 'Some warning without a proper ID'
+      comment: 'This is fine...'
+  CMP2001:
+    - msg: 'This is some compile warning'
+      author: 'jcleary'
+      comment: 'Just because...'
+
+

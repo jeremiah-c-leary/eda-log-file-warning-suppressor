@@ -1,9 +1,13 @@
 
 import argparse
+import importlib
 import sys
+import yaml
 
 from . import subcommand
 from . import version
+from . import suppression
+from . import suppression_list
 
 
 def parse_command_line_arguments():
@@ -95,6 +99,57 @@ def print_help_if_no_command_line_options_given(oParser):
         oParser.print_help()
         sys.exit(1)
 
+def read_suppression_file(sFileName):
+    '''
+    Attempts to read the suppression file and return an list of rules.
+
+    Parameters:
+
+       sFileName : (String)
+
+    Returns:  dictionary
+    '''
+    with open(sFileName) as yaml_file:
+        dReturn = yaml.full_load(yaml_file)
+
+    return dReturn
+
+
+def create_suppression_list(dSuppression):
+    '''
+    Processes a given dictionary and returns a suppression list object.
+
+    Parameters:
+
+        dSuppression : (dict)
+
+    Returns:  suppression list object
+    '''
+    oReturn = suppression_list.create()
+
+    for dID in list(dSuppression['suppress'].keys()):
+        for dSup in dSuppression['suppress'][dID]:
+            oSupRule = suppression.create(dID, dSup['msg'])
+            try:
+                oSupRule.author = dSup['author']
+            except KeyError:
+                oSupRule.auther = None
+            try:
+                oSupRule.comment= dSup['comment']
+            except KeyError:
+                oSupRule.comment = None
+            oReturn.add_suppression(oSupRule)
+    return oReturn
+
+
+def read_log_file(sFileName):
+    lLines = []
+    with open(sFileName) as oFile:
+        for sLine in oFile:
+            lLines.append(sLine)
+    oFile.close()
+    return lLines
+
 
 def main():
     '''
@@ -105,6 +160,13 @@ def main():
 
     if commandLineArguments.which == 'version':
         version.print_version()
+
+    dSup = read_suppression_file(commandLineArguments.suppression_file)
+    oSupList = create_suppression_list(dSup)
+
+    lLogFile = read_log_file(commandLineArguments.log_file)
+    toolModule = importlib.import_module('lws.vendor.' + commandLineArguments.vendor.lower() + '.' + commandLineArguments.tool.lower())
+    oWarnList = toolModule.extract_warnings(lLogFile)
 
 if __name__ == '__main__':
     main()
