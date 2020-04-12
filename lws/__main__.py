@@ -151,6 +151,15 @@ def read_log_file(sFileName):
     return lLines
 
 
+def build_vendor_module_path(sVendor, sTool):
+    return '.'.join(['lws', 'vendor', sVendor.lower(), sTool.lower()])
+
+
+def import_vendor_module(sVendor, sTool):
+    sToolPath = build_vendor_module_path(sVendor, sTool)
+    return importlib.import_module(sToolPath)
+
+
 def main():
     '''
     Main routine of the Logfile Warning Suppressor (LWS) program.
@@ -165,7 +174,7 @@ def main():
     oSupList = create_suppression_list(dSup)
 
     lLogFile = read_log_file(commandLineArguments.log_file)
-    toolModule = importlib.import_module('lws.vendor.' + commandLineArguments.vendor.lower() + '.' + commandLineArguments.tool.lower())
+    toolModule = import_vendor_module(commandLineArguments.vendor, commandLineArguments.tool)
     oWarnList = toolModule.extract_warnings(lLogFile)
 
 if __name__ == '__main__':
