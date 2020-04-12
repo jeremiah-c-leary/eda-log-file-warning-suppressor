@@ -103,8 +103,6 @@ def main():
 
     commandLineArguments = parse_command_line_arguments()
 
-    print(commandLineArguments)
-
     if commandLineArguments.which == 'version':
         version.print_version()
 
