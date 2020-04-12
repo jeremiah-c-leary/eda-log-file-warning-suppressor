@@ -27,7 +27,7 @@ Extracting Warnings
 
 The fields filename and message will be combined into a single message.
 
-1.  Search for lines starting with **** Warning:**
+1.  Search for lines starting with **\** Warning:**
 2.  Extract ID
 3.  Combine filename and message fields as the message
 
