@@ -26,6 +26,8 @@ def parse_command_line_arguments():
 def is_dash_h_present(sysargv):
     if '-h' in sysargv:
         return True
+    if '--help' in sysargv:
+        return True
     return False
 
 
@@ -42,21 +44,20 @@ def build_suppress_tool_help_parser(oParser, sVendor):
     oParser.add_argument('tool', help=sTools)
     add_file_arguments_to_parser(oParser)
 
+
+def build_full_suppress_parser(oParser, argv):
+    lVendors = get_vendors()
+    sVendor = extract_vendor_from_args(argv)
+    if sVendor in lVendors:
+        oParser.add_argument('vendor', choices=[sVendor], help=lVendors[0])
+        lTools = get_tools(sVendor)
+        oParser.add_argument('tool', choices=lTools, help=', '.join(lTools))
+    add_file_arguments_to_parser(oParser)
+
+
 def add_file_arguments_to_parser(oParser):
     oParser.add_argument('log_file', help='Log file which will be checked for warnings')
     oParser.add_argument('suppression_file', help='Suppression file')
-
-#def build_suppress_microsemi_help_parser(oParser, argv):
-#    oParser.add_argument('vendor', help='Microsemi')
-#    oParser.add_argument('tool', help='Designer')
-#    oParser.add_argument('suppression_file', help='Suppression file')
-#    oParser.add_argument('log_file', help='Log file which will be checked for warnings')
-#
-#def build_suppress_mentor_graphics_help_parser(oParser, argv):
-#    oParser.add_argument('vendor', help='Mentor_Graphics')
-#    oParser.add_argument('tool', help='Precision')
-#    oParser.add_argument('suppression_file', help='Suppression file')
-#    oParser.add_argument('log_file', help='Log file which will be checked for warnings')
 
 
 def build_suppress_subparser(oSubparser, argv):
@@ -64,16 +65,27 @@ def build_suppress_subparser(oSubparser, argv):
     if len(sys.argv) == 2 or (len(sys.argv) == 3 and is_dash_h_present(sys.argv)):
         build_suppress_help_parser(parser)
     elif len(sys.argv) == 3 or (len(sys.argv) == 4 and is_dash_h_present(sys.argv)):
-        build_suppress_tool_help_parser(parser, argv[2])
-    elif len(sys.argv) > 3 and '-h' not in sys.argv:
-        lVendors = get_vendors()
-        if argv[2] in lVendors:
-            parser.add_argument('vendor', choices=[argv[2]], help=lVendors[0])
-            lTools = get_tools(argv[2])
-            parser.add_argument('tool', choices=lTools, help=', '.join(lTools))
-        add_file_arguments_to_parser(oParser)
+        build_suppress_tool_help_parser(parser, extract_vendor_from_args(sys.argv))
+    elif len(sys.argv) > 3:
+        build_full_suppress_parser(parser, argv)
     parser.set_defaults(which='suppress')
 
+
+def remove_help_argument(argv):
+    lReturn = argv.copy()
+    if '-h' in lReturn:
+        lReturn.remove('-h')
+    if '--help' in lReturn:
+        lReturn.remove('--help')
+    return lReturn
+
+
+def extract_vendor_from_args(argv):
+    lTemp = remove_help_argument(argv)
+    try:
+        return lTemp[2]
+    except TypeError:
+        return None
 
 
 def build_version_parser(oSubparser):
