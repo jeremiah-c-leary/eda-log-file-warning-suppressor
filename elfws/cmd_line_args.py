@@ -9,7 +9,7 @@ def parse_command_line_arguments():
     Parses the command line arguments and returns them.
     '''
     top_parser = argparse.ArgumentParser(
-        prog='elFws',
+        prog='elfws',
         description='''Suppresses Warnings in logfiles.'''
         )
 
@@ -37,13 +37,17 @@ def build_suppress_help_parser(oParser):
     oParser.add_argument('tool', help='Vendor tool')
     add_file_arguments_to_parser(oParser)
 
+def build_suppress_vendor_help_parser(oParser):
+    sVendors = ', '.join(get_vendors())
+    oParser.add_argument('vendor', help=sVendors)
+    oParser.add_argument('tool', help='Vendor tool')
+    add_file_arguments_to_parser(oParser)
 
 def build_suppress_tool_help_parser(oParser, sVendor):
     sTools = ', '.join(get_tools(sVendor))
     oParser.add_argument('vendor', help=sVendor)
     oParser.add_argument('tool', help=sTools)
     add_file_arguments_to_parser(oParser)
-
 
 def build_full_suppress_parser(oParser, argv):
     lVendors = get_vendors()
@@ -62,12 +66,30 @@ def add_file_arguments_to_parser(oParser):
 
 def build_suppress_subparser(oSubparser, argv):
     parser = oSubparser.add_parser('suppress', help='Suppress warnings')
-    if len(sys.argv) == 2 or (len(sys.argv) == 3 and is_dash_h_present(sys.argv)):
-        build_suppress_help_parser(parser)
-    elif len(sys.argv) == 3 or (len(sys.argv) == 4 and is_dash_h_present(sys.argv)):
-        build_suppress_tool_help_parser(parser, extract_vendor_from_args(sys.argv))
-    elif len(sys.argv) > 3:
-        build_full_suppress_parser(parser, argv)
+
+    if is_dash_h_present(sys.argv):
+        if len(sys.argv) == 3:
+            build_suppress_help_parser(parser)
+        elif extract_vendor_from_args(sys.argv) not in get_vendors():
+            print('Got Here')
+            build_suppress_vendor_help_parser(parser)
+        else:
+            build_suppress_tool_help_parser(parser, extract_vendor_from_args(sys.argv))
+    else:
+        if len(sys.argv) == 2 or len(sys.argv) == 1:
+            build_suppress_help_parser(parser)
+            argv.append('-h')
+        elif argv[2] not in get_vendors():
+            build_suppress_vendor_help_parser(parser)
+            argv.append('-h')
+        elif len(sys.argv) == 3:
+            build_suppress_tool_help_parser(parser, extract_vendor_from_args(sys.argv))
+            argv.append('-h')
+        elif len(sys.argv) == 4:
+            build_full_suppress_parser(parser, argv)
+            argv.append('-h')
+        else:
+            build_full_suppress_parser(parser, argv)
     parser.set_defaults(which='suppress')
 
 
