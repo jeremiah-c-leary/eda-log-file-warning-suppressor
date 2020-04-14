@@ -1,0 +1,21 @@
+
+# command to install
+install:
+  - pip install codecov
+  - python setup.py install
+
+language:
+  - python
+
+dist: xenial  # required for Python >= 3.7
+
+python:
+  - "3.7.2"
+
+# command to run tests
+script:
+  - coverage run setup.py test
+
+after_success:
+  - codecov
+
