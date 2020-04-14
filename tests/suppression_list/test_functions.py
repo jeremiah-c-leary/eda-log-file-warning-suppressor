@@ -16,18 +16,8 @@ class testSuppressionListClassMethods(unittest.TestCase):
         oSuppressionList.add_suppression(suppression.create('WID1'))
         oSuppressionList.add_suppression(suppression.create('WID2'))
 
-        self.assertEqual('WID1', oSuppressionList.suppressions[0].suppression_id)
-        self.assertEqual('WID2', oSuppressionList.suppressions[1].suppression_id)
-
-    def test_has_suppressions(self):
-
-        oSuppressionList = suppression_list.create()
-
-        self.assertEqual(False, oSuppressionList.has_suppressions())
-
-        oSuppressionList.add_suppression(suppression.create('WID1'))
-
-        self.assertEqual(True, oSuppressionList.has_suppressions())
+        self.assertEqual('WID1', oSuppressionList.suppressions[0].warning_id)
+        self.assertEqual('WID2', oSuppressionList.suppressions[1].warning_id)
 
     def test_get_number_of_suppressions(self):
 

@@ -87,5 +87,7 @@ def main():
     toolModule = import_vendor_module(commandLineArguments.vendor, commandLineArguments.tool)
     oWarnList = toolModule.extract_warnings(lLogFile)
 
+    process_warnings(oWarnList, oSupList)
+
 if __name__ == '__main__':
     main()
