@@ -1,4 +1,9 @@
 
 [run]
-omit = tests/*
+omit =
+    # Ignore tests
+    */tests/*
+    # Ignore IP
+    */yaml/*
 
+branch = True
