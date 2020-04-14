@@ -106,7 +106,9 @@ def extract_vendor_from_args(argv):
     lTemp = remove_help_argument(argv)
     try:
         return lTemp[2]
-    except TypeError:
+#    except TypeError:
+#        return None
+    except IndexError:
         return None
 
 
