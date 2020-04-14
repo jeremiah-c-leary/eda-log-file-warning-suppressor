@@ -2,7 +2,7 @@
 import os
 import unittest
 
-from lws.vendor.microsemi import designer
+from elfws.vendor.microsemi import designer
 from tests import utils
 
 lLogFile = utils.read_file(os.path.join(os.path.dirname(__file__), 'warning_messages.log'))

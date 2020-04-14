@@ -62,7 +62,7 @@ def read_log_file(sFileName):
 
 
 def build_vendor_module_path(sVendor, sTool):
-    return '.'.join(['lws', 'vendor', sVendor.lower(), sTool.lower()])
+    return '.'.join(['elfws', 'vendor', sVendor.lower(), sTool.lower()])
 
 
 def import_vendor_module(sVendor, sTool):
@@ -72,7 +72,7 @@ def import_vendor_module(sVendor, sTool):
 
 def main():
     '''
-    Main routine of the Logfile Warning Suppressor (LWS) program.
+    Main routine of the EDA Log File Warning Suppressor (ELFWS) program.
     '''
 
     commandLineArguments = cmd_line_args.parse_command_line_arguments()

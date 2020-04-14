@@ -1,8 +1,8 @@
 
 import unittest
 
-from lws import suppression
-from lws import suppression_list
+from elfws import suppression
+from elfws import suppression_list
 
 class testSuppressionListClassMethods(unittest.TestCase):
 

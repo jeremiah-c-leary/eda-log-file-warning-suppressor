@@ -2,7 +2,7 @@
 
 import unittest
 
-from lws import suppression
+from elfws import suppression
 
 class testSuppressionClassMethods(unittest.TestCase):
 

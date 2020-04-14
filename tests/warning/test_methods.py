@@ -2,7 +2,7 @@
 
 import unittest
 
-from lws import warning
+from elfws import warning
 
 class testWarningClassMethods(unittest.TestCase):
 

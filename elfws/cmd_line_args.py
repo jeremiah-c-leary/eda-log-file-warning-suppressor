@@ -9,7 +9,7 @@ def parse_command_line_arguments():
     Parses the command line arguments and returns them.
     '''
     top_parser = argparse.ArgumentParser(
-        prog='lws',
+        prog='elFws',
         description='''Suppresses Warnings in logfiles.'''
         )
 
@@ -89,7 +89,7 @@ def extract_vendor_from_args(argv):
 
 
 def build_version_parser(oSubparser):
-    parser = oSubparser.add_parser('version', help='Displays LWS version information')
+    parser = oSubparser.add_parser('version', help='Displays ELFWS version information')
 
     parser.set_defaults(which='version')
 

@@ -3,9 +3,9 @@ import os
 import unittest
 
 
-from lws import __main__
-from lws import suppression_list
-from lws import suppression
+from elfws import __main__
+from elfws import suppression_list
+from elfws import suppression
 
 
 class test_functions(unittest.TestCase):

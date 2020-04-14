@@ -1,6 +1,7 @@
 
-from lws import warning
-from lws import warning_list
+from elfws import warning
+from elfws import warning_list
+
 
 def extract_warnings(lFile):
     oReturn = warning_list.create()

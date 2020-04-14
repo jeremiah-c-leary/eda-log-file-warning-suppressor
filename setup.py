@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-from lws import version
+from elfws import version
 
 
 def readme():
@@ -11,9 +11,9 @@ def readme():
 
 
 setup(
-  name='lws',
-  version=str(version.version),
-  description='Logfile Warning Suppressor',
+  name='elfws',
+  version=version.version,
+  description='EDA Log File Warning Suppressor',
   long_description=readme(),
   classifiers=[
       'Development Status :: 4 - Beta',
@@ -41,7 +41,7 @@ setup(
   ],
   entry_points={
     'console_scripts': [
-      'lws = lws.__main__:main'
+      'elfws = elfws.__main__:main'
     ]
   }
 )
