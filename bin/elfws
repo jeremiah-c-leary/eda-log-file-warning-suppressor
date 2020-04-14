@@ -9,6 +9,6 @@ executablePath = os.path.dirname(os.path.realpath(__file__))
 # Import program modules
 sys.path.append(os.path.join(executablePath, '..'))
 
-from lws.__main__ import main
+from elfws.__main__ import main
 
 main()

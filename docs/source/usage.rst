@@ -1,15 +1,15 @@
 Usage
 =====
 
-LWS can be invoked using **lws** at the command line prompt:
+ELFWS can be invoked using **elfws** at the command line prompt:
 
 .. code-block:: bash
 
-   $ lws
-   usage: lws [-h] {suppress, version}
+   $ elfws
+   usage: elfws [-h] {suppress, version}
 
    Suppresses warnings in EDA logfiles.  Reference documentation is
-   located at: http://logfile-warning-suppressor.readthedocs.io/en/latest/index.html
+   located at: http://eda-log-file-warning-suppressor.readthedocs.io/en/latest/index.html
 
    positional arguments:
      {suppress, version}
@@ -20,7 +20,7 @@ LWS can be invoked using **lws** at the command line prompt:
      -h, --help                  show this help message and exit
 
 
-LWS has two subcommands:  suppress and version.
+ELFWS has two subcommands:  suppress and version.
 
 suppress
 --------
@@ -29,7 +29,7 @@ Use the suppress subcommand to suppress warnings in a logfile.
 
 .. code-block:: bash
 
-   $ lws suppress {vendor} {tool} {logfile} {suppression_file} [options]
+   $ elfws suppress {vendor} {tool} {logfile} {suppression_file} [options]
 
 The suppress subcommand includes two other subcommands:  vendor and tool.
 The additional subcommands allow for customizing LWS to the particulars of specific logfiles.
@@ -62,11 +62,11 @@ It also allows for differences between tools from the same vendor.
 version
 -------
 
-Use the version subcommand to report the installed version of LWS.
+Use the version subcommand to report the installed version of ELFWS.
 
 .. code-block:: bash
 
-   $ lws version
+   $ elfws version
 
    <jcl - add something here when it is coded>
 
