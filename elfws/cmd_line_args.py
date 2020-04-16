@@ -18,17 +18,9 @@ def parse_command_line_arguments():
     build_suppress_subparser(subparsers, sys.argv)
     build_version_parser(subparsers)
 
-    print_help_if_no_command_line_options_given(top_parser)
+    oArgs = top_parser.parse_args()
 
-    return top_parser.parse_args()
-
-
-def is_dash_h_present(sysargv):
-    if '-h' in sysargv:
-        return True
-    if '--help' in sysargv:
-        return True
-    return False
+    return oArgs
 
 
 def build_suppress_help_parser(oParser):
@@ -37,11 +29,13 @@ def build_suppress_help_parser(oParser):
     oParser.add_argument('tool', help='Vendor tool')
     add_file_arguments_to_parser(oParser)
 
+
 def build_suppress_vendor_help_parser(oParser):
     sVendors = ', '.join(get_vendors())
     oParser.add_argument('vendor', help=sVendors)
     oParser.add_argument('tool', help='Vendor tool')
     add_file_arguments_to_parser(oParser)
+
 
 def build_suppress_tool_help_parser(oParser, sVendor):
     sTools = ', '.join(get_tools(sVendor))
@@ -49,13 +43,13 @@ def build_suppress_tool_help_parser(oParser, sVendor):
     oParser.add_argument('tool', help=sTools)
     add_file_arguments_to_parser(oParser)
 
+
 def build_full_suppress_parser(oParser, argv):
     lVendors = get_vendors()
     sVendor = extract_vendor_from_args(argv)
-    if sVendor in lVendors:
-        oParser.add_argument('vendor', choices=[sVendor], help=lVendors[0])
-        lTools = get_tools(sVendor)
-        oParser.add_argument('tool', choices=lTools, help=', '.join(lTools))
+    oParser.add_argument('vendor', help=lVendors[0])
+    lTools = get_tools(sVendor)
+    oParser.add_argument('tool', help=', '.join(lTools))
     add_file_arguments_to_parser(oParser)
 
 
@@ -64,32 +58,38 @@ def add_file_arguments_to_parser(oParser):
     oParser.add_argument('suppression_file', help='Suppression file')
 
 
-def build_suppress_subparser(oSubparser, argv):
+def build_suppress_subparser(oSubparser, lArgv):
     parser = oSubparser.add_parser('suppress', help='Suppress warnings')
 
-    if is_dash_h_present(sys.argv):
-        if len(sys.argv) == 3:
+    if is_dash_h_present(lArgv):
+        if len(lArgv) == 3:
             build_suppress_help_parser(parser)
-        elif extract_vendor_from_args(sys.argv) not in get_vendors():
-            print('Got Here')
+        elif extract_vendor_from_args(lArgv) not in get_vendors():
             build_suppress_vendor_help_parser(parser)
         else:
-            build_suppress_tool_help_parser(parser, extract_vendor_from_args(sys.argv))
+            build_suppress_tool_help_parser(parser, extract_vendor_from_args(lArgv))
     else:
-        if len(sys.argv) == 2 or len(sys.argv) == 1:
+        if len(lArgv) == 1:
             build_suppress_help_parser(parser)
-            argv.append('-h')
-        elif argv[2] not in get_vendors():
+            sys.argv.append('-h')
+        elif len(lArgv) == 2:
+            build_suppress_help_parser(parser)
+            if lArgv[1] == 'suppress':
+                sys.argv.append('-h')
+        elif lArgv[2] not in get_vendors():
             build_suppress_vendor_help_parser(parser)
-            argv.append('-h')
-        elif len(sys.argv) == 3:
-            build_suppress_tool_help_parser(parser, extract_vendor_from_args(sys.argv))
-            argv.append('-h')
-        elif len(sys.argv) == 4:
-            build_full_suppress_parser(parser, argv)
-            argv.append('-h')
+            sys.argv.append('-h')
+        elif len(lArgv) == 3:
+            build_suppress_tool_help_parser(parser, extract_vendor_from_args(lArgv))
+            sys.argv.append('-h')
+        elif len(lArgv) == 4:
+            build_full_suppress_parser(parser, lArgv)
+            sys.argv.append('-h')
+        elif len(lArgv) == 5:
+            build_full_suppress_parser(parser, lArgv)
+            sys.argv.append('-h')
         else:
-            build_full_suppress_parser(parser, argv)
+            build_full_suppress_parser(parser, lArgv)
     parser.set_defaults(which='suppress')
 
 
@@ -116,15 +116,6 @@ def build_version_parser(oSubparser):
     parser = oSubparser.add_parser('version', help='Displays ELFWS version information')
 
     parser.set_defaults(which='version')
-
-
-def print_help_if_no_command_line_options_given(oParser):
-    '''
-    Will print the help output if no command line arguments were given.
-    '''
-    if len(sys.argv) == 1:
-        oParser.print_help()
-        sys.exit(1)
 
 
 def get_vendors():
@@ -167,3 +158,13 @@ def get_tools(sVendor):
 
 def remove_extension(sString):
     return os.path.splitext(sString)[0]
+
+
+def is_dash_h_present(sysargv):
+    if '-h' in sysargv:
+        return True
+    if '--help' in sysargv:
+        return True
+    return False
+
+
