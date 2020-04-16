@@ -79,10 +79,7 @@ def build_suppress_subparser(oSubparser, lArgv):
         elif len(lArgv) == 3:
             build_suppress_tool_help_parser(parser, extract_vendor_from_args(lArgv))
             sys.argv.append('-h')
-        elif len(lArgv) == 4:
-            build_full_suppress_parser(parser, lArgv)
-            sys.argv.append('-h')
-        elif len(lArgv) == 5:
+        elif len(lArgv) < 6:
             build_full_suppress_parser(parser, lArgv)
             sys.argv.append('-h')
         else:
@@ -116,11 +113,11 @@ def build_version_parser(oSubparser):
 def get_vendors():
     '''
     Extract the vendors from the vendor directory.
-    
+
     Returns: List of directory names
     '''
     lReturn = []
-    sVendorPath = os.path.join(os.path.dirname(__file__),'vendor')
+    sVendorPath = os.path.join(os.path.dirname(__file__), 'vendor')
     lListing = os.listdir(sVendorPath)
     for sListing in lListing:
         if sListing.startswith('__'):
@@ -161,5 +158,3 @@ def is_dash_h_present(sysargv):
     if '--help' in sysargv:
         return True
     return False
-
-

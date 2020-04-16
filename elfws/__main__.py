@@ -89,5 +89,6 @@ def main():
 
     process_warnings(oWarnList, oSupList)
 
+
 if __name__ == '__main__':
     main()

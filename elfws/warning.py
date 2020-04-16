@@ -1,6 +1,5 @@
 
 
-
 class create():
 
     def __init__(self, warning_id=None, message=None, filename=None, linenumber=None):
