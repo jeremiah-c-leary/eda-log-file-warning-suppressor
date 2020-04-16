@@ -31,10 +31,11 @@ def build_suppress_help_parser(oParser):
 
 
 def build_suppress_vendor_help_parser(oParser):
-    sVendors = ', '.join(get_vendors())
-    oParser.add_argument('vendor', help=sVendors)
-    oParser.add_argument('tool', help='Vendor tool')
-    add_file_arguments_to_parser(oParser)
+    build_suppress_help_parser(oParser)
+#    sVendors = ', '.join(get_vendors())
+#    oParser.add_argument('vendor', help=sVendors)
+#    oParser.add_argument('tool', help='Vendor tool')
+#    add_file_arguments_to_parser(oParser)
 
 
 def build_suppress_tool_help_parser(oParser, sVendor):
