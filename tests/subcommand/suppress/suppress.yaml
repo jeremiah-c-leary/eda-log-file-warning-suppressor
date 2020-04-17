@@ -3,6 +3,7 @@ suppress:
     - msg: 'This is the message'
       author: 'jcleary'
       comment: 'This is fine because...'
+      error: 'This should not be picked up'
     - msg: 'This is another message'
       comment : 'Just ignore this...'
   NO_ID:

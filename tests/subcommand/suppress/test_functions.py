@@ -10,6 +10,11 @@ from elfws import suppression
 
 class test_functions(unittest.TestCase):
 
+    def test_build_vendor_module_path(self):
+        self.assertEqual('elfws.vendor.microsemi.designer', suppress.build_vendor_module_path('microsemi', 'designer'))
+        self.assertEqual('elfws.vendor.vendorname.toolname', suppress.build_vendor_module_path('vendorName', 'toolName'))
+
+
     def test_read_suppression_file(self):
         dExpected = {}
         dExpected['suppress'] = {}
@@ -19,6 +24,7 @@ class test_functions(unittest.TestCase):
         dRule['msg'] = 'This is the message'
         dRule['author'] = 'jcleary'
         dRule['comment'] = 'This is fine because...'
+        dRule['error'] = 'This should not be picked up'
         dExpected['suppress']['SYN001'].append(dRule)
         dRule = {}
         dRule['msg'] = 'This is another message'

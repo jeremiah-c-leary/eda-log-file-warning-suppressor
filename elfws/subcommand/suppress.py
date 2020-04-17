@@ -19,7 +19,6 @@ def suppress(cla):
     process_warnings(oWarnList, oSupList)
 
 
-
 def read_suppression_file(sFileName):
     '''
     Attempts to read the suppression file and return an list of rules.
