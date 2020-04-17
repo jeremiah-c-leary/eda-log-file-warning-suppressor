@@ -19,13 +19,13 @@ def extract_warnings(lFile):
             iColon1Index = sLine.find(':')
             iColon2Index = sLine.find(':', iColon1Index+1)
             if iColon2Index == -1:
-                sID = None
+                sID = 'NO_ID'
                 sMessage = sLine[iColon1Index+1:].strip()
             else:
                 sID = sLine[iColon1Index+1:iColon2Index].strip()
                 sMessage = sLine[iColon2Index+1:].strip()
                 if ' ' in sID:
-                    sID = None
+                    sID = 'NO_ID'
                     sMessage = sLine[iColon1Index+1:].strip()
             oWarning = warning.create(sID, sMessage, None, iLineNumber + 1)
     return oReturn

@@ -1,10 +1,12 @@
 
 import importlib
+import re
 import sys
 import yaml
 
 from elfws import suppression
 from elfws import suppression_list
+from elfws import warning_list
 
 
 def suppress(cla):
@@ -16,8 +18,9 @@ def suppress(cla):
 
     toolModule = import_vendor_module(cla.vendor, cla.tool)
     oWarnList = toolModule.extract_warnings(lLogFile)
-    process_warnings(oWarnList, oSupList)
-
+    oNonSuppressWarnings = extract_non_suppressed_warnings(oWarnList, oSupList)
+    for oWarning in oNonSuppressWarnings.get_warnings():
+        print(oWarning.get_id() + '  [' + str(oWarning.get_linenumber()) + '] ' + oWarning.get_message())
 
 def read_suppression_file(sFileName):
     '''
@@ -80,3 +83,16 @@ def import_vendor_module(sVendor, sTool):
     return importlib.import_module(sToolPath)
 
 
+def extract_non_suppressed_warnings(oWarnList, oSupList):
+    oReturn = warning_list.create()
+    for oWarning in oWarnList.get_warnings():
+        fMatchFound = False
+        for oSuppression in oSupList.get_suppressions():
+            if oWarning.get_id() == oSuppression.get_warning_id():
+                if re.match('^.*' + oSuppression.get_message(), oWarning.get_message()):
+                    fMatchFound = True
+                    break
+        if not fMatchFound:
+            oReturn.add_warning(oWarning)
+
+    return oReturn

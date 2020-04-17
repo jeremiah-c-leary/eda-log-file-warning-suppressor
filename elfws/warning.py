@@ -8,7 +8,7 @@ class create():
         self.filename = filename
         self.linenumber = linenumber
 
-    def get_warning_id(self):
+    def get_id(self):
         return self.warning_id
 
     def get_message(self):

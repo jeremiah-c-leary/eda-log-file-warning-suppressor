@@ -20,9 +20,9 @@ class testWarningClassMethods(unittest.TestCase):
         self.assertEqual('Filename', oWarning.filename)
         self.assertEqual('Linenumber', oWarning.linenumber)
 
-    def test_get_warning_id_method(self):
+    def test_get_id_method(self):
         oWarning = warning.create('WID', 'Message', 'Filename', 'Linenumber')
-        self.assertEqual('WID', oWarning.get_warning_id())
+        self.assertEqual('WID', oWarning.get_id())
 
     def test_get_message_method(self):
         oWarning = warning.create('WID', 'Message', 'Filename', 'Linenumber')

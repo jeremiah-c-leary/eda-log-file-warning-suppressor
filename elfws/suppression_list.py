@@ -10,3 +10,6 @@ class create():
 
     def get_number_of_suppressions(self):
         return len(self.suppressions)
+
+    def get_suppressions(self):
+        return self.suppressions

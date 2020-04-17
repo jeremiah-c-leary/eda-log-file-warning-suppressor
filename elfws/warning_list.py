@@ -15,3 +15,6 @@ class create():
 
     def get_number_of_warnings(self):
         return len(self.warnings)
+    
+    def get_warnings(self):
+        return self.warnings
