@@ -13,5 +13,3 @@ suppress:
     - msg: 'This is some compile warning'
       author: 'jcleary'
       comment: 'Just because...'
-
-

@@ -66,7 +66,7 @@ def read_log_file(sFileName):
     lLines = []
     with open(sFileName) as oFile:
         for sLine in oFile:
-            lLines.append(sLine)
+            lLines.append(sLine.rstrip())
     oFile.close()
     return lLines
 
