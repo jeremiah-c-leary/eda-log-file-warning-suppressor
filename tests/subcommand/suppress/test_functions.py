@@ -3,7 +3,7 @@ import os
 import unittest
 
 
-from elfws import __main__
+from elfws.subcommand import suppress
 from elfws import suppression_list
 from elfws import suppression
 
@@ -38,7 +38,7 @@ class test_functions(unittest.TestCase):
         dRule['comment'] = 'Just because...'
         dExpected['suppress']['CMP2001'].append(dRule)
         
-        dActual = __main__.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress.yaml'))
+        dActual = suppress.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress.yaml'))
         self.assertEqual(dExpected, dActual)
 
     def test_create_suppression_list(self):
@@ -70,7 +70,7 @@ class test_functions(unittest.TestCase):
         dRule['comment'] = 'Just because...'
         dSuppression['suppress']['CMP2001'].append(dRule)
 
-        oActualSuppressionList = __main__.create_suppression_list(dSuppression)
+        oActualSuppressionList = suppress.create_suppression_list(dSuppression)
 
         oExpectedSuppressList = suppression_list.create()
 

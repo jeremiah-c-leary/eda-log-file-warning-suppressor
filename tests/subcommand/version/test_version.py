@@ -3,7 +3,8 @@
 import unittest
 from unittest import mock
 
-from elfws import version
+from elfws import version as version_number
+from elfws.subcommand import version
 
 class testVersionModule(unittest.TestCase):
 
@@ -15,6 +16,6 @@ class testVersionModule(unittest.TestCase):
             pass
 
         mockStdout.write.assert_has_calls([
-            mock.call('EDA Log File Warning Suppressor (ELFWS) version ' + version.version),
+            mock.call('EDA Log File Warning Suppressor (ELFWS) version ' + version_number.version),
             mock.call('\n')
         ])
