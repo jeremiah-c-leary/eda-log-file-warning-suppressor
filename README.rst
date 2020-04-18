@@ -17,18 +17,18 @@ Table of Contents
 Overview
 --------
 
-ELFWS was created after going through a warning validation for an FPGA design.
+ELFWS was created after going through warning triage for an FPGA design.
 The synthesis tool provided the ability to suppress warnings, but only at the warning id level.
 The place and route tool did not supply any ability to suppress warnings.
-This eventually led to a situation where a warning was induced by a design change.
-Unfortunately, it was not detected until much later in the design phase.
-A design change was required to remove the warning, and fortunately the change was minor.
-It could have turned out much worse.
+Eventually a design change induced a new warning.
+Unfortunately, it was not detected until much later in the design process.
+A design change was required to resolve the warning.
+The change was minor, but could have resulted in major design changes if it could not have been resolved.
 
 Key Benefits
 ------------
 
-* Provides standard for defining warning suppressions
+* Standardizes warning suppression definition
 * Provides warning suppression for tools that do not support suppressions
 
 Key Features
@@ -39,14 +39,14 @@ Key Features
   * Uses YAML to define suppression rules
   * Can include justifications for warning suppression
 
-* Continuous Integration tools
+* Continuous Integration tool support
 
   * command line tool
   * outputs JUnit XML files
 
-* Reports
+* Audit Reports
 
-  * lists which rules suppressed which warnings
-  * lists rules which did not suppress any warnings
-  * lists warnings which were suppressed by multiple rules
+  * which rules suppressed which warnings
+  * rules which did not suppress any warnings
+  * warnings which were suppressed by multiple rules
 
