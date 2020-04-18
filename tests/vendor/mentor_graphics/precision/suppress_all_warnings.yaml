@@ -1,0 +1,5 @@
+suppress:
+  15232:
+    - msg: "Some warning m"
+      comment: "This is a test suppression."
+      author: "jcleary"

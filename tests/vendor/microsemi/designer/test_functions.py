@@ -43,3 +43,37 @@ class testFunctions(unittest.TestCase):
         self.assertEqual(20, oWarning.get_linenumber())
 
         self.assertEqual(5, oWarningList.get_number_of_warnings())
+
+    def test_is_logfile(self):
+        lLogFile = []
+        lLogFile.append('Microsemi Libero Software')
+        lLogFile.append('Version: 11.9.2.1')
+        lLogFile.append('11.9 SP2')
+        lLogFile.append(' ')
+
+        self.assertTrue(designer.is_logfile(lLogFile))
+
+        lLogFile = []
+        lLogFile.append('icrosemi Libero Software')
+        lLogFile.append('Version: 11.9.2.1')
+        lLogFile.append('11.9 SP2')
+        lLogFile.append(' ')
+
+        self.assertFalse(designer.is_logfile(lLogFile))
+
+        lLogFile = []
+        lLogFile.append(' ')
+        lLogFile.append(' ')
+        lLogFile.append('icrosemi Libero Software')
+        lLogFile.append('Version: 11.9.2.1')
+        lLogFile.append('11.9 SP2')
+        lLogFile.append(' ')
+        lLogFile.append(' ')
+        lLogFile.append(' ')
+        lLogFile.append(' ')
+        lLogFile.append(' ')
+        lLogFile.append(' ')
+        lLogFile.append(' ')
+        lLogFile.append(' ')
+
+        self.assertFalse(designer.is_logfile(lLogFile))

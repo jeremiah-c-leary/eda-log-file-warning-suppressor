@@ -147,3 +147,29 @@ class test_functions(unittest.TestCase):
 
     def test_import_vendor_module(self):
         self.assertEqual(importlib.import_module('elfws.vendor.microsemi.designer'), utils.import_vendor_module('microsemi', 'designer'))
+
+    def test_get_vendors(self):
+        lExpected = ['mentor_graphics', 'microsemi']
+        self.assertEqual(lExpected, utils.get_vendors())
+
+    def test_get_tools(self):
+        lExpected = ['designer']
+        self.assertEqual(lExpected, utils.get_tools('microsemi'))
+
+    def test_remove_extension(self):
+        self.assertEqual('filename', utils.remove_extension('filename.ext'))
+        self.assertEqual('filename.blue', utils.remove_extension('filename.blue.ext'))
+
+    def test_get_vendor_tool_module(self):
+        lLogFile = []
+        lLogFile.append('Microsemi Libero Software')
+
+        mTool = utils.get_vendor_tool_module(lLogFile)
+        self.assertEqual('designer', mTool.get_tool_name())
+        self.assertEqual(['Actel', 'Microsemi'], mTool.get_vendor())
+
+        lLogFile = []
+        lLogFile.append('icrosemi Libero Software')
+
+        mTool = utils.get_vendor_tool_module(lLogFile)
+        self.assertEqual(None, mTool)

@@ -3,6 +3,23 @@ from elfws import warning
 from elfws import warning_list
 
 
+def get_vendor():
+    return ['Actel', 'Microsemi']
+
+
+def get_tool_name():
+    return 'designer'
+
+
+def is_logfile(lFile):
+    for iLineNumber, sLine in enumerate(lFile):
+        if sLine.startswith('Microsemi Libero Software'):
+            return True
+        if iLineNumber == 10:
+            return False
+    return False
+
+
 def extract_warnings(lFile):
     oReturn = warning_list.create()
 

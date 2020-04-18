@@ -1,5 +1,6 @@
 
 import re
+import sys
 
 from elfws import warning_list
 from elfws import utils
@@ -12,8 +13,13 @@ def suppress(cla):
 
     lLogFile = utils.read_log_file(cla.log_file)
 
-    toolModule = utils.import_vendor_module(cla.vendor, cla.tool)
-    oWarnList = toolModule.extract_warnings(lLogFile)
+    try:
+        mTool = utils.get_vendor_tool_module(lLogFile)
+        oWarnList = mTool.extract_warnings(lLogFile)
+    except AttributeError:
+        print('ERROR: Log file ' + cla.log_file + ' is not supported.')
+        sys.exit(1)
+
     oNonSuppressWarnings = extract_non_suppressed_warnings(oWarnList, oSupList)
     for oWarning in oNonSuppressWarnings.get_warnings():
         print(oWarning.get_id() + '  [' + str(oWarning.get_linenumber()) + '] ' + oWarning.get_message())
