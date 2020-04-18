@@ -5,7 +5,6 @@ import yaml
 
 from . import suppression
 from . import suppression_list
-from . import warning_list
 
 
 def read_suppression_file(sFileName):
