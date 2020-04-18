@@ -4,8 +4,7 @@ import unittest
 
 
 from elfws.subcommand import suppress
-#from elfws import suppression_list
-#from elfws import suppression
+from elfws import utils
 from elfws import warning
 
 from elfws.vendor.microsemi import designer
@@ -18,10 +17,10 @@ def file_path(sFilename):
 class test_suppressed_warnings(unittest.TestCase):
 
     def test_extract_non_suppressed_warnings(self):
-        dSup = suppress.read_suppression_file(file_path('suppress_microsemi_designer_logfile.yaml'))
-        oSupList = suppress.create_suppression_list(dSup)
+        dSup = utils.read_suppression_file(file_path('suppress_microsemi_designer_logfile.yaml'))
+        oSupList = utils.create_suppression_list(dSup)
 
-        lLogFile = suppress.read_log_file('tests/vendor/microsemi/designer/warning_messages.log')
+        lLogFile = utils.read_log_file('tests/vendor/microsemi/designer/warning_messages.log')
         oWarnList = designer.extract_warnings(lLogFile)
 
         oActual = suppress.extract_non_suppressed_warnings(oWarnList, oSupList)

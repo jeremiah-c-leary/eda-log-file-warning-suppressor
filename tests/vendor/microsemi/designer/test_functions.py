@@ -3,9 +3,9 @@ import os
 import unittest
 
 from elfws.vendor.microsemi import designer
-from tests import utils
+from tests import test_utils
 
-lLogFile = utils.read_file(os.path.join(os.path.dirname(__file__), 'warning_messages.log'))
+lLogFile = test_utils.read_file(os.path.join(os.path.dirname(__file__), 'warning_messages.log'))
 
 class testFunctions(unittest.TestCase):
 

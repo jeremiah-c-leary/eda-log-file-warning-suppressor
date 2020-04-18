@@ -4,7 +4,7 @@ import os
 import unittest
 
 
-from elfws.subcommand import suppress
+from elfws import utils
 from elfws import suppression_list
 from elfws import suppression
 
@@ -12,8 +12,8 @@ from elfws import suppression
 class test_functions(unittest.TestCase):
 
     def test_build_vendor_module_path(self):
-        self.assertEqual('elfws.vendor.microsemi.designer', suppress.build_vendor_module_path('microsemi', 'designer'))
-        self.assertEqual('elfws.vendor.vendorname.toolname', suppress.build_vendor_module_path('vendorName', 'toolName'))
+        self.assertEqual('elfws.vendor.microsemi.designer', utils.build_vendor_module_path('microsemi', 'designer'))
+        self.assertEqual('elfws.vendor.vendorname.toolname', utils.build_vendor_module_path('vendorName', 'toolName'))
 
 
     def test_read_suppression_file(self):
@@ -45,7 +45,7 @@ class test_functions(unittest.TestCase):
         dRule['comment'] = 'Just because...'
         dExpected['suppress']['CMP2001'].append(dRule)
         
-        dActual = suppress.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress.yaml'))
+        dActual = utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress.yaml'))
         self.assertEqual(dExpected, dActual)
 
     def test_create_suppression_list(self):
@@ -82,7 +82,7 @@ class test_functions(unittest.TestCase):
         dRule['msg'] = 'This rule has no comment'
         dSuppression['suppress']['NO_COMMENT'].append(dRule)
 
-        oActualSuppressionList = suppress.create_suppression_list(dSuppression)
+        oActualSuppressionList = utils.create_suppression_list(dSuppression)
 
         oExpectedSuppressList = suppression_list.create()
 
@@ -143,7 +143,7 @@ class test_functions(unittest.TestCase):
         lExpected.append('')
         lExpected.append('')
 
-        self.assertEqual(lExpected, suppress.read_log_file('tests/vendor/microsemi/designer/warning_messages.log'))
+        self.assertEqual(lExpected, utils.read_log_file('tests/vendor/microsemi/designer/warning_messages.log'))
 
     def test_import_vendor_module(self):
-        self.assertEqual(importlib.import_module('elfws.vendor.microsemi.designer'), suppress.import_vendor_module('microsemi', 'designer'))
+        self.assertEqual(importlib.import_module('elfws.vendor.microsemi.designer'), utils.import_vendor_module('microsemi', 'designer'))
