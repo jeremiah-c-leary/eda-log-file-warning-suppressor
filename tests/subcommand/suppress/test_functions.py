@@ -114,7 +114,11 @@ class test_functions(unittest.TestCase):
 
     def test_read_log_file(self):
         lExpected = []
+        lExpected.append('Microsemi Libero Software')
+        lExpected.append('Version: 11.9.2.1')
+        lExpected.append('Release: 11.9 SP2')
         lExpected.append('')
+        lExpected.append('Created a new design.')
         lExpected.append('')
         lExpected.append('# This is a warning with an ID')
         lExpected.append('Warning: DEF1234 : This is a warning')
