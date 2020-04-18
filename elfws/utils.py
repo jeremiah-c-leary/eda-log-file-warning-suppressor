@@ -39,16 +39,24 @@ def create_suppression_list(dSuppression):
     for dID in list(dSuppression['suppress'].keys()):
         for dSup in dSuppression['suppress'][dID]:
             oSupRule = suppression.create(str(dID), dSup['msg'])
-            try:
-                oSupRule.author = dSup['author']
-            except KeyError:
-                oSupRule.auther = None
-            try:
-                oSupRule.comment= dSup['comment']
-            except KeyError:
-                oSupRule.comment = None
+            update_suppression_author(oSupRule, dSup)
+            update_suppression_comment(oSupRule, dSup)
             oReturn.add_suppression(oSupRule)
     return oReturn
+
+
+def update_suppression_author(oSupRule, dSup):
+    try:
+        oSupRule.author = dSup['author']
+    except KeyError:
+        oSupRule.auther = None
+
+
+def update_suppression_comment(oSupRule, dSup):
+    try:
+        oSupRule.comment = dSup['comment']
+    except KeyError:
+        oSupRule.comment = None
 
 
 def read_log_file(sFileName):
