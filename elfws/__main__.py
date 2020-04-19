@@ -17,6 +17,8 @@ def main():
         subcommand.suppress.suppress(commandLineArguments)
     elif commandLineArguments.which == 'show':
         subcommand.show.show(commandLineArguments)
+    elif commandLineArguments.which == 'create':
+        subcommand.create.create(commandLineArguments)
 
 
 if __name__ == '__main__':

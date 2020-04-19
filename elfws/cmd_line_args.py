@@ -14,6 +14,7 @@ def parse_command_line_arguments():
 
     subparsers = top_parser.add_subparsers()
 
+    build_create_subparser(subparsers)
     build_show_subparser(subparsers)
     build_suppress_subparser(subparsers)
     build_version_parser(subparsers)
@@ -39,10 +40,13 @@ def add_file_arguments_to_parser(oParser):
     oParser.add_argument('suppression_file', help='YAML formatted warning suppression file')
 
 
-def build_version_parser(oSubparser):
-    parser = oSubparser.add_parser('version', help='Displays ELFWS version information')
+def build_create_subparser(oSubparser):
+    parser = oSubparser.add_parser('create', help='Create suppression file')
+    parser.add_argument('log_file', help='Log file with warnings to extract')
+    parser.add_argument('output_suppression_file', help='Suppression file to create')
+    parser.add_argument('--suppression_file', help='Existing suppression file to filter out existing')
 
-    parser.set_defaults(which='version')
+    parser.set_defaults(which='create')
 
 
 def build_suppress_subparser(oSubparser):
@@ -57,3 +61,11 @@ def build_show_subparser(oSubparser):
     parser.add_argument('log_file', help='Log file to show warnings')
 
     parser.set_defaults(which='show')
+
+
+def build_version_parser(oSubparser):
+    parser = oSubparser.add_parser('version', help='Displays ELFWS version information')
+
+    parser.set_defaults(which='version')
+
+
