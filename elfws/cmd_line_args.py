@@ -14,8 +14,8 @@ def parse_command_line_arguments():
 
     subparsers = top_parser.add_subparsers()
 
-    build_suppress_subparser(subparsers)
     build_show_subparser(subparsers)
+    build_suppress_subparser(subparsers)
     build_version_parser(subparsers)
 
     oArgs = top_parser.parse_args()

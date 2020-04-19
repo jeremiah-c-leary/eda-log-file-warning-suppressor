@@ -4,19 +4,13 @@ import sys
 
 from elfws import warning_list
 from elfws import utils
+from elfws import display
 
 
 def show(cla):
 
     lLogFile = utils.read_log_file(cla.log_file)
 
-    try:
-        mTool = utils.get_vendor_tool_module(lLogFile)
-        oWarnList = mTool.extract_warnings(lLogFile)
-    except AttributeError:
-        print('ERROR: Log file ' + cla.log_file + ' is not supported.')
-        sys.exit(1)
+    oWarnList = utils.create_warning_list(lLogFile, cla.log_file)
 
-    for oWarning in oWarnList.get_warnings():
-#        print(oWarning.get_id() + '  [' + str(oWarning.get_linenumber()) + '] ' + oWarning.get_message())
-        print("| {0:<20s} | {1:>5d} | {2:s}".format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
+    display.results(cla.log_file, '<None>', oWarnList.get_number_of_warnings(), oWarnList)

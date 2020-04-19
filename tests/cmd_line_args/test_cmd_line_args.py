@@ -15,17 +15,18 @@ class testCmdLineArgsModule(unittest.TestCase):
         except SystemExit:
             pass
 
-        sOutput = 'usage: elfws [-h] {suppress,version} ...\n'
+        sOutput = 'usage: elfws [-h] {show,suppress,version} ...\n'
         sOutput += '\n'
         sOutput += 'Suppresses Warnings in logfiles.\n'
         sOutput += '\n'
         sOutput += 'positional arguments:\n'
-        sOutput += '  {suppress,version}\n'
-        sOutput += '    suppress          Suppresses warnings in logfiles\n'
-        sOutput += '    version           Displays ELFWS version information\n'
+        sOutput += '  {show,suppress,version}\n'
+        sOutput += '    show                Show warnings in logfiles\n'
+        sOutput += '    suppress            Suppresses warnings in logfiles\n'
+        sOutput += '    version             Displays ELFWS version information\n'
         sOutput += '\n'
         sOutput += 'optional arguments:\n'
-        sOutput += '  -h, --help          show this help message and exit\n'
+        sOutput += '  -h, --help            show this help message and exit\n'
 
         mockStdout.write.assert_has_calls([
             mock.call(sOutput)

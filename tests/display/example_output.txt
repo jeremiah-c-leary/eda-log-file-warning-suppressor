@@ -1,0 +1,18 @@
+===============================================================================
+ELFWS version         : 1.1.0
+Log file              : some_log_file.log
+Suppression Rule File : some_rule_file.yaml
+
+---------+---------+-----------------------------------------------------------
+ ID      |  Line # | Warning Message
+---------+---------+-----------------------------------------------------------
+ 456     |     20  | Some warning message
+ 456     |     20  | Some warning message
+ 456     |     20  | Some warning message
+ 456     |     20  | Some warning message
+---------+---------+-----------------------------------------------------------
+
+Total Warnings        : 200
+Suppressed Warnings   : 196
+Unsuppressed Warnings :   4
+===============================================================================

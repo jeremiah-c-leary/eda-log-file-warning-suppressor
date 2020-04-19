@@ -181,3 +181,21 @@ def get_vendor_tool_module(lLogFile):
             if toolModule.is_logfile(lLogFile):
                 return toolModule
     return None
+
+
+def create_warning_list(lLogFile, sLogFileName):
+    '''
+    Creates a warning list object from the provided logfile.
+
+    Parameters:
+
+      lLogFile : (string)
+
+    Returns:  (warning list object)
+    '''
+    try:
+        mTool = get_vendor_tool_module(lLogFile)
+        return mTool.extract_warnings(lLogFile)
+    except AttributeError:
+        print('ERROR: Log file ' + sLogFileName + ' is not supported.')
+        sys.exit(1)
