@@ -15,6 +15,7 @@ def parse_command_line_arguments():
     subparsers = top_parser.add_subparsers()
 
     build_suppress_subparser(subparsers)
+    build_show_subparser(subparsers)
     build_version_parser(subparsers)
 
     oArgs = top_parser.parse_args()
@@ -49,3 +50,10 @@ def build_suppress_subparser(oSubparser):
     add_file_arguments_to_parser(parser)
 
     parser.set_defaults(which='suppress')
+
+
+def build_show_subparser(oSubparser):
+    parser = oSubparser.add_parser('show', help='Show warnings in logfiles')
+    parser.add_argument('log_file', help='Log file to show warnings')
+
+    parser.set_defaults(which='show')

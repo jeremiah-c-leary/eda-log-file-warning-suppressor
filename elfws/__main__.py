@@ -15,6 +15,8 @@ def main():
         subcommand.version.print_version()
     elif commandLineArguments.which == 'suppress':
         subcommand.suppress.suppress(commandLineArguments)
+    elif commandLineArguments.which == 'show':
+        subcommand.show.show(commandLineArguments)
 
 
 if __name__ == '__main__':
