@@ -48,7 +48,7 @@ def update_suppression_author(oSupRule, dSup):
     try:
         oSupRule.author = dSup['author']
     except KeyError:
-        oSupRule.auther = None
+        oSupRule.author = None
 
 
 def update_suppression_comment(oSupRule, dSup):
