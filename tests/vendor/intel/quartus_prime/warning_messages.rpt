@@ -1,0 +1,10 @@
+[Fitter|Assembler|Analysis & Synthesis|Flow|Timing Analyzer] report for <entity>
+<date>
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition
+
+
+
+Warning (332174): Some long warning message
+
+Critical Warning (332049): Another long warning message
+
