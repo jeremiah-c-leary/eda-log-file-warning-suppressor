@@ -1,6 +1,7 @@
 
 import importlib
 import os
+import re
 import yaml
 
 from . import suppression
@@ -48,14 +49,14 @@ def update_suppression_author(oSupRule, dSup):
     try:
         oSupRule.author = dSup['author']
     except KeyError:
-        oSupRule.author = None
+        oSupRule.author = '<None>'
 
 
 def update_suppression_comment(oSupRule, dSup):
     try:
         oSupRule.comment = dSup['comment']
     except KeyError:
-        oSupRule.comment = None
+        oSupRule.comment = '<None>'
 
 
 def read_log_file(sFileName):
@@ -199,3 +200,51 @@ def create_warning_list(lLogFile, sLogFileName):
     except AttributeError:
         print('ERROR: Log file ' + sLogFileName + ' is not supported.')
         sys.exit(1)
+
+
+def apply_suppression_rules_to_warnings(oWarnList, oSupList):
+    for oWarning in oWarnList.get_warnings():
+        for oSuppression in oSupList.get_suppressions():
+            if check_for_match(oWarning, oSuppression):
+                oSuppression.add_suppressed_warning(oWarning)
+                oWarning.add_suppression_rule(oSuppression)
+
+
+def check_for_match(oWarning, oSuppression):
+    if do_ids_match(oWarning, oSuppression):
+        return do_messages_match(oWarning, oSuppression)
+    return False
+
+
+def do_ids_match(oWarning, oSuppression):
+    '''
+    Checks if the suppression ID matches the warning ID.
+
+    Parameters:
+
+      oWarning : (warning object)
+
+      oSuppression : (suppression object)
+
+    Returns: (boolean)
+    '''
+    if oWarning.get_id() == oSuppression.get_warning_id():
+        return True
+    return False
+
+
+def do_messages_match(oWarning, oSuppression):
+    '''
+    Checks if the suppression message matches the warning message.
+
+    Parameters:
+
+      oWarning : (warning object)
+
+      oSuppression : (suppression object)
+
+    Returns: (boolean)
+    '''
+    if re.match('^.*' + oSuppression.get_message(), oWarning.get_message()):
+        return True
+    return False

@@ -63,12 +63,15 @@ Suppression Rule    : Some other
  3. Unused Suppression Rules
 -------------------------------------------------------------------------------
 
-------------+---------+------------------+-------------------------------------
- Warning ID | Author  |  Rule            | Comment
-------------+---------+------------------+-------------------------------------
- CMD001     | jcleary |.*Some.*          | This is good because...
- PAR3456    | jdoe    | .*Some warning.* | This is also good because...
-------------+---------+------------------+-------------------------------------
+Warning ID: CMD001
+Author    : jcleary
+Rule      : .*Some.*
+Comment   : This is good because...
+
+Warning ID: PAR3456
+Author    : jdoe
+Rule      : .*Some warning.*
+Comment   : This is also good because...
 
 -------------------------------------------------------------------------------
  4. Multiply Suppressed Warnings
@@ -79,23 +82,28 @@ Warning ID : 456
 Line Number : 54
 Message : Some warning message
 
----------+------------------+--------------------------------------------------
- Author  |  Rule            | Comment
----------+------------------+--------------------------------------------------
- jcleary |.*Some.*          | This is good because...
- jdoe    | .*Some warning.* | This is also good because...
----------+------------------+--------------------------------------------------
+  Warning ID : 456
+  Rule       : Some
+  Author     : jcleary
+  Comment    : This is good because...
+
+  Warning ID : 456
+  Rule       : Some warning
+  Author     : jdoe
+  Comment    : This is also good because...
 
 -------------------------------------------------------------------------------
  5. Summary
 -------------------------------------------------------------------------------
 
-Suppression Rules            :  24
-Unused Suppression Rules     :   4
+  Suppression Rules:
+    Total                    :  24
+    Unused                   :   4
 
-Total Warnings               : 200
-Suppressed Warnings          : 196
-Unsuppressed Warnings        :   4
-Multiply Suppressed Warnings :   2
+  Warnings:
+    Total                    : 200
+    Suppressed               : 196
+    Unsuppressed             :   4
+    Multiply Suppressed      :   2
 
 ===============================================================================

@@ -15,13 +15,14 @@ class testCmdLineArgsModule(unittest.TestCase):
         except SystemExit:
             pass
 
-        sOutput = 'usage: elfws [-h] {create,show,suppress,version} ...\n'
+        sOutput = 'usage: elfws [-h] {create,report,show,suppress,version} ...\n'
         sOutput += '\n'
         sOutput += 'Suppresses Warnings in logfiles.\n'
         sOutput += '\n'
         sOutput += 'positional arguments:\n'
-        sOutput += '  {create,show,suppress,version}\n'
+        sOutput += '  {create,report,show,suppress,version}\n'
         sOutput += '    create              Create suppression file\n'
+        sOutput += '    report              Generate an audit report\n'
         sOutput += '    show                Show warnings in logfiles\n'
         sOutput += '    suppress            Suppresses warnings in logfiles\n'
         sOutput += '    version             Displays ELFWS version information\n'

@@ -89,16 +89,16 @@ class test_functions(unittest.TestCase):
         oSuppression = suppression.create('SYN001', 'This is the message', 'jcleary', 'This is fine because...')
         oExpectedSuppressList.suppressions.append(oSuppression)
         
-        oSuppression = suppression.create('SYN001', 'This is another message', None, 'Just ignore this...')
+        oSuppression = suppression.create('SYN001', 'This is another message', '<None>', 'Just ignore this...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('NO_ID', 'Some warning without a proper ID', None, 'This is fine...')
+        oSuppression = suppression.create('NO_ID', 'Some warning without a proper ID', '<None>', 'This is fine...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
         oSuppression = suppression.create('CMP2001', 'This is some compile warning', 'jcleary', 'Just because...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('NO_COMMENT', 'This rule has no comment')
+        oSuppression = suppression.create('NO_COMMENT', 'This rule has no comment', '<None>', '<None>')
 
         self.assertEqual(5, len(oActualSuppressionList.suppressions))
         oExpectedSuppressList.suppressions.append(oSuppression)

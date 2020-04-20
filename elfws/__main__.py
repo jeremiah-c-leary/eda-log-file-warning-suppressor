@@ -19,6 +19,8 @@ def main():
         subcommand.show.show(commandLineArguments)
     elif commandLineArguments.which == 'create':
         subcommand.create.create(commandLineArguments)
+    elif commandLineArguments.which == 'report':
+        subcommand.report.report(commandLineArguments)
 
 
 if __name__ == '__main__':
