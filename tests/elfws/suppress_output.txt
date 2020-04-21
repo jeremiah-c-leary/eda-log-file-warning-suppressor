@@ -1,0 +1,23 @@
+================================================================================
+ELFWS version         : 0.0.0
+Date                  : Some Date
+Log file              : tests/vendor/microsemi/designer/warning_messages.log
+Suppression Rule File : tests/subcommand/suppress/suppress_microsemi_designer_logfile.yaml
+
+-----------------+--------+-----------------------------------------------------
+ ID              | Line # | Warning Message
+-----------------+--------+-----------------------------------------------------
+ MULTI546        |     15 | This is the first line of the warning This is the second line of the warning This is the last line of the warning.
+-----------------+--------+-----------------------------------------------------
+
+  Suppression Rules
+    Total                  :     5
+    Unused                 :     1
+
+  Warnings
+    Total                  :     5
+    Suppressed             :     4
+    Unsuppressed           :     1
+    Multiply Suppressed    :     0
+
+================================================================================
