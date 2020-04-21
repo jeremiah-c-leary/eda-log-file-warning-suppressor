@@ -52,3 +52,9 @@ class testFunctions(unittest.TestCase):
         lLogFile.append('')
 
         self.assertFalse(tool.is_logfile(lLogFile))
+
+    def test_get_vendor(self):
+        self.assertEqual(['Mentor Graphics'], tool.get_vendor())
+
+    def test_get_tool_name(self):
+        self.assertEqual('precision', tool.get_tool_name())

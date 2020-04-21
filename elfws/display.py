@@ -4,7 +4,7 @@ from datetime import datetime
 from elfws import version
 
 
-def results(sLogFileName, sSuppressionFileName, iTotalWarnings, oWarnList):
+def results(sLogFileName, sSuppressionFileName, oSupList, oWarnList):
     '''
     Displays results of a subcommand to the terminal window.
 
@@ -12,14 +12,15 @@ def results(sLogFileName, sSuppressionFileName, iTotalWarnings, oWarnList):
 
       sLogFileName: (string)
       sSuppressionFileName : (string)
-      iTotalWarnings : (integer)
+      oSupList : (suppression list object)
       oWarnList : (warning list object)
 
     Returns : None
     '''
     lPrint = build_header(sLogFileName, sSuppressionFileName)
-    lPrint.extend(build_warning_table(oWarnList))
-    lPrint.extend(build_footer(iTotalWarnings, oWarnList))
+    lWarnings = oWarnList.get_unsuppressed_warnings()
+    lPrint.extend(build_warning_table(lWarnings))
+    lPrint.extend(build_report_summary_section(oWarnList, oSupList))
     for sLine in lPrint:
         print(sLine)
 
@@ -36,7 +37,7 @@ def build_header(sLogFileName, sSuppressionFileName):
 
     Returns: (list of strings)
     '''
-
+    sDateTime = str(datetime.now())
     lReturn = []
     lReturn.append('='*80)
     lReturn.append('ELFWS version         : ' + version.version)
@@ -48,13 +49,13 @@ def build_header(sLogFileName, sSuppressionFileName):
     return lReturn
 
 
-def build_warning_table(oWarningList, iIndent=0):
+def build_warning_table(lWarningList, iIndent=0):
     '''
     Creates the warning table given a warning list.
 
     Parameters:
 
-      oWarningList : (warning list object)
+      lWarningList : (list of warning objects)
 
     Returns: (list of strings)
     '''
@@ -63,9 +64,10 @@ def build_warning_table(oWarningList, iIndent=0):
     lReturn.append(build_table_row_seperator(iIndent))
     lReturn.append(sIndent + ' {0:<15s} | {1:6s} | {2:s}'.format('ID', 'Line #', 'Warning Message'))
     lReturn.append(build_table_row_seperator(iIndent))
-    for oWarning in oWarningList.get_warnings():
+    for oWarning in lWarningList:
         lReturn.append(sIndent + ' {0:<15s} | {1:6d} | {2:s}'.format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
     lReturn.append(build_table_row_seperator(iIndent))
+    lReturn.append('')
 
     return lReturn
 
@@ -78,29 +80,6 @@ def build_table_row_seperator(iIndent=0):
     '''
     sIndent = ' '*iIndent
     return sIndent + '-'*17 + '+' + '-'*8 + '+' + '-'*(80 - 20 - 1 - 5 - 1 - iIndent)
-
-
-def build_footer(iTotalWarnings, oWarnList):
-    '''
-    Creates the footer which will be displayed on the screen.
-
-    Parameters:
-
-      iTotalWarnings: (integer)
-
-      oWarnList: (warning list object)
-
-    Returns: (list of strings)
-    '''
-
-    lReturn = []
-    lReturn.append('')
-    lReturn.append(build_stat_line('Total Warnings', iTotalWarnings))
-    lReturn.append(build_stat_line('Suppressed Warnings', iTotalWarnings - oWarnList.get_number_of_warnings()))
-    lReturn.append(build_stat_line('Unsuppressed Warnings', oWarnList.get_number_of_warnings()))
-    lReturn.append('='*80)
-
-    return lReturn
 
 
 def build_stat_line(sString, iNumber):
@@ -255,7 +234,7 @@ def build_report_summary_section(oWarnList, oSupList):
 
     Returns: (list of string)
     '''
-    lReturn = build_report_section_divider(' 5. Summary')
+    lReturn = []
     sFormatString = '    {0:<22s} : {1:5d}'
     lReturn.append('  Suppression Rules')
     lReturn.append(sFormatString.format('Total', oSupList.get_number_of_suppressions()))

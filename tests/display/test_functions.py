@@ -39,34 +39,16 @@ class test_functions(unittest.TestCase):
         lExpected.append(' MULTI546        |     15 | This is the first line of the warning This is the second line of the warning This is the last line of the warning.')
         lExpected.append(' NO_ID           |     20 | This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.')
         lExpected.append('-'*17 + '+' + '-'*8 + '+' + '-'*(80 - 20 - 1 - 5 - 1))
-
-        lLogFile = utils.read_log_file('tests/vendor/microsemi/designer/warning_messages.log')
-
-        mTool = utils.get_vendor_tool_module(lLogFile)
-        oWarnList = mTool.extract_warnings(lLogFile)
-
-        lActual = display.build_warning_table(oWarnList)
-
-        self.assertEqual(len(lExpected), len(lActual))
-
-        for iIndex, sLine in enumerate(lExpected):
-            self.assertEqual(sLine, lActual[iIndex])
-
-
-    def test_build_footer(self):
-        lExpected = []
         lExpected.append('')
-        lExpected.append('Total Warnings        :   200')
-        lExpected.append('Suppressed Warnings   :   195')
-        lExpected.append('Unsuppressed Warnings :     5')
-        lExpected.append('='*80)
-        
+
         lLogFile = utils.read_log_file('tests/vendor/microsemi/designer/warning_messages.log')
+
         mTool = utils.get_vendor_tool_module(lLogFile)
         oWarnList = mTool.extract_warnings(lLogFile)
+        lWarnList = oWarnList.get_warnings()
 
-        lActual = display.build_footer(200, oWarnList)
-        
+        lActual = display.build_warning_table(lWarnList)
+
         self.assertEqual(len(lExpected), len(lActual))
 
         for iIndex, sLine in enumerate(lExpected):
@@ -167,7 +149,6 @@ class test_functions(unittest.TestCase):
 
     def test_build_report_summary_section(self):
         lExpected = []
-        lExpected.extend(display.build_report_section_divider(' 5. Summary'))
         lExpected.append('  Suppression Rules')
         lExpected.append('    Total                  :     6')
         lExpected.append('    Unused                 :     1')

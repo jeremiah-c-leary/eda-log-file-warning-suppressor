@@ -16,9 +16,10 @@ def suppress(cla):
 
     oWarnList = utils.create_warning_list(lLogFile, cla.log_file)
 
-    oNonSuppressWarnings = extract_non_suppressed_warnings(oWarnList, oSupList)
+    utils.apply_suppression_rules_to_warnings(oWarnList, oSupList)
+    oNonSuppressedWarnings = oWarnList.get_unsuppressed_warnings()
 
-    display.results(cla.log_file, cla.suppression_file, oWarnList.get_number_of_warnings(), oNonSuppressWarnings)
+    display.results(cla.log_file, cla.suppression_file, oSupList, oWarnList)
 
 
 def extract_non_suppressed_warnings(oWarnList, oSupList):

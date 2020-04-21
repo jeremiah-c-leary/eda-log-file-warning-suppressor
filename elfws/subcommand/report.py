@@ -16,7 +16,8 @@ def report(cla):
 
     oWarnList = utils.create_warning_list(lLogFile, cla.log_file)
 
-    oNonSuppressWarnings = extract_non_suppressed_warnings(oWarnList, oSupList)
+    utils.apply_suppression_rules_to_warnings(oWarnList, oSupList)
+    oNonSuppressWarnings = oWarnList.get_unsuppressed_warnings()
 
     lReport = []
     lReport.extend(display.build_header(cla.log_file, cla.suppression_file))
@@ -35,63 +36,9 @@ def report(cla):
         lReport.extend(display.build_multiply_suppressed_warning_header(oWarn, 2))
         for oSup in oWarn.get_suppressed_by_rules():
             lReport.extend(display.build_suppression_item(oSup, 4))
+    lReport.extend(display.build_report_section_divider(' 5. Summary'))
     lReport.extend(display.build_report_summary_section(oWarnList, oSupList))
 
 
     for sLine in lReport:
         print(sLine)
-
-
-def extract_non_suppressed_warnings(oWarnList, oSupList):
-    oReturn = warning_list.create()
-    for oWarning in oWarnList.get_warnings():
-        fMatchFound = False
-        for oSuppression in oSupList.get_suppressions():
-            fMatchFound = check_for_match(oWarning, oSuppression)
-            if fMatchFound:
-                oSuppression.add_suppressed_warning(oWarning)
-                oWarning.add_suppression_rule(oSuppression)
-        if not fMatchFound:
-            oReturn.add_warning(oWarning)
-
-    return oReturn
-
-
-def check_for_match(oWarning, oSuppression):
-    if do_ids_match(oWarning, oSuppression):
-        return do_messages_match(oWarning, oSuppression)
-    return False
-
-
-def do_ids_match(oWarning, oSuppression):
-    '''
-    Checks if the suppression ID matches the warning ID.
-
-    Parameters:
-
-      oWarning : (warning object)
-
-      oSuppression : (suppression object)
-
-    Returns: (boolean)
-    '''
-    if oWarning.get_id() == oSuppression.get_warning_id():
-        return True
-    return False
-
-
-def do_messages_match(oWarning, oSuppression):
-    '''
-    Checks if the suppression message matches the warning message.
-
-    Parameters:
-
-      oWarning : (warning object)
-
-      oSuppression : (suppression object)
-
-    Returns: (boolean)
-    '''
-    if re.match('^.*' + oSuppression.get_message(), oWarning.get_message()):
-        return True
-    return False
