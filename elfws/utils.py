@@ -2,6 +2,7 @@
 import importlib
 import os
 import re
+import sys
 import yaml
 
 from . import suppression
@@ -198,7 +199,7 @@ def create_warning_list(lLogFile, sLogFileName):
         mTool = get_vendor_tool_module(lLogFile)
         return mTool.extract_warnings(lLogFile)
     except AttributeError:
-        print('ERROR: Log file ' + sLogFileName + ' is not supported.')
+        print('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.')
         sys.exit(1)
 
 

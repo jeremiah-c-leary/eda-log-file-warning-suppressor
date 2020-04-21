@@ -2,7 +2,7 @@
 import importlib
 import os
 import unittest
-
+from unittest import mock
 
 from elfws import utils
 from elfws import suppression_list
@@ -173,3 +173,15 @@ class test_functions(unittest.TestCase):
 
         mTool = utils.get_vendor_tool_module(lLogFile)
         self.assertEqual(None, mTool)
+
+    @mock.patch('sys.stdout')
+    def test_create_warning_list(self, mock_stdout):
+        try:
+            utils.create_warning_list(['Not a log file'], 'logfile_name')
+        except SystemExit:
+            pass
+
+        mock_stdout.write.assert_has_calls([
+            mock.call('ERROR: File logfile_name is not recognized as a supported logfile.'), mock.call('\n')
+        ])
+
