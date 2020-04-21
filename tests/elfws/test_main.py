@@ -12,14 +12,6 @@ from elfws import utils
 
 class test_arguments(unittest.TestCase):
 
-#    def setUp(self):
-#        datetime_patcher = mock.patch.object(
-#            tests.elfws.test_main.test_arguments.datetime, 'datetime',
-#            mock.Mock(wraps=datetime.datetime)
-#        )
-#        mocked_datetime = datetime_patcher.start()
-#        mocked_datetime.today.return_value = datetime.datetime(2012, 6, 16)
-#        self.addCleanup(datetime_patcher.stop)
 
     @mock.patch('sys.stdout')
     def test_version(self, mockStdout):
