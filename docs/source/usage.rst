@@ -6,67 +6,135 @@ ELFWS can be invoked using **elfws** at the command line prompt:
 .. code-block:: bash
 
    $ elfws
-   usage: elfws [-h] {suppress, version}
+   usage: elfws [-h] {create,report,show,suppress,version} ...
+   
+   Suppresses Warnings in logfiles.
+   
+   positional arguments:
+     {create,report,show,suppress,version}
+       create              Create suppression file
+       report              Generate an audit report
+       show                Show warnings in logfiles
+       suppress            Suppresses warnings in logfiles
+       version             Displays ELFWS version information
+   
+   optional arguments:
+     -h, --help            show this help message and exit
 
-   Suppresses warnings in EDA logfiles.  Reference documentation is
-   located at: http://eda-log-file-warning-suppressor.readthedocs.io/en/latest/index.html
+ELFWS has five subcommands:  create, report, show, suppress and version.
+
+create
+------
+
+Use the create subcommand to generate a suppression rule file from a given warning file.
+
+This can be used as a starting point for a suppression file.
+Care should be taken as the output messages are not formatted to support regular expressions.
+
+The arguments for the subcommand can be listed using the *-h* option:
+
+.. code-block:: bash
+
+   $ elfws create -h
+   usage: elfws create [-h] [--suppression_file SUPPRESSION_FILE]
+                       log_file output_suppression_file
 
    positional arguments:
-     {suppress, version}
-       suppress                  Suppress warnings in a logfile
-       version                   Displays HCM version information
+     log_file              Log file with warnings to extract
+     output_suppression_file
+                           Suppression file to create
 
    optional arguments:
-     -h, --help                  show this help message and exit
+     -h, --help            show this help message and exit
+     --suppression_file SUPPRESSION_FILE
+                           Existing suppression file to filter out existing
+report
+------
 
+Use the report subcommand to generate detailed output of suppression warnings.
 
-ELFWS has two subcommands:  suppress and version.
+The report will show the following information:
+
+* Unsuppressed warnings
+* Which suppression rules suppressed which warnings
+* Unused suppression rules
+* Warnings that were suppressed by multiple suppression rules
+* Summary of suppression rules and warnings
+
+The report can be used during reviews to ensure the suppressions are valid.
+
+The arguments for the subcommand can be listed using the *-h* option:
+
+.. code-block:: bash
+
+   $ elfws report -h
+   usage: elfws report [-h] log_file suppression_file report_file
+
+   positional arguments:
+     log_file          Log file to check for warnings
+     suppression_file  YAML formatted warning suppression file
+     report_file       Output report file
+
+   optional arguments:
+     -h, --help        show this help message and exit
+
+show
+----
+
+Use the show subcommand to list all the warnings in a logfile.
+
+This can be useful when first starting out suppressing warnings and a suppression rule file does not exist.
+
+The arguments for the subcommand can be listed using the *-h* option:
+
+.. code-block:: bash
+
+   $ elfws show -h
+
+   usage: elfws show [-h] log_file
+
+   positional arguments:
+     log_file    Log file to show warnings
+
+   optional arguments:
+     -h, --help  show this help message and exit
 
 suppress
 --------
 
 Use the suppress subcommand to suppress warnings in a logfile.
 
-.. code-block:: bash
+This can be useful when creating a suppression rule file.
+It reports the results to the screen and only shows warnings which have not been suppressed.
 
-   $ elfws suppress {vendor} {tool} {logfile} {suppression_file} [options]
+This subcommand can also be used to support a continuous integration (CI) flow using the *--junit* option.
+The *--junit* option will create a JUnit XML file which can be read by CI tools.
 
-The suppress subcommand includes two other subcommands:  vendor and tool.
-The additional subcommands allow for customizing LWS to the particulars of specific logfiles.
-Help can be requested at each subcommand to view which options are available.
-
-This format allows for the greatest fexibility in addressing differences between logfiles from different vendors.
-It also allows for differences between tools from the same vendor.
-
-+-------------------------------+-------------------------------------------------+
-| Option                        |  Description                                    |
-+===============================+=================================================+
-| vendor                        | Which vendor the logfile belongs to.            |
-+-------------------------------+-------------------------------------------------+
-| tool                          | Which tool the logfile belongs to.              |
-+-------------------------------+-------------------------------------------------+
-| logfile                       | The logfile to analyze for warnings.            |
-+-------------------------------+-------------------------------------------------+
-| suppression_file              | The suppression file which has the suppression  |
-|                               | rules.                                          |
-+-------------------------------+-------------------------------------------------+
-| --report                      | Filename of audit report to generate.           |
-+-------------------------------+-------------------------------------------------+
-| --junit                       | Filename of JUnit XML file to generate.         |
-+-------------------------------+-------------------------------------------------+
+The arguments for the subcommand can be listed using the *-h* option:
 
 .. code-block:: bash
 
-   <jcl - need something here after it is coded.>
+   $ elfws suppress -h
+
+   usage: elfws suppress [-h] log_file suppression_file
+
+   positional arguments:
+     log_file          Log file to check for warnings
+     suppression_file  YAML formatted warning suppression file
+
+   optional arguments:
+     -h, --help        show this help message and exit
 
 version
 -------
 
 Use the version subcommand to report the installed version of ELFWS.
 
+There are no arguments for this subcommand.
+
 .. code-block:: bash
 
    $ elfws version
 
-   <jcl - add something here when it is coded>
+   EDA Log File Warning Suppressor (ELFWS) version 1.0.0
 

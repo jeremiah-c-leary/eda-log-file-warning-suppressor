@@ -6,30 +6,21 @@ The suppression rules are a YAML formatted file with the following basic form:
 .. code-block:: yaml
 
    suppress:
-     no_id:
-       msg: 'Unused port'
-       comment: 'This port is not used.'
-       author: 'mpw'
      <warning_id>:
-       msg: 'Port I_CLK not used'
-       comment: 'This port is not used.'
-       author: 'jcl'
+       - msg: 'Port I_CLK_A not used'
+         comment: 'This port is not used in this design.'
+         author: 'jcleary'
+       - msg: 'Port I_DATA_A not used'
+         comment: 'This port is not used in this design.'
+         author: 'jcleary'
+     <warning_id>:
+       - msg: 'Signal fifo_enable is tied high'
+         comment: 'The FIFO is always enabled in this design to support data throughput.'
+         author: 'jcleary'
 
-.. jcl - I need to mess with the formatting some more to get what I really want.
 
-it starts with the **suppress** element.
-This is further divided into one or more elements:
-
-+--------------------+----------+-------------------------------------------------+
-| Suppress Option    | Required |  Description                                    |
-+====================+==========+=================================================+
-| no_id              |          | Not all warning messages have identifiers.      |
-|                    |   No     | Those warnings without identifiers which are    |
-|                    |          | to be suppressed are documented here.           |
-+--------------------+----------+-------------------------------------------------+
-| <warning_id>       |   No     | This is the unique identifier for a warning.    |
-|                    |          | The only restriction is there can be no spaces. |
-+--------------------+----------+-------------------------------------------------+
+It starts with the **suppress** element.
+This is further divided into one or more warning ids:
 
 Each suppression rule will have the following fields available:
 
@@ -48,4 +39,20 @@ Each suppression rule will have the following fields available:
 | author             |   No     | Document who created the suppression.           |
 +--------------------+----------+-------------------------------------------------+
 
-.. jcl - Need some real world examples that show the warning message and a corresponding suppression rule.
+In addition to the standard warning id, each tool may have dedicated warning ids.
+For example, Microsemi designer has warnings without identifiers.
+When processing these warnings, ELFWS will use a warning ID of **no_id**.
+
+.. code-block:: yaml
+
+   suppress:
+     no_id:
+       msg: 'Unused port'
+       comment: 'This port is not used.'
+       author: 'mpw'
+     <warning_id>:
+       msg: 'Port I_CLK not used'
+       comment: 'This port is not used.'
+       author: 'jcl'
+
+If these unique IDs exist, they are listed in the tool section of this documentation.

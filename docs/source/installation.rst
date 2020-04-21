@@ -1,7 +1,7 @@
 Installation
 ============
 
-There are two methods to install LWS.
+There are two methods to install ELFWS.
 
 PIP
 ---
@@ -11,7 +11,7 @@ It can be installed using **pip**.
 
 .. code-block:: bash
 
-  pip install lws
+  pip install elfws
 
 This is the preferred method for installing LWS.
 
@@ -22,7 +22,7 @@ The latest development version can be cloned from the git hub repo.
 
 .. code-block:: bash
 
-  git clone https://github.com/jeremiah-c-leary/logfile-warning-suppressor.git
+  git clone https://github.com/jeremiah-c-leary/eda-log-file-warning-suppressor.git
 
 Then install using the setup.py file.
 
