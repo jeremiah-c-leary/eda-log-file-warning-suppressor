@@ -39,6 +39,4 @@ def report(cla):
     lReport.extend(display.build_report_section_divider(' 5. Summary'))
     lReport.extend(display.build_report_summary_section(oWarnList, oSupList))
 
-
-    for sLine in lReport:
-        print(sLine)
+    utils.write_file(cla.report_file, lReport)

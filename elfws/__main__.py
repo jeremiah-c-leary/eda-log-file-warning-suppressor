@@ -21,7 +21,3 @@ def main():
         subcommand.create.create(commandLineArguments)
     elif commandLineArguments.which == 'report':
         subcommand.report.report(commandLineArguments)
-
-
-if __name__ == '__main__':
-    main()

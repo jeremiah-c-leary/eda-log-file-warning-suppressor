@@ -94,7 +94,7 @@ def build_stat_line(sString, iNumber):
 
     Returns : (string)
     '''
-    return '{0:<21s} : {1:5d}'.format(sString, iNumber)
+    return '    {0:<22s} : {1:5d}'.format(sString, iNumber)
 
 
 def build_table_of_contents():
@@ -237,14 +237,14 @@ def build_report_summary_section(oWarnList, oSupList):
     lReturn = []
     sFormatString = '    {0:<22s} : {1:5d}'
     lReturn.append('  Suppression Rules')
-    lReturn.append(sFormatString.format('Total', oSupList.get_number_of_suppressions()))
-    lReturn.append(sFormatString.format('Unused', len(oSupList.get_suppressions_which_did_not_suppress_a_warning())))
+    lReturn.append(build_stat_line('Total', oSupList.get_number_of_suppressions()))
+    lReturn.append(build_stat_line('Unused', len(oSupList.get_suppressions_which_did_not_suppress_a_warning())))
     lReturn.append('')
     lReturn.append('  Warnings')
-    lReturn.append(sFormatString.format('Total', oWarnList.get_number_of_warnings()))
-    lReturn.append(sFormatString.format('Suppressed', len(oWarnList.get_suppressed_warnings())))
-    lReturn.append(sFormatString.format('Unsuppressed', len(oWarnList.get_unsuppressed_warnings())))
-    lReturn.append(sFormatString.format('Multiply Suppressed', len(oWarnList.get_warnings_suppressed_by_multiple_rules())))
+    lReturn.append(build_stat_line('Total', oWarnList.get_number_of_warnings()))
+    lReturn.append(build_stat_line('Suppressed', len(oWarnList.get_suppressed_warnings())))
+    lReturn.append(build_stat_line('Unsuppressed', len(oWarnList.get_unsuppressed_warnings())))
+    lReturn.append(build_stat_line('Multiply Suppressed', len(oWarnList.get_warnings_suppressed_by_multiple_rules())))
     lReturn.append('')
     lReturn.append('='*80)
 

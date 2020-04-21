@@ -53,6 +53,7 @@ def build_create_subparser(oSubparser):
 def build_report_subparser(oSubparser):
     parser = oSubparser.add_parser('report', help='Generate an audit report')
     add_file_arguments_to_parser(parser)
+    parser.add_argument('report_file', help='Output report file')
 
     parser.set_defaults(which='report')
 

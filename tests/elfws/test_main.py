@@ -12,16 +12,21 @@ sWarningFile = 'tests/vendor/microsemi/designer/warning_messages.log'
 sSupFile = 'tests/subcommand/suppress/suppress_microsemi_designer_logfile.yaml'
 
 sYamlFile = 'deleteme.yaml'
+sReportFile = 'deleteme.rpt'
 
 class test_arguments(unittest.TestCase):
 
     def setUp(self):
         if os.path.isfile(sYamlFile):
             os.remove(sYamlFile)
+        if os.path.isfile(sReportFile):
+            os.remove(sReportFile)
     
     def tearDown(self):
         if os.path.isfile(sYamlFile):
             os.remove(sYamlFile)
+        if os.path.isfile(sReportFile):
+            os.remove(sReportFile)
 
     @mock.patch('sys.stdout')
     def test_version(self, mockStdout):
@@ -85,3 +90,13 @@ class test_arguments(unittest.TestCase):
 
         mock_stdout.write.assert_has_calls(lExpected)
 
+    @mock.patch('elfws.display.datetime')
+    def test_report(self, mock_datetime):
+        mock_datetime.now.return_value = 'Some Date'
+        sys.argv = ['elfws', 'report', sWarningFile, 'tests/subcommand/report/suppress_microsemi_designer_logfile.yaml', sReportFile]
+        __main__.main()
+
+        lExpected = utils.read_log_file('tests/elfws/report_output.txt')
+        lActual = utils.read_log_file(sReportFile)
+
+        self.assertEqual(lExpected, lActual)

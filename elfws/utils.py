@@ -248,3 +248,24 @@ def do_messages_match(oWarning, oSuppression):
     if re.match('^.*' + oSuppression.get_message(), oWarning.get_message()):
         return True
     return False
+
+
+def write_file(sFilename, lFile):
+    '''
+    Writes a list of strings to a file.
+
+    Parameters:
+
+      sFilename : (string)
+
+      lFile : (list of strings)
+
+    Returns: nothing
+    '''
+    try:
+        with open(sFilename, 'w') as oFile:
+            for sLine in lFile:
+                oFile.write(sLine + '\n')
+    except PermissionError as err:
+        print(err, "Could not write to file " + sFilename)
+
