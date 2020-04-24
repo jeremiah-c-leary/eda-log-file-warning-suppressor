@@ -13,23 +13,23 @@ ELFWS uses the following directory structure for vendors and their tools:
 For example, for our example the tools Microsemi Designer and Mentor Graphics Precision are in this directory structure:
 
 
-``elfws -> vendor -> mentor_graphics -> precision.py``
+``elfws -> vendor -> mentor_graphics -> precision.py
    
-``.               -> microsemi       -> designer.py``
+                -> microsemi       -> designer.py``
 
 
 The directories and tool files expand as they are added:
 
 
-``elfws -> vendor -> mentor_graphics -> precision.py``
+``elfws -> vendor -> mentor_graphics -> precision.py
 
-``.                                   -> questsa_sim.py``
+                                   -> questsa_sim.py
 
-``.               -> microsemi       -> designer.py``
+                -> microsemi       -> designer.py
 
-``.               -> synopsis        -> synplify_pro.py``
+                -> synopsis        -> synplify_pro.py
 
-``.                                  -> design_compiler.py``
+                                   -> design_compiler.py``
 
 
 ELFWS will search the elfws->vendor directory for all directories.
