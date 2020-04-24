@@ -3,6 +3,29 @@ EDA Log File Warning Suppressor (ELFWS)
 
 **Suppresses warnings in EDA logfiles.**
 
+.. image:: https://img.shields.io/github/tag/jeremiah-c-leary/eda-log-file-warning-suppressor.svg?style=flat-square
+   :target: https://github.com/jeremiah-c-leary/eda-log-file-warning-suppressor
+   :alt: Github Release
+.. image:: https://img.shields.io/pypi/v/hcm.svg?style=flat-square
+   :target: https://pypi.python.org/pypi/hcm
+   :alt: PyPI Version
+.. image:: https://img.shields.io/travis/jeremiah-c-leary/eda-log-file-warning-suppressor/master.svg?style=flat-square
+   :target: https://travis-ci.org/jeremiah-c-leary/hcm-component-manager
+   :alt: Build Status
+.. image:: https://img.shields.io/codecov/c/github/jeremiah-c-leary/eda-log-file-warning-suppressor/master.svg?style=flat-square
+   :target: https://codecov.io/github/jeremiah-c-leary/eda-log-file-warning-suppressor
+   :alt: Test Coverage
+.. image:: https://img.shields.io/readthedocs/vsg.svg?style=flat-square
+   :target: http://eda-log-file-warning-suppressor.readthedocs.io/en/latest/index.html
+   :alt: Read The Docs
+.. image:: https://api.codacy.com/project/badge/Grade/42744dca97544824b93cfc99e8030063
+   :target: https://www.codacy.com/app/jeremiah-c-leary/eda-log-file-warning-suppressor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jeremiah-c-leary/eda-log-file-warning-suppressor&amp;utm_campaign=Badge_Grade
+   :alt: Codacy
+.. image:: https://api.codeclimate.com/v1/badges/97a72b806d6919dbcfa9/maintainability
+   :target: https://codeclimate.com/github/jeremiah-c-leary/eda-log-file-warning-suppressor/maintainability
+   :alt: Maintainability
+
+
 Table of Contents
 -----------------
 
