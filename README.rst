@@ -6,11 +6,11 @@ EDA Log File Warning Suppressor (ELFWS)
 .. image:: https://img.shields.io/github/tag/jeremiah-c-leary/eda-log-file-warning-suppressor.svg?style=flat-square
    :target: https://github.com/jeremiah-c-leary/eda-log-file-warning-suppressor
    :alt: Github Release
-.. image:: https://img.shields.io/pypi/v/hcm.svg?style=flat-square
-   :target: https://pypi.python.org/pypi/hcm
+.. image:: https://img.shields.io/pypi/v/elfws.svg?style=flat-square
+   :target: https://pypi.python.org/pypi/elfws
    :alt: PyPI Version
 .. image:: https://img.shields.io/travis/jeremiah-c-leary/eda-log-file-warning-suppressor/master.svg?style=flat-square
-   :target: https://travis-ci.org/jeremiah-c-leary/hcm-component-manager
+   :target: https://travis-ci.org/jeremiah-c-leary/eda-log-file-warning-suppressor
    :alt: Build Status
 .. image:: https://img.shields.io/codecov/c/github/jeremiah-c-leary/eda-log-file-warning-suppressor/master.svg?style=flat-square
    :target: https://codecov.io/github/jeremiah-c-leary/eda-log-file-warning-suppressor
@@ -18,12 +18,12 @@ EDA Log File Warning Suppressor (ELFWS)
 .. image:: https://img.shields.io/readthedocs/vsg.svg?style=flat-square
    :target: http://eda-log-file-warning-suppressor.readthedocs.io/en/latest/index.html
    :alt: Read The Docs
-.. image:: https://api.codacy.com/project/badge/Grade/42744dca97544824b93cfc99e8030063
-   :target: https://www.codacy.com/app/jeremiah-c-leary/eda-log-file-warning-suppressor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jeremiah-c-leary/eda-log-file-warning-suppressor&amp;utm_campaign=Badge_Grade
+.. image:: https://api.codacy.com/project/badge/Grade/3ecbff706c6640fcae47b003b74c71dd    :target: https://www.codacy.com/manual/jeremiah-c-leary/eda-log-file-warning-suppressor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jeremiah-c-leary/eda-log-file-warning-suppressor&amp;utm_campaign=Badge_Grade
    :alt: Codacy
-.. image:: https://api.codeclimate.com/v1/badges/97a72b806d6919dbcfa9/maintainability
-   :target: https://codeclimate.com/github/jeremiah-c-leary/eda-log-file-warning-suppressor/maintainability
+.. image:: https://api.codeclimate.com/v1/badges/6d41bcbece1f25056bdb/maintainability
+   :target: https://codeclimate.com/github/jeremiah-c-leary/logfile-warning-suppressor/maintainability
    :alt: Maintainability
+
 
 
 Table of Contents
