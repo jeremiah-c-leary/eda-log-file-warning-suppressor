@@ -16,6 +16,8 @@ Welcome to eda-log-file-warning-suppressor's documentation!
    suppression_rules
    theory_of_operation/theory_of_operation
    vendors/vendors
+   adding_tools
+   vendor_tool
 
 Indices and tables
 ==================
