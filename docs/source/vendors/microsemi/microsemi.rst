@@ -1,5 +1,5 @@
 Microsemi
 ---------
 
-.. .. include:: designer.rst
+.. include:: designer.rst
 

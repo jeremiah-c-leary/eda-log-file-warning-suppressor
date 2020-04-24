@@ -48,6 +48,7 @@ The arguments for the subcommand can be listed using the *-h* option:
      -h, --help            show this help message and exit
      --suppression_file SUPPRESSION_FILE
                            Existing suppression file to filter out existing
+
 report
 ------
 

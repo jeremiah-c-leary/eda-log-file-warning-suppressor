@@ -1,20 +1,10 @@
 Vendors
 =======
 
-The following table lists the vendors and tools which LSW currently supports:
+The following sections contain information about each vendor tool supported by ELFWS.
 
+.. toctree::
+   :maxdepth: 2
 
-+-------------------------------+-------------------------------------------------+
-| Vendor                        |  Tool                                           |
-+===============================+=================================================+
-| Mentor Graphics               | Precision                                       |
-+-------------------------------+-------------------------------------------------+
-| Microsemi/Actel               | Designer                                        |
-+-------------------------------+-------------------------------------------------+
-
-.. include:: mentor_graphics/mentor_graphics.rst
-.. include:: mentor_graphics/precision.rst
-.. include:: mentor_graphics/vcom.rst
-.. include:: mentor_graphics/vsim.rst
-.. include:: microsemi/microsemi.rst
-.. include:: microsemi/designer.rst
+   mentor_graphics/mentor_graphics.rst
+   microsemi/microsemi.rst

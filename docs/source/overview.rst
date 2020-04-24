@@ -31,9 +31,9 @@ If LWS had existed, the second issue would have been detected much earlier in th
 Key Benefits
 ############
 
-* Common method to suppress warnings across multiple EDA vendor tools
-* Allows CI tool integration
-* Warning suppressions can be configuration managed
+* Provides a common method to suppress warnings
+* Suppress warnings on supported EDA vendor tools
+* Additional vendor tools can be added
 
 Key Features
 ############
@@ -42,6 +42,7 @@ Key Features
 * Integrates into CI flow tools using JUNIT.XML files
 * Uses YAML to define suppressed warnings
 * Reports for auditing suppressions
+
   * Warnings not suppressed
   * Which warnings were suppressed by which suppression rule
   * Suppression rules which did not suppress any warnings
