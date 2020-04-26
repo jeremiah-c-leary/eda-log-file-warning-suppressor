@@ -18,6 +18,7 @@ Welcome to eda-log-file-warning-suppressor's documentation!
    vendors/vendors
    adding_tools
    vendor_tool
+   contributing
 
 Indices and tables
 ==================
