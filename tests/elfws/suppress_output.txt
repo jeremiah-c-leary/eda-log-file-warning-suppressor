@@ -1,5 +1,5 @@
 ================================================================================
-ELFWS version         : 0.0.0
+ELFWS version         : 0.1
 Date                  : Some Date
 Log file              : tests/vendor/microsemi/designer/warning_messages.log
 Suppression Rule File : tests/subcommand/suppress/suppress_microsemi_designer_logfile.yaml
