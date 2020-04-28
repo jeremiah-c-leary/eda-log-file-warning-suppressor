@@ -15,6 +15,8 @@ def is_logfile(lFile):
     for iLineNumber, sLine in enumerate(lFile):
         if sLine.startswith('//  Precision RTL Synthesis'):
             return True
+        if sLine.startswith('//  Precision Hi-Rel'):
+            return True
         if iLineNumber == 10:
             return False
     return False
@@ -30,7 +32,11 @@ def extract_warnings(lFile):
             iColon2Index = sLine.find(':', iColon1Index+1)
             sID = sLine[iColon1Index+1:iColon2Index].strip()
             sID = sID[1:-1]
-            sMessage = sLine[iColon2Index+1:].strip()
+            if ' ' in sID:
+                sID = 'NO_ID'
+                sMessage = sLine[iColon1Index+1:].strip()
+            else:
+                sMessage = sLine[iColon2Index+1:].strip()
             oWarning = warning.create(sID, sMessage, None, iLineNumber + 1)
             oReturn.add_warning(oWarning)
     return oReturn

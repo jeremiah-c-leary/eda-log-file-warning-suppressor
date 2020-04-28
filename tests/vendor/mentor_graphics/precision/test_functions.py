@@ -18,7 +18,13 @@ class testFunctions(unittest.TestCase):
         self.assertEqual(None, oWarning.get_filename())
         self.assertEqual(5, oWarning.get_linenumber())
 
-        self.assertEqual(1, oWarningList.get_number_of_warnings())
+        self.assertEqual(2, oWarningList.get_number_of_warnings())
+
+        oWarning = oWarningList.warnings[1]
+        self.assertEqual('NO_ID', oWarning.get_id())
+        self.assertEqual('Some warning that does not have an ID : some other text', oWarning.get_message())
+        self.assertEqual(None, oWarning.get_filename())
+        self.assertEqual(6, oWarning.get_linenumber())
 
     def test_is_logfile(self):
         lLogFile = []
@@ -52,6 +58,13 @@ class testFunctions(unittest.TestCase):
         lLogFile.append('')
 
         self.assertFalse(tool.is_logfile(lLogFile))
+
+        lLogFile = []
+        lLogFile.append('')
+        lLogFile.append('//  Precision Hi-Rel 64-bit 2019.1.0.9...')
+        lLogFile.append('//  ')
+
+        self.assertTrue(tool.is_logfile(lLogFile))
 
     def test_get_vendor(self):
         self.assertEqual(['Mentor Graphics'], tool.get_vendor())

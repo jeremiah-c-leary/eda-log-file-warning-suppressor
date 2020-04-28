@@ -3,5 +3,6 @@
 
 
 # Warning: [15232]: Some warning message
+# Warning: Some warning that does not have an ID : some other text
 
 
