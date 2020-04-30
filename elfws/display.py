@@ -61,13 +61,14 @@ def build_warning_table(lWarningList, iIndent=0):
     '''
     sIndent = ' '*iIndent
     lReturn = []
-    lReturn.append(build_table_row_seperator(iIndent))
-    lReturn.append(sIndent + ' {0:<15s} | {1:6s} | {2:s}'.format('ID', 'Line #', 'Warning Message'))
-    lReturn.append(build_table_row_seperator(iIndent))
-    for oWarning in lWarningList:
-        lReturn.append(sIndent + ' {0:<15s} | {1:6d} | {2:s}'.format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
-    lReturn.append(build_table_row_seperator(iIndent))
-    lReturn.append('')
+    if len(lWarningList) > 0:
+        lReturn.append(build_table_row_seperator(iIndent))
+        lReturn.append(sIndent + ' {0:<15s} | {1:6s} | {2:s}'.format('ID', 'Line #', 'Warning Message'))
+        lReturn.append(build_table_row_seperator(iIndent))
+        for oWarning in lWarningList:
+            lReturn.append(sIndent + ' {0:<15s} | {1:6d} | {2:s}'.format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
+        lReturn.append(build_table_row_seperator(iIndent))
+        lReturn.append('')
 
     return lReturn
 

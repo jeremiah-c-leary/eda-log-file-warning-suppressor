@@ -1,0 +1,50 @@
+================================================================================
+ELFWS version         : 0.1
+Date                  : Some Date
+Log file              : tests/elfws/no_warnings/warning_messages.rpt
+Suppression Rule File : tests/elfws/no_warnings/suppression_file.yaml
+
+Table of Contents:
+
+  1.  Unsuppressed Warnings
+  2.  Suppressed Warnings
+  3.  Unused Suppression Rules
+  4.  Warnings Suppressed by Multiple Rules
+  5.  Summary
+
+--------------------------------------------------------------------------------
+  1. Unsuppressed Warnings
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+  2. Suppressed Warnings
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+  3. Unused Suppression Rules
+--------------------------------------------------------------------------------
+
+  Warning ID : MULTI546
+  Author     : <None>
+  Rule       : .*This is the first line.*
+  Comment    : <None>
+
+--------------------------------------------------------------------------------
+  4. Warnings Suppressed by Multiple Rules
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+  5. Summary
+--------------------------------------------------------------------------------
+
+  Suppression Rules
+    Total                  :     1
+    Unused                 :     1
+
+  Warnings
+    Total                  :     0
+    Suppressed             :     0
+    Unsuppressed           :     0
+    Multiply Suppressed    :     0
+
+================================================================================

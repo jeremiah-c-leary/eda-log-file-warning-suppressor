@@ -40,6 +40,7 @@ class test_arguments(unittest.TestCase):
             mock.call('EDA Log File Warning Suppressor (ELFWS) version ' + version.version), mock.call('\n')
         ])
 
+    @mock.patch('elfws.version.version', '0.1')
     @mock.patch('sys.stdout')
     @mock.patch('elfws.display.datetime')
     def test_show(self, mock_datetime, mock_stdout):
@@ -56,6 +57,7 @@ class test_arguments(unittest.TestCase):
 
         mock_stdout.write.assert_has_calls(lExpected)
 
+    @mock.patch('elfws.version.version', '0.1')
     def test_create_without_suppression_file(self):
         sys.argv = ['elfws', 'create', sWarningFile, sYamlFile]
         __main__.main()
@@ -65,6 +67,7 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(lExpected, lActual)
 
+    @mock.patch('elfws.version.version', '0.1')
     def test_create_with_suppression_file(self):
         sys.argv = ['elfws', 'create', sWarningFile, sYamlFile, '--suppression_file', sSupFile]
         __main__.main()
@@ -74,6 +77,7 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(lExpected, lActual)
 
+    @mock.patch('elfws.version.version', '0.1')
     @mock.patch('sys.stdout')
     @mock.patch('elfws.display.datetime')
     def test_suppress(self, mock_datetime, mock_stdout):
@@ -90,6 +94,7 @@ class test_arguments(unittest.TestCase):
 
         mock_stdout.write.assert_has_calls(lExpected)
 
+    @mock.patch('elfws.version.version', '0.1')
     @mock.patch('elfws.display.datetime')
     def test_report(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
@@ -97,6 +102,30 @@ class test_arguments(unittest.TestCase):
         __main__.main()
 
         lExpected = utils.read_log_file('tests/elfws/report_output.txt')
+        lActual = utils.read_log_file(sReportFile)
+
+        self.assertEqual(lExpected, lActual)
+
+    @mock.patch('elfws.version.version', '0.1')
+    @mock.patch('elfws.display.datetime')
+    def test_report_all_warnings_suppressed(self, mock_datetime):
+        mock_datetime.now.return_value = 'Some Date'
+        sys.argv = ['elfws', 'report', sWarningFile, 'tests/elfws/suppress_all_microsemi_designer_warnings.yaml', sReportFile]
+        __main__.main()
+
+        lExpected = utils.read_log_file('tests/elfws/report_output_all_warnings_suppressed.txt')
+        lActual = utils.read_log_file(sReportFile)
+
+        self.assertEqual(lExpected, lActual)
+
+    @mock.patch('elfws.version.version', '0.1')
+    @mock.patch('elfws.display.datetime')
+    def test_report_no_warnings(self, mock_datetime):
+        mock_datetime.now.return_value = 'Some Date'
+        sys.argv = ['elfws', 'report', 'tests/elfws/no_warnings/warning_messages.rpt', 'tests/elfws/no_warnings/suppression_file.yaml', sReportFile]
+        __main__.main()
+
+        lExpected = utils.read_log_file('tests/elfws/no_warnings/report_output.txt')
         lActual = utils.read_log_file(sReportFile)
 
         self.assertEqual(lExpected, lActual)

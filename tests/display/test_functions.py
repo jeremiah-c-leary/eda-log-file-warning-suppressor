@@ -7,6 +7,7 @@ from elfws import version
 from elfws import utils
 from elfws import suppression
 from elfws import warning
+from elfws import warning_list
 
 
 class test_functions(unittest.TestCase):
@@ -28,7 +29,7 @@ class test_functions(unittest.TestCase):
             else:
                 self.assertEqual(sLine, lActual[iIndex])
 
-    def test_build_warning_table(self):
+    def test_build_warning_table_with_warnings(self):
         lExpected = []
         lExpected.append('-'*17 + '+' + '-'*8 + '+' + '-'*(80 - 20 - 1 - 5 - 1))
         lExpected.append(' ID              | Line # | Warning Message')
@@ -45,6 +46,19 @@ class test_functions(unittest.TestCase):
 
         mTool = utils.get_vendor_tool_module(lLogFile)
         oWarnList = mTool.extract_warnings(lLogFile)
+        lWarnList = oWarnList.get_warnings()
+
+        lActual = display.build_warning_table(lWarnList)
+
+        self.assertEqual(len(lExpected), len(lActual))
+
+        for iIndex, sLine in enumerate(lExpected):
+            self.assertEqual(sLine, lActual[iIndex])
+
+    def test_build_warning_table_with_no_warnings(self):
+        lExpected = []
+
+        oWarnList = warning_list.create()
         lWarnList = oWarnList.get_warnings()
 
         lActual = display.build_warning_table(lWarnList)

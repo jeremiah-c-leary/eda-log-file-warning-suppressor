@@ -1,0 +1,163 @@
+================================================================================
+ELFWS version         : 0.1
+Date                  : Some Date
+Log file              : tests/vendor/microsemi/designer/warning_messages.log
+Suppression Rule File : tests/elfws/suppress_all_microsemi_designer_warnings.yaml
+
+Table of Contents:
+
+  1.  Unsuppressed Warnings
+  2.  Suppressed Warnings
+  3.  Unused Suppression Rules
+  4.  Warnings Suppressed by Multiple Rules
+  5.  Summary
+
+--------------------------------------------------------------------------------
+  1. Unsuppressed Warnings
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+  2. Suppressed Warnings
+--------------------------------------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is a warning without an ID
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     11 | This is a warning without an ID
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is a warning with a :
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     12 | This is a warning with a : that does not have an ID
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is the first line : of the
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     20 | This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     11 | This is a warning without an ID
+     NO_ID           |     12 | This is a warning with a : that does not have an ID
+     NO_ID           |     20 | This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is a warning
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     DEF1234         |      8 | This is a warning
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is the first line
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     MULTI546        |     15 | This is the first line of the warning This is the second line of the warning This is the last line of the warning.
+    -----------------+--------+-------------------------------------------------
+
+--------------------------------------------------------------------------------
+  3. Unused Suppression Rules
+--------------------------------------------------------------------------------
+
+  Warning ID : NO_ID
+  Author     : <None>
+  Rule       : .*This is the first line of.*
+  Comment    : <None>
+
+--------------------------------------------------------------------------------
+  4. Warnings Suppressed by Multiple Rules
+--------------------------------------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Warning ID  : NO_ID
+  Line Number : 11
+  Message     : This is a warning without an ID
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This is a warning without an ID.*
+    Comment    : <None>
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This.*
+    Comment    : <None>
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Warning ID  : NO_ID
+  Line Number : 12
+  Message     : This is a warning with a : that does not have an ID
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This is a warning with a :.*
+    Comment    : <None>
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This.*
+    Comment    : <None>
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Warning ID  : NO_ID
+  Line Number : 20
+  Message     : This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This is the first line : of the.*
+    Comment    : <None>
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This.*
+    Comment    : <None>
+
+--------------------------------------------------------------------------------
+  5. Summary
+--------------------------------------------------------------------------------
+
+  Suppression Rules
+    Total                  :     7
+    Unused                 :     1
+
+  Warnings
+    Total                  :     5
+    Suppressed             :     5
+    Unsuppressed           :     0
+    Multiply Suppressed    :     3
+
+================================================================================
