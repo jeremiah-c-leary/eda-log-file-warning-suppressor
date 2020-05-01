@@ -27,50 +27,10 @@ def extract_non_suppressed_warnings(oWarnList, oSupList):
     for oWarning in oWarnList.get_warnings():
         fMatchFound = False
         for oSuppression in oSupList.get_suppressions():
-            fMatchFound = check_for_match(oWarning, oSuppression)
+            fMatchFound = utils.check_for_match(oWarning, oSuppression)
             if fMatchFound:
                 break
         if not fMatchFound:
             oReturn.add_warning(oWarning)
 
     return oReturn
-
-
-def check_for_match(oWarning, oSuppression):
-    if do_ids_match(oWarning, oSuppression):
-        return do_messages_match(oWarning, oSuppression)
-    return False
-
-
-def do_ids_match(oWarning, oSuppression):
-    '''
-    Checks if the suppression ID matches the warning ID.
-
-    Parameters:
-
-      oWarning : (warning object)
-
-      oSuppression : (suppression object)
-
-    Returns: (boolean)
-    '''
-    if oWarning.get_id() == oSuppression.get_warning_id():
-        return True
-    return False
-
-
-def do_messages_match(oWarning, oSuppression):
-    '''
-    Checks if the suppression message matches the warning message.
-
-    Parameters:
-
-      oWarning : (warning object)
-
-      oSuppression : (suppression object)
-
-    Returns: (boolean)
-    '''
-    if re.match('^.*' + oSuppression.get_message(), oWarning.get_message()):
-        return True
-    return False
