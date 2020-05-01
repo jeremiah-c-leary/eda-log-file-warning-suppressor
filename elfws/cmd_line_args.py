@@ -54,6 +54,7 @@ def build_report_subparser(oSubparser):
     parser = oSubparser.add_parser('report', help='Generate an audit report')
     add_file_arguments_to_parser(parser)
     parser.add_argument('report_file', help='Output report file')
+    parser.add_argument('--junit', help='Generate JUnit XML file JUNIT')
 
     parser.set_defaults(which='report')
 

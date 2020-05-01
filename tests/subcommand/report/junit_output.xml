@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<testsuite errors="0" hostname="Rimmer" failures="3" timestamp="2020-04-30T09:34:51" tests="3" time="0" name="eda-log-file-warning-suppressor">
+  <properties>
+  </properties>
+  <testcase name="Unsuppressed Warnings" time="0" classname="failure">
+    <failure type="Failure">
+      [MULTI546][15]:This is the first line of the warning This is the second line of the warning This is the last line of the warning.
+    </failure>
+  </testcase>
+  <testcase name="Unused Suppression Rules" time="0" classname="failure">
+    <failure type="Failure">
+      [NO_ID][<None>][This is the first line of][<None>]
+      [UNUSED_ID][<None>][This is used to ...][<None>]
+      [SOME_ID][<None>][Yet another unused rule...][<None>]
+    </failure>
+  </testcase>
+  <testcase name="Multiply Suppressed Warnings" time="0" classname="failure">
+    <failure type="Failure">
+      [NO_ID][11]:This is a warning without an ID
+      [NO_ID][12]:This is a warning with a : that does not have an ID
+      [NO_ID][20]:This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.
+    </failure>
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>

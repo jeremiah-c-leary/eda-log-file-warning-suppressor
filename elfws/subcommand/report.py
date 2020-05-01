@@ -5,6 +5,7 @@ import sys
 from elfws import warning_list
 from elfws import utils
 from elfws import display
+from elfws import junit
 
 
 def report(cla):
@@ -40,3 +41,64 @@ def report(cla):
     lReport.extend(display.build_report_summary_section(oWarnList, oSupList))
 
     utils.write_file(cla.report_file, lReport)
+
+    if cla.junit:
+        lJUnitFile = generate_junit_xml_file(cla, oWarnList, oSupList)
+        utils.write_file(cla.junit, lJUnitFile)
+   
+
+
+def generate_junit_xml_file(cla, oWarnList, oSupList):
+    '''
+    Generates a JUnit XML file.
+
+    Parameters:
+
+      cla : (command line arguments)
+
+      oWarnList : (warning_list object)
+
+      oSupList : (suppression_list object)
+
+    Returns: Nothing
+    '''
+    oXmlFile = junit.xmlfile()
+    oTestsuite = junit.testsuite('eda-log-file-warning-suppressor', str(0))
+    oTestcase = junit.testcase('Unsuppressed Warnings', str(0), 'failure')
+
+    lWarnings = oWarnList.get_unsuppressed_warnings()
+    if len(lWarnings) > 0:
+        oFailure = junit.failure('Failure')
+        for oWarning in lWarnings:
+            sWarning = '[' + oWarning.get_id() + '][' + str(oWarning.get_linenumber()) + ']:' + oWarning.get_message()
+            oFailure.add_text(sWarning)
+        oTestcase.add_failure(oFailure)
+    oTestsuite.add_testcase(oTestcase)
+    
+    oTestcase = junit.testcase('Unused Suppression Rules', str(0), 'failure')
+    lSuppressions = oSupList.get_suppressions_which_did_not_suppress_a_warning()
+    if len(lSuppressions) > 0:
+        oFailure = junit.failure('Failure')
+        for oSup in lSuppressions:
+            sOutput = '[' + ']['.join([oSup.get_warning_id(), str(oSup.get_author()), oSup.get_message(), oSup.get_comment()]) + ']'
+            oFailure.add_text(sOutput)
+        oTestcase.add_failure(oFailure)
+
+    oTestsuite.add_testcase(oTestcase)
+
+    oTestcase = junit.testcase('Multiply Suppressed Warnings', str(0), 'failure')
+
+    lWarnings = oWarnList.get_warnings_suppressed_by_multiple_rules()
+    if len(lWarnings) > 0:
+        oFailure = junit.failure('Failure')
+        for oWarning in lWarnings:
+            sWarning = '[' + oWarning.get_id() + '][' + str(oWarning.get_linenumber()) + ']:' + oWarning.get_message()
+            oFailure.add_text(sWarning)
+        oTestcase.add_failure(oFailure)
+    oTestsuite.add_testcase(oTestcase)
+
+
+
+    oXmlFile.add_testsuite(oTestsuite)
+    return oXmlFile.build_junit()
+         
