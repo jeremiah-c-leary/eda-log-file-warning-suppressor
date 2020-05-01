@@ -20,8 +20,7 @@ def report(cla):
     utils.apply_suppression_rules_to_warnings(oWarnList, oSupList)
 
     lReport = []
-    lReport.extend(display.build_header(cla.log_file, cla.suppression_file))
-    lReport.extend(display.build_table_of_contents())
+    build_header(cla, lReport)
     build_section_1(oWarnList, lReport)
     build_section_2(oSupList, lReport)
     build_section_3(oSupList, lReport)
@@ -33,6 +32,11 @@ def report(cla):
     if cla.junit:
         lJUnitFile = generate_junit_xml_file(cla, oWarnList, oSupList)
         utils.write_file(cla.junit, lJUnitFile)
+
+
+def build_header(cla, lReport):
+    lReport.extend(display.build_header(cla.log_file, cla.suppression_file))
+    lReport.extend(display.build_table_of_contents())
 
 
 def build_section_1(oWarnList, lReport):
@@ -83,17 +87,20 @@ def generate_junit_xml_file(cla, oWarnList, oSupList):
     '''
     oXmlFile = junit.xmlfile()
     oTestsuite = junit.testsuite('eda-log-file-warning-suppressor', str(0))
-    oTestcase = junit.testcase('Unsuppressed Warnings', str(0), 'failure')
 
-    lWarnings = oWarnList.get_unsuppressed_warnings()
-    if len(lWarnings) > 0:
-        oFailure = junit.failure('Failure')
-        for oWarning in lWarnings:
-            sWarning = '[' + oWarning.get_id() + '][' + str(oWarning.get_linenumber()) + ']:' + oWarning.get_message()
-            oFailure.add_text(sWarning)
-        oTestcase.add_failure(oFailure)
-    oTestsuite.add_testcase(oTestcase)
-    
+    oTestsuite.add_testcase(build_junit_unsuppressed_testcase(oWarnList))
+    oTestsuite.add_testcase(build_junit_unused_suppression_rule_testcase(oSupList))
+    oTestsuite.add_testcase(build_junit_multiply_suppressed_warnings_testcase(oWarnList))    
+
+    oXmlFile.add_testsuite(oTestsuite)
+    return oXmlFile.build_junit()
+
+
+def build_junit_unsuppressed_testcase(oWarnList):
+    return build_junit_warning_testcase(oWarnList.get_unsuppressed_warnings(), 'Unsuppressed Warnings')
+
+
+def build_junit_unused_suppression_rule_testcase(oSupList):
     oTestcase = junit.testcase('Unused Suppression Rules', str(0), 'failure')
     lSuppressions = oSupList.get_suppressions_which_did_not_suppress_a_warning()
     if len(lSuppressions) > 0:
@@ -102,22 +109,23 @@ def generate_junit_xml_file(cla, oWarnList, oSupList):
             sOutput = '[' + ']['.join([oSup.get_warning_id(), str(oSup.get_author()), oSup.get_message(), oSup.get_comment()]) + ']'
             oFailure.add_text(sOutput)
         oTestcase.add_failure(oFailure)
+    return oTestcase
 
-    oTestsuite.add_testcase(oTestcase)
 
-    oTestcase = junit.testcase('Multiply Suppressed Warnings', str(0), 'failure')
+def build_junit_multiply_suppressed_warnings_testcase(oWarnList):
+    return build_junit_warning_testcase(oWarnList.get_warnings_suppressed_by_multiple_rules(), 'Multiply Suppressed Warnings')
 
-    lWarnings = oWarnList.get_warnings_suppressed_by_multiple_rules()
+
+def build_junit_warning_testcase(lWarnings, sTestCaseName):
+    oTestcase = junit.testcase(sTestCaseName, str(0), 'failure')
+
     if len(lWarnings) > 0:
         oFailure = junit.failure('Failure')
         for oWarning in lWarnings:
-            sWarning = '[' + oWarning.get_id() + '][' + str(oWarning.get_linenumber()) + ']:' + oWarning.get_message()
-            oFailure.add_text(sWarning)
+            oFailure.add_text(construct_junit_warning_output(oWarning))
         oTestcase.add_failure(oFailure)
-    oTestsuite.add_testcase(oTestcase)
+    return oTestcase
 
 
-
-    oXmlFile.add_testsuite(oTestsuite)
-    return oXmlFile.build_junit()
-         
+def construct_junit_warning_output(oWarning):
+    return '[' + oWarning.get_id() + '][' + str(oWarning.get_linenumber()) + ']:' + oWarning.get_message()
