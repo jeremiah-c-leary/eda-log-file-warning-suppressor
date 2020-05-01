@@ -64,20 +64,24 @@ The report will show the following information:
 
 The report can be used during reviews to ensure the suppressions are valid.
 
+This command has the option argument **--junit**, which will output a JUnit XML file.
+This file can be used with continuous integration tools to check for new warnings.
+
 The arguments for the subcommand can be listed using the *-h* option:
 
 .. code-block:: bash
 
    $ elfws report -h
-   usage: elfws report [-h] log_file suppression_file report_file
-
+   usage: elfws report [-h] [--junit JUNIT] log_file suppression_file report_file
+   
    positional arguments:
      log_file          Log file to check for warnings
      suppression_file  YAML formatted warning suppression file
      report_file       Output report file
-
+   
    optional arguments:
      -h, --help        show this help message and exit
+     --junit JUNIT     Generate JUnit XML file JUNIT
 
 show
 ----
