@@ -44,7 +44,7 @@ def build_section_1(oWarnList, lReport):
     lReport.extend(display.build_report_section_divider(' 1. Unsuppressed Warnings'))
     lReport.extend(display.build_warning_table(oNonSuppressWarnings, 2))
 
-   
+
 def build_section_2(oSupList, lReport):
     lReport.extend(display.build_report_section_divider(' 2. Suppressed Warnings'))
     for oSup in oSupList.get_suppressions_which_suppressed_a_warning():
@@ -90,7 +90,7 @@ def generate_junit_xml_file(cla, oWarnList, oSupList):
 
     oTestsuite.add_testcase(build_junit_unsuppressed_testcase(oWarnList))
     oTestsuite.add_testcase(build_junit_unused_suppression_rule_testcase(oSupList))
-    oTestsuite.add_testcase(build_junit_multiply_suppressed_warnings_testcase(oWarnList))    
+    oTestsuite.add_testcase(build_junit_multiply_suppressed_warnings_testcase(oWarnList))
 
     oXmlFile.add_testsuite(oTestsuite)
     return oXmlFile.build_junit()

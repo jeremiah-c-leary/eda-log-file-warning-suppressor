@@ -269,4 +269,3 @@ def write_file(sFilename, lFile):
                 oFile.write(sLine + '\n')
     except PermissionError as err:
         print(err, "Could not write to file " + sFilename)
-

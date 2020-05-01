@@ -139,7 +139,7 @@ def build_report_section_divider(sTitle):
 def build_suppressed_warning_header(oSuppression, iIndent=0):
     '''
     Creates a header for a suppressed warning section in the report.
-    
+
     Parameters:
 
       oSuppression : (suppression object)
@@ -155,6 +155,7 @@ def build_suppressed_warning_header(oSuppression, iIndent=0):
     lReturn.append('')
 
     return lReturn
+
 
 def build_suppressed_warning_table(oSuppression, iIndent=0):
     '''
@@ -248,6 +249,5 @@ def build_report_summary_section(oWarnList, oSupList):
     lReturn.append(build_stat_line('Multiply Suppressed', len(oWarnList.get_warnings_suppressed_by_multiple_rules())))
     lReturn.append('')
     lReturn.append('='*80)
-
 
     return lReturn
