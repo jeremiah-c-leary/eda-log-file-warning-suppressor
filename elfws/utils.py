@@ -22,6 +22,9 @@ def read_suppression_file(sFileName):
     with open(sFileName) as yaml_file:
         dReturn = yaml.full_load(yaml_file)
 
+    if dReturn is None:
+        dReturn = {}
+
     return dReturn
 
 
@@ -37,12 +40,16 @@ def create_suppression_list(dSuppression):
     '''
     oReturn = suppression_list.create()
 
-    for dID in list(dSuppression['suppress'].keys()):
-        for dSup in dSuppression['suppress'][dID]:
-            oSupRule = suppression.create(str(dID), dSup['msg'])
-            update_suppression_author(oSupRule, dSup)
-            update_suppression_comment(oSupRule, dSup)
-            oReturn.add_suppression(oSupRule)
+    try:
+        for dID in list(dSuppression['suppress'].keys()):
+            for dSup in dSuppression['suppress'][dID]:
+                oSupRule = suppression.create(str(dID), dSup['msg'])
+                update_suppression_author(oSupRule, dSup)
+                update_suppression_comment(oSupRule, dSup)
+                oReturn.add_suppression(oSupRule)
+    except KeyError:
+        pass
+
     return oReturn
 
 

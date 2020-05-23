@@ -48,6 +48,13 @@ class test_functions(unittest.TestCase):
         dActual = utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress.yaml'))
         self.assertEqual(dExpected, dActual)
 
+    def test_read_suppression_file_w_empty_file(self):
+        dExpected = {}
+
+        dActual = utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'empty_suppress.yaml'))
+
+        self.assertEqual(dExpected, dActual)
+
     def test_create_suppression_list(self):
 
         dSuppression = {}
@@ -111,6 +118,13 @@ class test_functions(unittest.TestCase):
             self.assertEqual(oExpected.get_message(), oActual.get_message())
             self.assertEqual(oExpected.get_author(), oActual.get_author())
             self.assertEqual(oExpected.get_comment(), oActual.get_comment())
+
+    def test_create_suppression_list_w_empty_dictionary(self):
+        dSuppression = {}
+        oActualSuppressionList = utils.create_suppression_list(dSuppression)
+        oExpectedSuppressionList = suppression_list.create()
+
+        self.assertEqual(0, len(oActualSuppressionList.suppressions))
 
     def test_read_log_file(self):
         lExpected = []
