@@ -1,0 +1,28 @@
+Microsemi Libero Software
+Version: 11.9.2.1
+Release: 11.9 SP2
+
+Created a new design.
+
+# This is a warning with an ID
+Warning: DEF1234_long_id_5542 : This is a warning
+
+# This is a warning without an ID
+Warning: This is a warning without an ID
+Warning: This is a warning with a : that does not have an ID
+
+# This is a multiline warning with an ID
+Warning: MULTI546_long_id_5676 : This is the first line of the warning
+         This is the second line of the warning
+ This is the last line of the warning.
+
+# This is a multiline warning without an ID
+Warning: This is the first line : of the message
+ This is the second line of the message
+   This is the third line of the message
+  This is the last line of the message.
+
+#These should not be counted as warnings:
+ Warning: ABC5425 : this is not a warning because of the leading space
+
+

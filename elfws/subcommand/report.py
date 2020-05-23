@@ -40,9 +40,9 @@ def build_header(cla, lReport):
 
 
 def build_section_1(oWarnList, lReport):
-    oNonSuppressWarnings = oWarnList.get_unsuppressed_warnings()
+    lNonSuppressWarnings = oWarnList.get_unsuppressed_warnings()
     lReport.extend(display.build_report_section_divider(' 1. Unsuppressed Warnings'))
-    lReport.extend(display.build_warning_table(oNonSuppressWarnings, 2))
+    lReport.extend(display.build_warning_table(lNonSuppressWarnings, 2))
 
 
 def build_section_2(oSupList, lReport):

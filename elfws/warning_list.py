@@ -39,3 +39,9 @@ class create():
             if not oWarning.is_suppressed():
                 lReturn.append(oWarning)
         return lReturn
+
+    def get_maximum_id_length(self):
+        iReturn = 0
+        for oWarning in self.warnings:
+            iReturn = max(iReturn, len(oWarning.get_id()))
+        return iReturn

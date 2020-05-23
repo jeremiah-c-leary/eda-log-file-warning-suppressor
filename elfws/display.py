@@ -59,28 +59,35 @@ def build_warning_table(lWarningList, iIndent=0):
 
     Returns: (list of strings)
     '''
-    sIndent = ' '*iIndent
     lReturn = []
+    iWarningIdLength = maximum_id_length(lWarningList)
     if len(lWarningList) > 0:
-        lReturn.append(build_table_row_seperator(iIndent))
-        lReturn.append(sIndent + ' {0:<15s} | {1:6s} | {2:s}'.format('ID', 'Line #', 'Warning Message'))
-        lReturn.append(build_table_row_seperator(iIndent))
+        lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
+        lReturn.append(table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
+        lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
         for oWarning in lWarningList:
-            lReturn.append(sIndent + ' {0:<15s} | {1:6d} | {2:s}'.format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
-        lReturn.append(build_table_row_seperator(iIndent))
+            lReturn.append(table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
+        lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
         lReturn.append('')
 
     return lReturn
 
 
-def build_table_row_seperator(iIndent=0):
+def build_table_row_seperator(iFirstColumnLength, iIndent=0):
     '''
     Creates a row separator for the warning table.
+
+    Parameters : 
+
+      iFirstColumnLength : (integer)
+
+      iIndent : (integer)
 
     Returns: (string)
     '''
     sIndent = ' '*iIndent
-    return sIndent + '-'*17 + '+' + '-'*8 + '+' + '-'*(80 - 20 - 1 - 5 - 1 - iIndent)
+    iColumnLength = max(17, iFirstColumnLength + 2)
+    return sIndent + '-'*iColumnLength + '+' + '-'*8 + '+' + '-'*(80 - iColumnLength - 3 - 1 - 5 - 1 - iIndent)
 
 
 def build_stat_line(sString, iNumber):
@@ -167,14 +174,14 @@ def build_suppressed_warning_table(oSuppression, iIndent=0):
 
     Return: (list of strings)
     '''
-    sIndent = ' '*iIndent
+    iWarningIdLength = maximum_id_length(oSuppression.get_suppressed_warnings())
     lReturn = []
-    lReturn.append(build_table_row_seperator(iIndent))
-    lReturn.append(sIndent + ' {0:<15s} | {1:6s} | {2:s}'.format('ID', 'Line #', 'Warning Message'))
-    lReturn.append(build_table_row_seperator(iIndent))
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
+    lReturn.append(table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
     for oWarning in oSuppression.get_suppressed_warnings():
-        lReturn.append(sIndent + ' {0:<15s} | {1:6d} | {2:s}'.format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
-    lReturn.append(build_table_row_seperator(iIndent))
+        lReturn.append(table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
     lReturn.append('')
 
     return lReturn
@@ -251,3 +258,53 @@ def build_report_summary_section(oWarnList, oSupList):
     lReturn.append('='*80)
 
     return lReturn
+
+
+def maximum_id_length(lWarnings):
+    '''
+    Returns the maximum length of warnings in a list.
+
+    Parameters :
+
+      lWarnings : (list of warnings)
+
+    Returns : (integer)
+    '''
+    iReturn = 0
+    for oWarning in lWarnings:
+        iReturn = max(iReturn, len(oWarning.get_id()))
+    return iReturn
+
+
+def table_header_format_string(iIdLength, iIndent):
+    '''
+    Returns the format string for a table row.
+
+    Parameters :
+
+      iIdLength : (integer)
+
+      iIndent : (integer)
+
+    Returns : (string)
+    '''
+    sReturn = iIndent * ' '
+    sReturn += ' {0:<' + str(max(15, iIdLength)) + 's} | {1:6s} | {2:s}'
+    return sReturn
+
+
+def table_row_format_string(iIdLength, iIndent):
+    '''
+    Returns the format string for a table row.
+
+    Parameters :
+
+      iIdLength : (integer)
+
+      iIndent : (integer)
+
+    Returns : (string)
+    '''
+    sReturn = iIndent * ' '
+    sReturn += ' {0:<' + str(max(15, iIdLength)) + 's} | {1:6d} | {2:s}'
+    return sReturn

@@ -70,3 +70,23 @@ class testWarningListClassMethods(unittest.TestCase):
 
         self.assertEqual('WID1', lActual[0].get_id())
         self.assertEqual('WID3', lActual[1].get_id())
+
+    def test_maximum_id_length(self):
+
+        oWarningList = warning_list.create()
+
+        oWarning = warning.create('1')
+        oWarningList.add_warning(oWarning)
+
+        self.assertEqual(1,oWarningList.get_maximum_id_length())
+
+        oWarning = warning.create('11111')
+        oWarningList.add_warning(oWarning)
+
+        self.assertEqual(5,oWarningList.get_maximum_id_length())
+
+        oWarning = warning.create('1111111111111')
+        oWarningList.add_warning(oWarning)
+
+        self.assertEqual(13,oWarningList.get_maximum_id_length())
+
