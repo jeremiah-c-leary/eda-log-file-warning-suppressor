@@ -1,0 +1,19 @@
+
+
+WARNING: [SYN: 8-5678] This is a single line message
+
+WARNING: [SYN 8-4352] This is another single line message
+
+WARNING: [IMPL 567-1324] This is a single line message with a tab on the next line
+	This is a line with a tab.  It must be ignored
+
+CRITICAL WARNING: [ABCD 9324-asdf562] This is a critical warning
+
+== Handle multiline warnings
+
+WARNING: [XPM_CDC_SINGLE: TCL-1000] First line
+     Second line
+  third line
+ fourth line
+ fifth line
+This line must not be included

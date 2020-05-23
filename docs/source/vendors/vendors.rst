@@ -8,3 +8,4 @@ The following sections contain information about each vendor tool supported by E
 
    mentor_graphics/mentor_graphics.rst
    microsemi/microsemi.rst
+   xilinx/xilinx.rst

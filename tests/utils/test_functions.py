@@ -149,7 +149,7 @@ class test_functions(unittest.TestCase):
         self.assertEqual(importlib.import_module('elfws.vendor.microsemi.designer'), utils.import_vendor_module('microsemi', 'designer'))
 
     def test_get_vendors(self):
-        lExpected = ['mentor_graphics', 'microsemi']
+        lExpected = ['mentor_graphics', 'microsemi', 'xilinx']
         self.assertEqual(lExpected, utils.get_vendors())
 
     def test_get_tools(self):
