@@ -78,3 +78,59 @@ class testSuppressionListClassMethods(unittest.TestCase):
         self.assertEqual(1, len(lActual))
 
         self.assertEqual('Sup2', lActual[0].get_warning_id())
+
+    def test_get_investigate_suppression_rules(self):
+
+        oSuppressionList = suppression_list.create()
+
+        oSuppression = suppression.create('Sup0')
+        oSuppression.add_suppressed_warning('Hello')
+        oSuppression.add_suppressed_warning('Hello 2')
+        oSuppressionList.add_suppression(oSuppression)
+
+        oSuppression = suppression.create('Sup1')
+        oSuppression.add_suppressed_warning('Goodbye')
+        oSuppression.investigate = 'Investigate1'
+        oSuppressionList.add_suppression(oSuppression)
+
+        oSuppression = suppression.create('Sup2')
+        oSuppression.add_suppressed_warning('Morning')
+        oSuppression.investigate = 'Investigate2'
+        oSuppressionList.add_suppression(oSuppression)
+
+        lActual = oSuppressionList.get_investigate_suppression_rules()
+
+        self.assertEqual(2, len(lActual))
+
+        self.assertEqual('Sup1', lActual[0].get_warning_id())
+        self.assertEqual('Sup2', lActual[1].get_warning_id())
+
+    def test_get_suppressions_which_suppressed_a_warning_w_investigate_rules(self):
+
+        oSuppressionList = suppression_list.create()
+
+        oSuppression = suppression.create('Sup0')
+        oSuppression.add_suppressed_warning('Hello')
+        oSuppression.add_suppressed_warning('Hello 2')
+        oSuppressionList.add_suppression(oSuppression)
+
+        oSuppression = suppression.create('Sup1')
+        oSuppression.add_suppressed_warning('Goodbye')
+        oSuppression.investigate = 'Investigate1'
+        oSuppressionList.add_suppression(oSuppression)
+
+        oSuppression = suppression.create('Sup2')
+        oSuppression.add_suppressed_warning('Tomorrow')
+        oSuppression.investigate = 'Investigate2'
+        oSuppressionList.add_suppression(oSuppression)
+
+        oSuppression = suppression.create('Sup3')
+        oSuppression.add_suppressed_warning('Today')
+        oSuppressionList.add_suppression(oSuppression)
+
+        lActual = oSuppressionList.get_suppressions_which_suppressed_a_warning()
+
+        self.assertEqual(2, len(lActual))
+
+        self.assertEqual('Sup0', lActual[0].get_warning_id())
+        self.assertEqual('Sup3', lActual[1].get_warning_id())

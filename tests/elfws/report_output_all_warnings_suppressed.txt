@@ -9,8 +9,9 @@ Table of Contents:
   1.  Unsuppressed Warnings
   2.  Suppressed Warnings
   3.  Unused Suppression Rules
-  4.  Warnings Suppressed by Multiple Rules
-  5.  Summary
+  4.  Warnings Under Investigation
+  5.  Warnings Suppressed by Multiple Rules
+  6.  Summary
 
 --------------------------------------------------------------------------------
   1. Unsuppressed Warnings
@@ -98,7 +99,11 @@ Table of Contents:
   Comment    : <None>
 
 --------------------------------------------------------------------------------
-  4. Warnings Suppressed by Multiple Rules
+  4. Warnings Under Investigation
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+  5. Warnings Suppressed by Multiple Rules
 --------------------------------------------------------------------------------
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,7 +152,7 @@ Table of Contents:
     Comment    : <None>
 
 --------------------------------------------------------------------------------
-  5. Summary
+  6. Summary
 --------------------------------------------------------------------------------
 
   Suppression Rules
@@ -158,6 +163,7 @@ Table of Contents:
     Total                  :     5
     Suppressed             :     5
     Unsuppressed           :     0
+    Under Investigation    :     0
     Multiply Suppressed    :     3
 
 ================================================================================

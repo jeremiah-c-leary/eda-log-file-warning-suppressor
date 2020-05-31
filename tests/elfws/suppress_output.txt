@@ -18,6 +18,7 @@ Suppression Rule File : tests/subcommand/suppress/suppress_microsemi_designer_lo
     Total                  :     5
     Suppressed             :     4
     Unsuppressed           :     1
+    Under Investigation    :     0
     Multiply Suppressed    :     0
 
 ================================================================================

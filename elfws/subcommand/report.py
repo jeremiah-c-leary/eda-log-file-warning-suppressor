@@ -24,7 +24,8 @@ def report(cla):
     build_section_1(oWarnList, lReport)
     build_section_2(oSupList, lReport)
     build_section_3(oSupList, lReport)
-    build_section_4(oWarnList, lReport)
+    build_section_4(oSupList, lReport)
+    build_section_5(oWarnList, lReport)
     build_summary(oWarnList, oSupList, lReport)
 
     utils.write_file(cla.report_file, lReport)
@@ -58,8 +59,15 @@ def build_section_3(oSupList, lReport):
         lReport.extend(display.build_suppression_item(oSup, 2))
 
 
-def build_section_4(oWarnList, lReport):
-    lReport.extend(display.build_report_section_divider(' 4. Warnings Suppressed by Multiple Rules'))
+def build_section_4(oSupList, lReport):
+    lReport.extend(display.build_report_section_divider(' 4. Warnings Under Investigation'))
+    for oSup in oSupList.get_investigate_suppression_rules():
+        lReport.extend(display.build_suppressed_warning_header(oSup, 2))
+        lReport.extend(display.build_suppressed_warning_table(oSup, 4))
+
+
+def build_section_5(oWarnList, lReport):
+    lReport.extend(display.build_report_section_divider(' 5. Warnings Suppressed by Multiple Rules'))
     for oWarn in oWarnList.get_warnings_suppressed_by_multiple_rules():
         lReport.extend(display.build_multiply_suppressed_warning_header(oWarn, 2))
         for oSup in oWarn.get_suppressed_by_rules():
@@ -67,7 +75,7 @@ def build_section_4(oWarnList, lReport):
 
 
 def build_summary(oWarnList, oSupList, lReport):
-    lReport.extend(display.build_report_section_divider(' 5. Summary'))
+    lReport.extend(display.build_report_section_divider(' 6. Summary'))
     lReport.extend(display.build_report_summary_section(oWarnList, oSupList))
 
 

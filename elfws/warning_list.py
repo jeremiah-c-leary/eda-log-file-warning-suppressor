@@ -29,7 +29,7 @@ class create():
     def get_suppressed_warnings(self):
         lReturn = []
         for oWarning in self.warnings:
-            if oWarning.is_suppressed():
+            if oWarning.is_suppressed() and not oWarning.is_investigate():
                 lReturn.append(oWarning)
         return lReturn
 
@@ -45,3 +45,10 @@ class create():
         for oWarning in self.warnings:
             iReturn = max(iReturn, len(oWarning.get_id()))
         return iReturn
+
+    def get_investigate_warnings(self):
+        lReturn = []
+        for oWarning in self.warnings:
+            if oWarning.is_suppressed() and oWarning.is_investigate():
+               lReturn.append(oWarning)
+        return lReturn

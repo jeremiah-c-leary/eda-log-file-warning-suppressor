@@ -121,6 +121,7 @@ class test_functions(unittest.TestCase):
             self.assertEqual(oExpected.get_message(), oActual.get_message())
             self.assertEqual(oExpected.get_author(), oActual.get_author())
             self.assertEqual(oExpected.get_comment(), oActual.get_comment())
+            self.assertEqual(oExpected.get_investigate(), oActual.get_investigate())
 
     def test_create_suppression_list_w_empty_dictionary(self):
         dSuppression = {}
@@ -157,11 +158,51 @@ class test_functions(unittest.TestCase):
         for i in range(5):
             oExpected = oExpectedSuppressList.suppressions[i]
             oActual = oActualSuppressionList.suppressions[i]
+            self.assertEqual(oExpected.get_warning_id(), oActual.get_warning_id())
+            self.assertEqual(oExpected.get_message(), oActual.get_message())
+            self.assertEqual(oExpected.get_author(), oActual.get_author())
+            self.assertEqual(oExpected.get_comment(), oActual.get_comment())
+            self.assertEqual(oExpected.get_investigate(), oActual.get_investigate())
+
+    def test_create_suppression_list_w_investigates(self):
+
+        dSuppression = utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'investigate_suppress.yaml'))
+
+        oActualSuppressionList = utils.create_suppression_list(dSuppression)
+
+        oExpectedSuppressList = suppression_list.create()
+
+        oSuppression = suppression.create('SYN001', 'This is the message', 'jcleary', 'This is fine because...')
+        oExpectedSuppressList.suppressions.append(oSuppression)
+        
+        oSuppression = suppression.create('SYN001', 'This is another message', '<None>', 'Just ignore this...')
+        oSuppression.investigate = True
+        oExpectedSuppressList.suppressions.append(oSuppression)
+
+        oSuppression = suppression.create('NO_ID', 'Some warning without a proper ID', '<None>', 'This is fine...')
+        oSuppression.investigate = True
+        oExpectedSuppressList.suppressions.append(oSuppression)
+
+        oSuppression = suppression.create('NO_ID', 'This is another NO_ID suppression rule', '<None>', 'Both this and the other NO_ID must be present.')
+        oExpectedSuppressList.suppressions.append(oSuppression)
+
+        oSuppression = suppression.create('CMP2001', 'This is some compile warning', 'jcleary', 'Just because...')
+        oSuppression.investigate = True
+        oExpectedSuppressList.suppressions.append(oSuppression)
+
+
+        self.assertEqual(5, len(oActualSuppressionList.suppressions))
+        oExpectedSuppressList.suppressions.append(oSuppression)
+
+        for i in range(5):
+            oExpected = oExpectedSuppressList.suppressions[i]
+            oActual = oActualSuppressionList.suppressions[i]
 
             self.assertEqual(oExpected.get_warning_id(), oActual.get_warning_id())
             self.assertEqual(oExpected.get_message(), oActual.get_message())
             self.assertEqual(oExpected.get_author(), oActual.get_author())
             self.assertEqual(oExpected.get_comment(), oActual.get_comment())
+            self.assertEqual(oExpected.get_investigate(), oActual.get_investigate())
 
     def test_read_log_file(self):
         lExpected = []

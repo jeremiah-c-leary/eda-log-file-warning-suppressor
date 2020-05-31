@@ -17,7 +17,7 @@ class create():
     def get_suppressions_which_suppressed_a_warning(self):
         lReturn = []
         for oSup in self.suppressions:
-            if oSup.has_suppressed_a_warning():
+            if oSup.has_suppressed_a_warning() and not oSup.is_investigation_rule():
                 lReturn.append(oSup)
         return lReturn
 
@@ -25,5 +25,12 @@ class create():
         lReturn = []
         for oSup in self.suppressions:
             if not oSup.has_suppressed_a_warning():
+                lReturn.append(oSup)
+        return lReturn
+
+    def get_investigate_suppression_rules(self):
+        lReturn = []
+        for oSup in self.suppressions:
+            if oSup.is_investigation_rule() and oSup.has_suppressed_a_warning():
                 lReturn.append(oSup)
         return lReturn

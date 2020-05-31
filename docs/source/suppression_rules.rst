@@ -14,6 +14,7 @@ The suppression rules are a YAML formatted file with the following basic form:
          - msg: Port I_DATA_A not used'
            comment: This port is not used in this design.
            author: jcleary
+           investigate : True
        <warning_id>:
          - msg: Signal fifo_enable is tied high
            comment: The FIFO is always enabled in this design to support data throughput.
@@ -38,6 +39,10 @@ Each suppression rule will have the following fields available:
 |                    |          | suppressed.                                     |   
 +--------------------+----------+-------------------------------------------------+
 | author             |   No     | Document who created the suppression.           |
++--------------------+----------+-------------------------------------------------+
+| investigate        |   No     | Boolean(True/False) indicating the warnings the |
+|                    |          | rule suppresses need further analysis.          |
+|                    |          | This defaults to False.                         |
 +--------------------+----------+-------------------------------------------------+
 
 In addition to the standard warning id, each tool may have dedicated warning ids.

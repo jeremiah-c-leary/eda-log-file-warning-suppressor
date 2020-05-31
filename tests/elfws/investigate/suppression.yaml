@@ -1,0 +1,17 @@
+suppress:
+  rules:
+    NO_ID:
+      - msg: 'This is a warning without an ID'
+        investigate : True
+      - msg: 'This is a warning with a :'
+      - msg: 'This is the first line of'
+        comment: 'Check with...'
+        investigate : True
+      - msg: 'This is the first line : of the'
+      - msg: 'This'
+    DEF1234:
+      - msg: 'This is a warning'
+        comment: 'This needs to be checked...'
+        investigate : True
+    MULTI546:
+      - msg: 'This is the first line'

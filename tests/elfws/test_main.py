@@ -148,6 +148,18 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(lExpected, lActual)
 
+    @mock.patch('elfws.version.version', '0.1')
+    @mock.patch('elfws.display.datetime')
+    def test_report_w_investigate(self, mock_datetime):
+        mock_datetime.now.return_value = 'Some Date'
+        sys.argv = ['elfws', 'report', 'tests/vendor/microsemi/designer/warning_messages.log', 'tests/elfws/investigate/suppression.yaml', sReportFile]
+        __main__.main()
+
+        lExpected = utils.read_log_file('tests/elfws/investigate/report_output.txt')
+        lActual = utils.read_log_file(sReportFile)
+
+        self.assertEqual(lExpected, lActual)
+
     def test_report_w_junit_output(self):
         sys.argv = ['elfws', 'report', 'tests/vendor/microsemi/designer/warning_messages.log', 'tests/subcommand/report/suppress_for_junit_xml.yaml', sReportFile, '--junit', sXmlFile]
         __main__.main()

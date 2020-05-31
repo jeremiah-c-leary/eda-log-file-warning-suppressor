@@ -7,6 +7,7 @@ class create():
         self.message = message
         self.filename = filename
         self.linenumber = linenumber
+        self.investigate = False
         self.suppressed_by = []
 
     def add_suppression_rule(self, oRule):
@@ -14,6 +15,9 @@ class create():
 
     def get_id(self):
         return self.warning_id
+
+    def get_investigate(self):
+        return self.investigate
 
     def get_filename(self):
         return self.filename
@@ -27,6 +31,9 @@ class create():
     def get_message(self):
         return self.message
 
+    def is_investigate(self):
+        return self.investigate
+
     def is_suppressed(self):
         if len(self.suppressed_by) == 0:
             return False
@@ -36,3 +43,6 @@ class create():
         if len(self.suppressed_by) > 1:
             return True
         return False
+
+    def set_investigate(self):
+        self.investigate = True

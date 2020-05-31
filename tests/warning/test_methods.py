@@ -12,6 +12,7 @@ class testWarningClassMethods(unittest.TestCase):
         self.assertEqual(None, oWarning.message)
         self.assertEqual(None, oWarning.filename)
         self.assertEqual(None, oWarning.linenumber)
+        self.assertEqual(False, oWarning.investigate)
         self.assertEqual([], oWarning.suppressed_by)
         
     def test_assignment_class_creation(self):
@@ -66,3 +67,19 @@ class testWarningClassMethods(unittest.TestCase):
         self.assertEqual(['Rule'], oWarning.get_suppressed_by_rules())
         oWarning.add_suppression_rule('Rule 1')
         self.assertEqual(['Rule', 'Rule 1'], oWarning.get_suppressed_by_rules())
+
+    def test_get_investigate(self):
+        oWarning = warning.create()
+        self.assertEqual(False, oWarning.get_investigate())
+
+    def test_set_investigate(self):
+        oWarning = warning.create()
+        self.assertFalse(oWarning.get_investigate())
+        oWarning.set_investigate()
+        self.assertTrue(oWarning.get_investigate()) 
+
+    def test_is_investigate(self):
+        oWarning = warning.create()
+        self.assertFalse(oWarning.is_investigate())
+        oWarning.set_investigate()
+        self.assertTrue(oWarning.is_investigate())

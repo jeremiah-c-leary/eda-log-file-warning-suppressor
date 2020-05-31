@@ -2,7 +2,7 @@
 ELFWS version         : 0.1
 Date                  : Some Date
 Log file              : tests/vendor/microsemi/designer/warning_messages.log
-Suppression Rule File : tests/subcommand/report/suppress_microsemi_designer_logfile.yaml
+Suppression Rule File : tests/elfws/investigate/suppression.yaml
 
 Table of Contents:
 
@@ -17,26 +17,9 @@ Table of Contents:
   1. Unsuppressed Warnings
 --------------------------------------------------------------------------------
 
-  -----------------+--------+---------------------------------------------------
-   ID              | Line # | Warning Message
-  -----------------+--------+---------------------------------------------------
-   MULTI546        |     15 | This is the first line of the warning This is the second line of the warning This is the last line of the warning.
-  -----------------+--------+---------------------------------------------------
-
 --------------------------------------------------------------------------------
   2. Suppressed Warnings
 --------------------------------------------------------------------------------
-
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Suppression Author  : <None>
-  Suppression Comment : <None>
-  Suppression Rule    : This is a warning without an ID
-
-    -----------------+--------+-------------------------------------------------
-     ID              | Line # | Warning Message
-    -----------------+--------+-------------------------------------------------
-     NO_ID           |     11 | This is a warning without an ID
-    -----------------+--------+-------------------------------------------------
 
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Suppression Author  : <None>
@@ -76,12 +59,12 @@ Table of Contents:
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Suppression Author  : <None>
   Suppression Comment : <None>
-  Suppression Rule    : This is a warning
+  Suppression Rule    : This is the first line
 
     -----------------+--------+-------------------------------------------------
      ID              | Line # | Warning Message
     -----------------+--------+-------------------------------------------------
-     DEF1234         |      8 | This is a warning
+     MULTI546        |     15 | This is the first line of the warning This is the second line of the warning This is the last line of the warning.
     -----------------+--------+-------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -91,11 +74,33 @@ Table of Contents:
   Warning ID : NO_ID
   Author     : <None>
   Rule       : .*This is the first line of.*
-  Comment    : <None>
+  Comment    : Check with...
 
 --------------------------------------------------------------------------------
   4. Warnings Under Investigation
 --------------------------------------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is a warning without an ID
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     11 | This is a warning without an ID
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : This needs to be checked...
+  Suppression Rule    : This is a warning
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     DEF1234         |      8 | This is a warning
+    -----------------+--------+-------------------------------------------------
 
 --------------------------------------------------------------------------------
   5. Warnings Suppressed by Multiple Rules
@@ -151,14 +156,14 @@ Table of Contents:
 --------------------------------------------------------------------------------
 
   Suppression Rules
-    Total                  :     6
+    Total                  :     7
     Unused                 :     1
 
   Warnings
     Total                  :     5
-    Suppressed             :     4
-    Unsuppressed           :     1
-    Under Investigation    :     0
+    Suppressed             :     3
+    Unsuppressed           :     0
+    Under Investigation    :     2
     Multiply Suppressed    :     3
 
 ================================================================================

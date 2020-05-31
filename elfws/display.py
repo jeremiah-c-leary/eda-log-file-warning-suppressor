@@ -117,8 +117,9 @@ def build_table_of_contents():
     lReturn.append('  1.  Unsuppressed Warnings')
     lReturn.append('  2.  Suppressed Warnings')
     lReturn.append('  3.  Unused Suppression Rules')
-    lReturn.append('  4.  Warnings Suppressed by Multiple Rules')
-    lReturn.append('  5.  Summary')
+    lReturn.append('  4.  Warnings Under Investigation')
+    lReturn.append('  5.  Warnings Suppressed by Multiple Rules')
+    lReturn.append('  6.  Summary')
     lReturn.append('')
 
     return lReturn
@@ -253,6 +254,7 @@ def build_report_summary_section(oWarnList, oSupList):
     lReturn.append(build_stat_line('Total', oWarnList.get_number_of_warnings()))
     lReturn.append(build_stat_line('Suppressed', len(oWarnList.get_suppressed_warnings())))
     lReturn.append(build_stat_line('Unsuppressed', len(oWarnList.get_unsuppressed_warnings())))
+    lReturn.append(build_stat_line('Under Investigation', len(oWarnList.get_investigate_warnings())))
     lReturn.append(build_stat_line('Multiply Suppressed', len(oWarnList.get_warnings_suppressed_by_multiple_rules())))
     lReturn.append('')
     lReturn.append('='*80)

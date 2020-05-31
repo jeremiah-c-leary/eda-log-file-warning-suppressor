@@ -22,6 +22,7 @@ Suppression Rule File : <None>
     Total                  :     5
     Suppressed             :     0
     Unsuppressed           :     5
+    Under Investigation    :     0
     Multiply Suppressed    :     0
 
 ================================================================================

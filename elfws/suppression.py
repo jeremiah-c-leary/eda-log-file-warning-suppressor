@@ -7,6 +7,7 @@ class create():
         self.message = message
         self.author = author
         self.comment = comment
+        self.investigate = False 
         self.suppressed_warnings = []
 
     def add_suppressed_warning(self, oWarning):
@@ -17,6 +18,9 @@ class create():
 
     def get_comment(self):
         return self.comment
+
+    def get_investigate(self):
+        return self.investigate
 
     def get_message(self):
         return self.message
@@ -31,3 +35,6 @@ class create():
         if len(self.suppressed_warnings) == 0:
             return False
         return True
+
+    def is_investigation_rule(self):
+        return self.investigate

@@ -90,3 +90,82 @@ class testWarningListClassMethods(unittest.TestCase):
 
         self.assertEqual(13,oWarningList.get_maximum_id_length())
 
+    def test_get_investigate_warnings(self):
+
+        oWarningList = warning_list.create()
+
+        lExpected = []
+        oWarning = warning.create('1')
+        oWarning.set_investigate()
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarningList.add_warning(oWarning)
+        lExpected.append(oWarning)
+
+        oWarning = warning.create('2')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarningList.add_warning(oWarning)
+
+        oWarning = warning.create('3')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarning.set_investigate()
+        oWarningList.add_warning(oWarning)
+        lExpected.append(oWarning)
+
+        oWarning = warning.create('4')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarningList.add_warning(oWarning)
+
+        oWarning = warning.create('5')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarning.set_investigate()
+        oWarningList.add_warning(oWarning)
+        lExpected.append(oWarning)
+
+        oWarning = warning.create('6')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarning.set_investigate()
+        oWarningList.add_warning(oWarning)
+        lExpected.append(oWarning)
+
+        lActual = oWarningList.get_investigate_warnings()
+
+        self.assertEqual(lExpected, lActual)
+
+    def test_get_suppressed_warnings(self):
+
+        oWarningList = warning_list.create()
+
+        lExpected = []
+        oWarning = warning.create('1')
+        oWarning.set_investigate()
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarningList.add_warning(oWarning)
+
+        oWarning = warning.create('2')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarningList.add_warning(oWarning)
+        lExpected.append(oWarning)
+
+        oWarning = warning.create('3')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarning.set_investigate()
+        oWarningList.add_warning(oWarning)
+
+        oWarning = warning.create('4')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarningList.add_warning(oWarning)
+        lExpected.append(oWarning)
+
+        oWarning = warning.create('5')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarning.set_investigate()
+        oWarningList.add_warning(oWarning)
+
+        oWarning = warning.create('6')
+        oWarning.add_suppression_rule('Suppression_rule')
+        oWarning.set_investigate()
+        oWarningList.add_warning(oWarning)
+
+        lActual = oWarningList.get_suppressed_warnings()
+
+        self.assertEqual(lExpected, lActual)

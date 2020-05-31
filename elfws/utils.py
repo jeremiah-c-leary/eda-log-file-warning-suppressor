@@ -92,6 +92,7 @@ def extract_suppression_rules(dRules):
                 oSupRule = suppression.create(str(dID), dSup['msg'])
                 update_suppression_author(oSupRule, dSup)
                 update_suppression_comment(oSupRule, dSup)
+                update_suppression_investigate(oSupRule, dSup)
                 lReturn.append(oSupRule)
     except KeyError:
         pass
@@ -111,6 +112,25 @@ def update_suppression_comment(oSupRule, dSup):
         oSupRule.comment = dSup['comment']
     except KeyError:
         oSupRule.comment = '<None>'
+
+
+def update_suppression_investigate(oSupRule, dSup):
+    '''
+    Updates the suppression rule based on the investigate key.
+
+    Parameters:
+
+        oSupRule : (suppression rule object)
+
+        dSup : (dictionary)
+
+    Returns: Nothing
+    '''
+    try:
+        if dSup['investigate']:
+            oSupRule.investigate = True
+    except KeyError:
+        oSupRule.investigate = False
 
 
 def read_log_file(sFileName):
@@ -262,6 +282,8 @@ def apply_suppression_rules_to_warnings(oWarnList, oSupList):
             if check_for_match(oWarning, oSuppression):
                 oSuppression.add_suppressed_warning(oWarning)
                 oWarning.add_suppression_rule(oSuppression)
+                if oSuppression.get_investigate():
+                    oWarning.set_investigate()
 
 
 def check_for_match(oWarning, oSuppression):

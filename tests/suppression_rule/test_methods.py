@@ -12,6 +12,7 @@ class testSuppressionClassMethods(unittest.TestCase):
         self.assertEqual(None, oSuppression.message)
         self.assertEqual(None, oSuppression.author)
         self.assertEqual(None, oSuppression.comment)
+        self.assertEqual(False, oSuppression.investigate)
         self.assertEqual([], oSuppression.suppressed_warnings)
         
     def test_assignment_class_creation(self):
@@ -36,6 +37,10 @@ class testSuppressionClassMethods(unittest.TestCase):
         oSuppression = suppression.create('WID', 'Message', 'Author', 'comment')
         self.assertEqual('comment', oSuppression.get_comment())
 
+    def test_get_investigate_method(self):
+        oSuppression = suppression.create('WID', 'Message', 'Author', 'comment')
+        self.assertFalse(oSuppression.get_investigate())
+
     def test_add_suppressed_warning(self):
         oSuppression = suppression.create()
         self.assertEqual(0, len(oSuppression.suppressed_warnings))
@@ -59,3 +64,9 @@ class testSuppressionClassMethods(unittest.TestCase):
         self.assertFalse(oSuppression.has_suppressed_a_warning())
         oSuppression.add_suppressed_warning('Hello')
         self.assertTrue(oSuppression.has_suppressed_a_warning())
+
+    def test_is_investigation_rule(self):
+        oSuppression = suppression.create()
+        self.assertFalse(oSuppression.is_investigation_rule())
+        oSuppression.investigate = 'Investigate'
+        self.assertTrue(oSuppression.is_investigation_rule())
