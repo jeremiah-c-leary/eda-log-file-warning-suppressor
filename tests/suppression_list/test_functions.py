@@ -33,7 +33,7 @@ class testSuppressionListClassMethods(unittest.TestCase):
 
         self.assertEqual(2, oSuppressionList.get_number_of_suppressions())
 
-    def test_get_rules_which_suppressed_a_warning(self):
+    def test_get_suppressions_which_suppressed_a_warning(self):
 
         oSuppressionList = suppression_list.create()
 
@@ -57,7 +57,7 @@ class testSuppressionListClassMethods(unittest.TestCase):
         self.assertEqual('Hello 2', lActual[0].get_suppressed_warnings()[1])
         self.assertEqual('Goodbye', lActual[1].get_suppressed_warnings()[0])
 
-    def test_get_rules_which_did_not_suppress_a_warning(self):
+    def test_get_suppressions_which_did_not_suppress_a_warning(self):
 
         oSuppressionList = suppression_list.create()
 
