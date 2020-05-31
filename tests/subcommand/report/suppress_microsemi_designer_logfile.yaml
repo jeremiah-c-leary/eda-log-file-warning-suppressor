@@ -1,9 +1,10 @@
 suppress:
-  NO_ID:
-    - msg: 'This is a warning without an ID'
-    - msg: 'This is a warning with a :'
-    - msg: 'This is the first line of'
-    - msg: 'This is the first line : of the'
-    - msg: 'This'
-  DEF1234:
-    - msg: 'This is a warning'
+  rules:
+    NO_ID:
+      - msg: 'This is a warning without an ID'
+      - msg: 'This is a warning with a :'
+      - msg: 'This is the first line of'
+      - msg: 'This is the first line : of the'
+      - msg: 'This'
+    DEF1234:
+      - msg: 'This is a warning'

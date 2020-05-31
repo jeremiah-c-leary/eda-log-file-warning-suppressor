@@ -1,3 +1,4 @@
 suppress:
-  MULTI546:
-    - msg: 'This is the first line'
+  rules:
+    MULTI546:
+      - msg: 'This is the first line'

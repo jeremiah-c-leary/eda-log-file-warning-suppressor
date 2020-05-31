@@ -1,6 +1,7 @@
 suppress:
-  MULTI546:
-  - author: elfws
-    comment: <Add justification why this warning can be suppressed.>
-    msg: This is the first line of the warning This is the second line of the warning
-      This is the last line of the warning.
+  rules:
+    MULTI546:
+    - author: elfws
+      comment: <Add justification why this warning can be suppressed.>
+      msg: This is the first line of the warning This is the second line of the warning
+        This is the last line of the warning.

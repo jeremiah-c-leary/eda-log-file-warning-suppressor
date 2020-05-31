@@ -1,21 +1,23 @@
 suppress:
-  DEF1234:
-  - author: elfws
-    comment: <Add justification why this warning can be suppressed.>
-    msg: This is a warning
-  MULTI546:
-  - author: elfws
-    comment: <Add justification why this warning can be suppressed.>
-    msg: This is the first line of the warning This is the second line of the warning
-      This is the last line of the warning.
-  NO_ID:
-  - author: elfws
-    comment: <Add justification why this warning can be suppressed.>
-    msg: This is a warning without an ID
-  - author: elfws
-    comment: <Add justification why this warning can be suppressed.>
-    msg: 'This is a warning with a : that does not have an ID'
-  - author: elfws
-    comment: <Add justification why this warning can be suppressed.>
-    msg: 'This is the first line : of the message This is the second line of the message
-      This is the third line of the message This is the last line of the message.'
+  rules:
+    DEF1234:
+    - author: elfws
+      comment: <Add justification why this warning can be suppressed.>
+      msg: This is a warning
+    MULTI546:
+    - author: elfws
+      comment: <Add justification why this warning can be suppressed.>
+      msg: This is the first line of the warning This is the second line of the warning
+        This is the last line of the warning.
+    NO_ID:
+    - author: elfws
+      comment: <Add justification why this warning can be suppressed.>
+      msg: This is a warning without an ID
+    - author: elfws
+      comment: <Add justification why this warning can be suppressed.>
+      msg: 'This is a warning with a : that does not have an ID'
+    - author: elfws
+      comment: <Add justification why this warning can be suppressed.>
+      msg: 'This is the first line : of the message This is the second line of the
+        message This is the third line of the message This is the last line of the
+        message.'

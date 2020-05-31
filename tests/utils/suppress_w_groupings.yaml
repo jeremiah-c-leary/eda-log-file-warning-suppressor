@@ -1,0 +1,25 @@
+suppress:
+  'group 1':
+    rules:
+      SYN001:
+        - msg: 'This is the message'
+          author: 'jcleary'
+          comment: 'This is fine because...'
+          error: 'This should not be picked up'
+        - msg: 'This is another message'
+          comment : 'Just ignore this...'
+  'group 2':
+     rules:
+      NO_ID:
+        - msg: 'Some warning without a proper ID'
+          comment: 'This is fine...'
+     'subgroup 1':
+        rules:
+          CMP2001:
+            - msg: 'This is some compile warning'
+              author: 'jcleary'
+              comment: 'Just because...'
+  rules:
+    NO_ID:
+      - msg: 'Top level message'
+        comment: 'should be parsed as a warning.'

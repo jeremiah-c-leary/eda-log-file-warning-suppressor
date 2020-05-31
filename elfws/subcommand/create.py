@@ -36,14 +36,15 @@ def create_suppression_dict(oWarnList):
     '''
     dReturn = {}
     dReturn['suppress'] = {}
+    dReturn['suppress']['rules'] = {}
     for oWarning in oWarnList.get_warnings():
         sId = oWarning.get_id()
-        lKeys = list(dReturn['suppress'].keys())
+        lKeys = list(dReturn['suppress']['rules'].keys())
         if sId not in lKeys:
-            dReturn['suppress'][sId] = []
+            dReturn['suppress']['rules'][sId] = []
         dRule = {}
         dRule['msg'] = oWarning.get_message()
         dRule['author'] = 'elfws'
         dRule['comment'] = '<Add justification why this warning can be suppressed.>'
-        dReturn['suppress'][sId].append(dRule)
+        dReturn['suppress']['rules'][sId].append(dRule)
     return dReturn

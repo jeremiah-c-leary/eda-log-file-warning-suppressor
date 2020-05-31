@@ -39,18 +39,64 @@ def create_suppression_list(dSuppression):
     Returns:  suppression list object
     '''
     oReturn = suppression_list.create()
-
     try:
-        for dID in list(dSuppression['suppress'].keys()):
-            for dSup in dSuppression['suppress'][dID]:
-                oSupRule = suppression.create(str(dID), dSup['msg'])
-                update_suppression_author(oSupRule, dSup)
-                update_suppression_comment(oSupRule, dSup)
-                oReturn.add_suppression(oSupRule)
+        lRules = search_for_suppression_rules(dSuppression['suppress'])
+        for oRule in lRules:
+            oReturn.add_suppression(oRule)
     except KeyError:
         pass
 
     return oReturn
+
+
+def search_for_suppression_rules(dSubDict):
+    '''
+    This function traverses all keys in a dictionary searching for the key 'rules.'
+
+    NOTE:  This is a recusive function.
+    
+    When the key 'rules' is found, extract_suppression_rules is called..
+    The rules returned are added to a list which is passed to the calling function.
+
+    Parameters:
+
+        dSubDict : (dict)
+
+    Returns: list of suppression rules
+    '''
+    lReturn = []
+    for dID in list(dSubDict.keys()):
+        if dID == 'rules':
+            lRules = extract_suppression_rules(dSubDict[dID])
+        else:
+            lRules = search_for_suppression_rules(dSubDict[dID])
+        lReturn.extend(lRules)
+
+    return lReturn
+
+
+def extract_suppression_rules(dRules):
+    '''
+    Processes a rule dictionary and return a list of suppression rules.
+
+    Parameters:
+
+        dRules : (dict)
+
+    Returns: list of suppression rules
+    '''
+    lReturn = []
+    try:
+        for dID in list(dRules.keys()):
+            for dSup in dRules[dID]:
+                oSupRule = suppression.create(str(dID), dSup['msg'])
+                update_suppression_author(oSupRule, dSup)
+                update_suppression_comment(oSupRule, dSup)
+                lReturn.append(oSupRule)
+    except KeyError:
+        pass
+
+    return lReturn
 
 
 def update_suppression_author(oSupRule, dSup):
