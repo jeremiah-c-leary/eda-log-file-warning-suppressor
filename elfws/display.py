@@ -77,7 +77,7 @@ def build_table_row_seperator(iFirstColumnLength, iIndent=0):
     '''
     Creates a row separator for the warning table.
 
-    Parameters : 
+    Parameters :
 
       iFirstColumnLength : (integer)
 

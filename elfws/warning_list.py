@@ -50,5 +50,5 @@ class create():
         lReturn = []
         for oWarning in self.warnings:
             if oWarning.is_suppressed() and oWarning.is_investigate():
-               lReturn.append(oWarning)
+                lReturn.append(oWarning)
         return lReturn

@@ -7,7 +7,7 @@ class create():
         self.message = message
         self.author = author
         self.comment = comment
-        self.investigate = False 
+        self.investigate = False
         self.suppressed_warnings = []
 
     def add_suppressed_warning(self, oWarning):

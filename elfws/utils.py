@@ -54,7 +54,7 @@ def search_for_suppression_rules(dSubDict):
     This function traverses all keys in a dictionary searching for the key 'rules.'
 
     NOTE:  This is a recusive function.
-    
+
     When the key 'rules' is found, extract_suppression_rules is called..
     The rules returned are added to a list which is passed to the calling function.
 
