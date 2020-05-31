@@ -279,14 +279,40 @@ def create_warning_list(lLogFile, sLogFileName):
 def apply_suppression_rules_to_warnings(oWarnList, oSupList):
     for oWarning in oWarnList.get_warnings():
         for oSuppression in oSupList.get_suppressions():
-            if check_for_match(oWarning, oSuppression):
-                oSuppression.add_suppressed_warning(oWarning)
-                oWarning.add_suppression_rule(oSuppression)
-                if oSuppression.get_investigate():
-                    oWarning.set_investigate()
+            suppress_warning_with_rule(oWarning, oSuppression)
+
+
+def suppress_warning_with_rule(oWarning, oSuppression):
+    '''
+    Suppresses a warning based on a suppression rule.
+
+    Parameters:
+
+        oWarning : (warning object)
+
+        oSuppression : (suppression rule object)
+
+    Returns: Nothing
+    '''
+    if check_for_match(oWarning, oSuppression):
+        oSuppression.add_suppressed_warning(oWarning)
+        oWarning.add_suppression_rule(oSuppression)
+        if oSuppression.get_investigate():
+            oWarning.set_investigate()
 
 
 def check_for_match(oWarning, oSuppression):
+    '''
+    Compares the IDs and messages between a warning and a suppression rule.
+
+    Parameters:
+
+        oWarning : (warning object)
+
+        oSuppression : (suppression rule object)
+
+    Returns: Boolean
+    '''
     if do_ids_match(oWarning, oSuppression):
         return do_messages_match(oWarning, oSuppression)
     return False
