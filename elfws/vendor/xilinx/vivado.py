@@ -14,7 +14,9 @@ def is_logfile(lFile):
     for iLineNumber, sLine in enumerate(lFile):
         if sLine.startswith('****** Vivado'):
             return True
-        if iLineNumber == 10:
+        if sLine.startswith('# Vivado '):
+            return True
+        if iLineNumber == 200:
             return False
     return False
 

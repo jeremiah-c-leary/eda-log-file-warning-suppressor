@@ -77,3 +77,19 @@ class testFunctions(unittest.TestCase):
         lLogFile.append(' ')
 
         self.assertFalse(vivado.is_logfile(lLogFile))
+
+        lLogFile = []
+        for i in range(0, 100):
+            lLogFile.append('  ')
+        lLogFile.append('# Vivado ')
+        lLogFile.append('# SW Build ')
+        lLogFile.append('# IP Build ')
+        lLogFile.append('# Process ID: ')
+
+        self.assertTrue(vivado.is_logfile(lLogFile))
+
+    def test_vendor(self):
+        self.assertEqual(['Xilinx'], vivado.get_vendor())
+
+    def test_tool_name(self):
+        self.assertEqual('vivado', vivado.get_tool_name())
