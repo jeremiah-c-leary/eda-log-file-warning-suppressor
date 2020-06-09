@@ -48,8 +48,8 @@ The vendor directories and tool files expand as they are added:
          |    +-- questa_sim.py
          |
          +-- microsemi
-              |
-              +-- designer.py
+         |    |
+         |    +-- designer.py
          |
          +-- synopsys
               |
