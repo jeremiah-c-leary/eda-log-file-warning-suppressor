@@ -47,7 +47,7 @@ is_logfile
 ----------
 
 This function is responsible for parsing the logfile and determining whether it is a logfile for the tool.
-There is typically some unique strings in the beginning of the logfile that identifies which tool generated it.
+There are typically some unique strings in the beginning of the logfile that identifies which tool generated it.
 The function must return a boolean.
 
 .. code-block:: python
@@ -97,3 +97,4 @@ The following code looks for lines starting with *Warning* and then proceeds to 
                oWarning = warning.create(sID, sMessage, None, iLineNumber + 1)
        return oReturn
 
+.. NOTE::  Use existing functions from other vendor tools as a basis to generate new ones.

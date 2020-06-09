@@ -112,9 +112,6 @@ Use the suppress subcommand to suppress warnings in a logfile.
 This can be useful when creating a suppression rule file.
 It reports the results to the screen and only shows warnings which have not been suppressed.
 
-This subcommand can also be used to support a continuous integration (CI) flow using the *--junit* option.
-The *--junit* option will create a JUnit XML file which can be read by CI tools.
-
 The arguments for the subcommand can be listed using the *-h* option:
 
 .. code-block:: bash

@@ -32,7 +32,7 @@ Feature Requests
 Let me know if there is anything I could add to make ELFWS easier to use.
 Create an issue with the **enhancement** label.
 
-New vendor warning suppresssions
+New Vendor Warning Suppresssions
 ################################
 
 I plan to update ELFWS as I run into tools where I need to suppress warnings.

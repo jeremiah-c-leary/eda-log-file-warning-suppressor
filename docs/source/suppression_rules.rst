@@ -21,8 +21,9 @@ The suppression rules are a YAML formatted file with the following basic form:
            author: jcleary
 
 
-It starts with the **suppress** element.
-This is further divided into one or more warning ids:
+It starts with the **suppress** key and then a **rules** key.
+The **rules** key contains one or more suppression rules.
+Each **rules** key is further divided into one or more warning ids:
 
 Each suppression rule will have the following fields available:
 
@@ -45,7 +46,7 @@ Each suppression rule will have the following fields available:
 |                    |          | This defaults to False.                         |
 +--------------------+----------+-------------------------------------------------+
 
-In addition to the standard warning id, each tool may have dedicated warning ids.
+In addition to the standard warning ID, each tool may have warnings without IDs.
 For example, Microsemi designer has warnings without identifiers.
 When processing these warnings, ELFWS will use a warning ID of **no_id**.
 
@@ -101,3 +102,6 @@ Arbitrary levels of groupings are also supported:
      rules:
        <warning_id>:
          - msg:  signal fifo_wr is tied high
+
+Dividing suppression rules into groups helps with maintaining the suppress rules.
+ELFWS flattens all the suppression rules into a single list.

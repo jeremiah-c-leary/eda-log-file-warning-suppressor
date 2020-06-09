@@ -13,7 +13,7 @@ It can be installed using **pip**.
 
   pip install elfws
 
-This is the preferred method for installing LWS.
+This is the preferred method for installing ELFWS.
 
 Git Hub
 -------
