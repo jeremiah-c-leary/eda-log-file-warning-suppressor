@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<testsuite errors="0" hostname="DESKTOP-HV9NHA3" failures="1" timestamp="2022-08-10T09:06:34" tests="3" time="0" name="eda-log-file-warning-suppressor">
+  <properties>
+  </properties>
+  <testcase name="Unsuppressed Warnings" time="0" classname="failure">
+    <failure type="Failure">
+      [DEF1234][8]:This is a warning
+      [NO_ID][11]:This is a warning without an ID
+      [NO_ID][12]:This is a warning with a : that does not have an ID
+      [MULTI546][15]:This is the first line of the warning This is the second line of the warning This is the last line of the warning.
+      [NO_ID][20]:This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.
+    </failure>
+  </testcase>
+  <testcase name="Unused Suppression Rules" time="0" classname="failure">
+  </testcase>
+  <testcase name="Multiply Suppressed Warnings" time="0" classname="failure">
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>

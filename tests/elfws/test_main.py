@@ -171,3 +171,16 @@ class test_arguments(unittest.TestCase):
         for iIndex, sLine in enumerate(lExpected):
             if not iIndex == 1:
                 self.assertEqual(sLine, lActual[iIndex])
+
+    @mock.patch('sys.stdout')
+    def test_show_w_junit_output(self, mockStdout):
+        sys.argv = ['elfws', 'show', 'tests/vendor/microsemi/designer/warning_messages.log', '--junit', sXmlFile]
+        __main__.main()
+
+        lExpected = utils.read_log_file('tests/subcommand/show/junit_output.xml')
+        lActual = utils.read_log_file(sXmlFile)
+
+        self.assertEqual(len(lExpected), len(lActual))
+        for iIndex, sLine in enumerate(lExpected):
+            if not iIndex == 1:
+                self.assertEqual(sLine, lActual[iIndex])

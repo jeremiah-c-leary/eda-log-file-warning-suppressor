@@ -88,6 +88,12 @@ class testFunctions(unittest.TestCase):
 
         self.assertTrue(vivado.is_logfile(lLogFile))
 
+        lLogFile = []
+        for i in range(0, 300):
+            lLogFile.append('')
+
+        self.assertFalse(vivado.is_logfile(lLogFile))
+
     def test_vendor(self):
         self.assertEqual(['Xilinx'], vivado.get_vendor())
 
