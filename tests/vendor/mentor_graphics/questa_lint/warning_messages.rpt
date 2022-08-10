@@ -1,0 +1,38 @@
+====================================================
+Lint Check Report
+Questa Lint  Version ...
+
+
+Section 2
+
+
+Check: Something [Category: ...]
+       Something else
+--------------------------------------------------
+Something: error report over
+multiple lines but
+separated by blank lines
+
+Something: Yet another
+error over
+multiple lines
+
+Check: other_error [Category: ...]
+       [blah blah]
+----------------------------------
+other_error: [blah blah]
+more extra
+lines
+
+------------ 
+| Info (#) |
+------------ 
+
+Check: This_is_an_info [Category: ...]
+       [but it looks like one]
+-------------------------------------------
+
+This_is_an_info: This should not be flagged as
+an error eventhough
+it looks a lot like an error.
+

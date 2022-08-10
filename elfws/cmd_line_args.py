@@ -69,6 +69,7 @@ def build_suppress_subparser(oSubparser):
 def build_show_subparser(oSubparser):
     parser = oSubparser.add_parser('show', help='Show warnings in logfiles')
     parser.add_argument('log_file', help='Log file to show warnings')
+    parser.add_argument('--junit', help='Generate JUnit XML file JUNIT')
 
     parser.set_defaults(which='show')
 
