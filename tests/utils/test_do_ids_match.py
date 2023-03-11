@@ -33,5 +33,11 @@ class test_functions(unittest.TestCase):
        oSuppression = suppression.create('first_id')
        self.assertTrue(utils.do_ids_match(oWarning, oSuppression))
 
+    def test_regexp_dot_star(self):
+       oWarning = warning.create('.*')
+       oSuppression = suppression.create('first_id')
+       self.assertTrue(utils.do_ids_match(oWarning, oSuppression))
+
+
 
        
