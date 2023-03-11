@@ -23,7 +23,24 @@ The suppression rules are a YAML formatted file with the following basic form:
 
 It starts with the **suppress** key and then a **rules** key.
 The **rules** key contains one or more suppression rules.
-Each **rules** key is further divided into one or more warning ids:
+Each **rules** key is further divided into one or more warning ids.
+
+Warning IDs
+-----------
+
+Regular expressons are support in warning ids.
+This allows for another method of grouping suppressions.
+In the example below, every ID that starts with **Synth-** and has **flip-flop** in the message will be suppressed.
+
+.. code-block:: yaml
+
+   suppress:
+     rules:
+       Synth-.*:
+         - msg: flip-flop
+
+Suppression Rule Fields
+-----------------------
 
 Each suppression rule will have the following fields available:
 
@@ -105,3 +122,4 @@ Arbitrary levels of groupings are also supported:
 
 Dividing suppression rules into groups helps with maintaining the suppress rules.
 ELFWS flattens all the suppression rules into a single list.
+
