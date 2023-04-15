@@ -9,9 +9,9 @@
   </testcase>
   <testcase name="Unused Suppression Rules" time="0" classname="failure">
     <failure type="Failure">
-      [NO_ID][<None>][This is the first line of][<None>]
-      [UNUSED_ID][<None>][This is used to ...][<None>]
-      [SOME_ID][<None>][Yet another unused rule...][<None>]
+      [NO_ID][&lt;None&gt;][This is the first line of][&lt;None&gt;]
+      [UNUSED_ID][&lt;None&gt;][This is used to ...][&lt;None&gt;]
+      [SOME_ID][&lt;None&gt;][Yet another unused rule...][&lt;None&gt;]
     </failure>
   </testcase>
   <testcase name="Multiply Suppressed Warnings" time="0" classname="failure">
