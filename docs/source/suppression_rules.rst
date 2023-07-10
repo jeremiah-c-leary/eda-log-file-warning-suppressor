@@ -19,6 +19,7 @@ The suppression rules are a YAML formatted file with the following basic form:
          - msg: Signal fifo_enable is tied high
            comment: The FIFO is always enabled in this design to support data throughput.
            author: jcleary
+           option: suppress_if_no_match
 
 
 It starts with the **suppress** key and then a **rules** key.
@@ -61,6 +62,8 @@ Each suppression rule will have the following fields available:
 | investigate        |   No     | Boolean(True/False) indicating the warnings the |
 |                    |          | rule suppresses need further analysis.          |
 |                    |          | This defaults to False.                         |
++--------------------+----------+-------------------------------------------------+
+| option             |   No     | A list of options applied to the suppression.   |
 +--------------------+----------+-------------------------------------------------+
 
 In addition to the standard warning ID, each tool may have warnings without IDs.
