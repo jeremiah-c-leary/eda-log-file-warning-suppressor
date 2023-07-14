@@ -66,8 +66,6 @@ def construct_junit_warning_output(oWarning):
 def remove_suppressions_per_options(lSuppressions):
     lReturn = []
     for oSuppression in lSuppressions:
-        print(oSuppression)
-        print(oSuppression.options)
         if not oSuppression.has_option('suppress_in_json_if_unmatched'):
             lReturn.append(oSuppression)
     return lReturn
