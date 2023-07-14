@@ -34,8 +34,7 @@ class create():
 
     def has_suppressed_a_warning(self):
         if len(self.suppressed_warnings) == 0:
-            if 'ignore_unused_suppression_rule' not in self.options:
-                return False
+            return False
         return True
 
     def is_investigation_rule(self):

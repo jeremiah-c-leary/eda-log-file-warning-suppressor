@@ -34,6 +34,7 @@ def build_junit_unsuppressed_testcase(oWarnList):
 def build_junit_unused_suppression_rule_testcase(oSupList):
     oTestcase = junit.testcase('Unused Suppression Rules', str(0), 'failure')
     lSuppressions = oSupList.get_suppressions_which_did_not_suppress_a_warning()
+    lSuppressions = remove_suppressions_per_options(lSuppressions)
     if len(lSuppressions) > 0:
         oFailure = junit.failure('Failure')
         for oSup in lSuppressions:
@@ -60,3 +61,13 @@ def build_junit_warning_testcase(lWarnings, sTestCaseName):
 
 def construct_junit_warning_output(oWarning):
     return '[' + oWarning.get_id() + '][' + str(oWarning.get_linenumber()) + ']:' + oWarning.get_message()
+
+
+def remove_suppressions_per_options(lSuppressions):
+    lReturn = []
+    for oSuppression in lSuppressions:
+        print(oSuppression)
+        print(oSuppression.options)
+        if not oSuppression.has_option('suppress_in_json_if_unmatched'):
+            lReturn.append(oSuppression)
+    return lReturn

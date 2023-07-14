@@ -16,4 +16,4 @@ suppress:
     SOME_ID:
       - msg: 'This is a test of the ignore_on_no_match'
         options:
-          - ignore_unused_suppression_rule
+          - suppress_in_json_if_unmatched
