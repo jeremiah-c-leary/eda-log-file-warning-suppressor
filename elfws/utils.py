@@ -93,6 +93,7 @@ def extract_suppression_rules(dRules):
                 update_suppression_author(oSupRule, dSup)
                 update_suppression_comment(oSupRule, dSup)
                 update_suppression_investigate(oSupRule, dSup)
+                update_suppression_options(oSupRule, dSup)
                 lReturn.append(oSupRule)
     except KeyError:
         pass
@@ -131,6 +132,25 @@ def update_suppression_investigate(oSupRule, dSup):
             oSupRule.investigate = True
     except KeyError:
         oSupRule.investigate = False
+
+
+def update_suppression_options(oSupRule, dSup):
+    '''
+    Updates the suppression rule based on the option key.
+
+    Parameters:
+
+        oSupRule : (suppression rule object)
+
+        dSup : (dictionary)
+
+    Returns: Nothing
+    '''
+    try:
+        if dSup['options']:
+            oSupRule.set_options(dSup['options'])
+    except KeyError:
+        oSupRule.set_options([])
 
 
 def read_log_file(sFileName):

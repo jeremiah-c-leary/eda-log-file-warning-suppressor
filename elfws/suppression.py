@@ -9,6 +9,7 @@ class create():
         self.comment = comment
         self.investigate = False
         self.suppressed_warnings = []
+        self.options = []
 
     def add_suppressed_warning(self, oWarning):
         self.suppressed_warnings.append(oWarning)
@@ -38,3 +39,11 @@ class create():
 
     def is_investigation_rule(self):
         return self.investigate
+
+    def has_option(self, sOption):
+        if sOption in self.options:
+            return True
+        return False
+
+    def set_options(self, lOptions):
+        self.options = lOptions

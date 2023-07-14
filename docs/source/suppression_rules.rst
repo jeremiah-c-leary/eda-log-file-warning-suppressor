@@ -19,6 +19,8 @@ The suppression rules are a YAML formatted file with the following basic form:
          - msg: Signal fifo_enable is tied high
            comment: The FIFO is always enabled in this design to support data throughput.
            author: jcleary
+           options:
+             - suppress_in_json_if_unmatched
 
 
 It starts with the **suppress** key and then a **rules** key.
@@ -62,9 +64,10 @@ Each suppression rule will have the following fields available:
 |                    |          | rule suppresses need further analysis.          |
 |                    |          | This defaults to False.                         |
 +--------------------+----------+-------------------------------------------------+
+| options            |   No     | A list of options applied to the suppression.   |
++--------------------+----------+-------------------------------------------------+
 
 In addition to the standard warning ID, each tool may have warnings without IDs.
-For example, Microsemi designer has warnings without identifiers.
 When processing these warnings, ELFWS will use a warning ID of **no_id**.
 
 .. code-block:: yaml
@@ -122,4 +125,17 @@ Arbitrary levels of groupings are also supported:
 
 Dividing suppression rules into groups helps with maintaining the suppress rules.
 ELFWS flattens all the suppression rules into a single list.
+
+Options
+-------
+
+Options change the behavior of a suppression.
+
+The following table includes all avialable options:
+
++-------------------------------+---------------------------------------------------------------+
+| Option                        |  Description                                                  |
++===============================+===============================================================+
+| suppress_in_json_if_unmatched | The suppression will be suppressed in the json xml file only. |
++-------------------------------+---------------------------------------------------------------+
 
