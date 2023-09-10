@@ -241,15 +241,17 @@ class test_functions(unittest.TestCase):
         self.assertEqual(importlib.import_module('elfws.vendor.microsemi.designer'), utils.import_vendor_module('microsemi', 'designer'))
 
     def test_get_vendors(self):
-        lExpected = ['mentor_graphics', 'microsemi', 'xilinx']
-        self.assertEqual(3, len(lExpected))
-        self.assertTrue('mentor_graphics' in lExpected) 
-        self.assertTrue('microsemi' in lExpected) 
-        self.assertTrue('xilinx' in lExpected) 
+        lActual = utils.get_vendors()
+        self.assertEqual(3, len(lActual))
+        self.assertTrue('mentor_graphics' in lActual) 
+        self.assertTrue('microsemi' in lActual) 
+        self.assertTrue('xilinx' in lActual) 
 
     def test_get_tools(self):
         lExpected = ['designer']
         self.assertEqual(lExpected, utils.get_tools('microsemi'))
+        lExpected = ['questa_cdc__cdc_run_log', 'questa_cdc__cdc_detail_rpt', 'precision', 'questa_lint']
+        self.assertEqual(lExpected, utils.get_tools('mentor_graphics'))
 
     def test_remove_extension(self):
         self.assertEqual('filename', utils.remove_extension('filename.ext'))

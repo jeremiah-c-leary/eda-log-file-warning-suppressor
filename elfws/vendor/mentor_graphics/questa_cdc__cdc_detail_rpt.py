@@ -2,6 +2,9 @@
 from elfws import warning
 from elfws import warning_list
 
+from elfws.vendor import utils as vendor_utils
+from elfws.vendor.mentor_graphics import utils as cdc_utils
+
 
 def get_vendor():
     return ['Mentor Graphics']
@@ -29,9 +32,9 @@ def extract_warnings(lFile):
 
     extract_inferred_clocks(oReturn, lFile)
     extract_inferred_resets(oReturn, lFile)
-    extract_cdc_violations(oReturn, lFile)
-    extract_cdc_cautions(oReturn, lFile)
-    extract_cdc_evaluations(oReturn, lFile)
+    cdc_utils.extract_cdc_violations(oReturn, lFile)
+    cdc_utils.extract_cdc_cautions(oReturn, lFile)
+    cdc_utils.extract_cdc_evaluations(oReturn, lFile)
     extract_design_information(oReturn, lFile)
     extract_port_domain_information(oReturn, lFile)
 
@@ -66,43 +69,6 @@ def extract_inferred(oReturn, lFile, sID, sType):
                     oReturn.add_warning(oWarning)
 
 
-def extract_cdc_violations(oReturn, lFile):
-
-    extract_cdc_results(oReturn, lFile, 'cdc_violations', 'Violations')
-
-
-def extract_cdc_cautions(oReturn, lFile):
-
-    extract_cdc_results(oReturn, lFile, 'cdc_cautions', 'Cautions')
-
-
-def extract_cdc_evaluations(oReturn, lFile):
-
-    extract_cdc_results(oReturn, lFile, 'cdc_evaluations', 'Evaluations')
-
-
-def extract_cdc_results(oReturn, lFile, sID, sType):
-    fWarningSectionFound = False
-    fTemp = False
-    for iLineNumber, sLine in enumerate(lFile):
-        if sLine.startswith('CDC Summary'):
-            fWarningSectionFound = True
-            continue
-
-        if fTemp:
-           if sLine.startswith('---'):
-               continue
-           if sLine == '':
-               break
-           oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
-           oReturn.add_warning(oWarning) 
-
-        if fWarningSectionFound and sLine.startswith(sType):
-            lLine = sLine.split()
-            if lLine[-1] == '(0)':
-                break
-            fTemp = True
-            continue
 
 
 def extract_design_information(oReturn, lFile):
@@ -123,7 +89,7 @@ def check_design_element_which_must_be_zero(oReturn, lFile, sID, sType):
     fWarningSectionFound = False
     fTemp = False
     for iLineNumber, sLine in enumerate(lFile):
-        if sequence_of_lines_starts_with(iLineNumber, lFile, ['Design Information', '----']):
+        if vendor_utils.sequence_of_lines_starts_with(iLineNumber, lFile, ['Design Information', '----']):
             fWarningSectionFound = True
             continue
         if fWarningSectionFound:
@@ -140,7 +106,7 @@ def extract_port_domain_information(oReturn, lFile):
     fWarningSectionFound = False
     sID = 'non_user_defined_port_domain'
     for iLineNumber, sLine in enumerate(lFile):
-        if sequence_of_lines_starts_with(iLineNumber, lFile, ['Section 10 :', '====', 'Port', '----']):
+        if vendor_utils.sequence_of_lines_starts_with(iLineNumber, lFile, ['Section 10 :', '====', 'Port', '----']):
             fWarningSectionFound = True
             continue
         if fWarningSectionFound:
@@ -150,14 +116,4 @@ def extract_port_domain_information(oReturn, lFile):
             if lLine[-1] != 'User':
                oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
                oReturn.add_warning(oWarning) 
-
-
-def sequence_of_lines_starts_with(iLineNumber, lFile, lSequence):
-    if iLineNumber < len(lSequence):
-        return False
-    iTemp = len(lSequence) - 1
-    for x in range(len(lSequence)):
-        if not lFile[iLineNumber - iTemp + x].startswith(lSequence[x]):
-            return False
-    return True
 
