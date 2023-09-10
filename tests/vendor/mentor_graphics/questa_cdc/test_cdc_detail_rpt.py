@@ -23,67 +23,67 @@ class testFunctions(unittest.TestCase):
         self.assertEqual('inferred_reset', oWarning.get_id())
         self.assertEqual(' 2. Inferred                      :(1)', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(44, oWarning.get_linenumber())
+        self.assertEqual(45, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[2]
         self.assertEqual('cdc_violations', oWarning.get_id())
         self.assertEqual('name of first violation cdc check  (2)', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(55, oWarning.get_linenumber())
+        self.assertEqual(57, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[3]
         self.assertEqual('cdc_violations', oWarning.get_id())
         self.assertEqual('name of second violation cdc check (1)', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(56, oWarning.get_linenumber())
+        self.assertEqual(58, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[4]
         self.assertEqual('cdc_cautions', oWarning.get_id())
         self.assertEqual('name of first caution cdc check  (2)', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(60, oWarning.get_linenumber())
+        self.assertEqual(62, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[5]
         self.assertEqual('cdc_cautions', oWarning.get_id())
         self.assertEqual('name of second caution cdc check (1)', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(61, oWarning.get_linenumber())
+        self.assertEqual(63, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[6]
         self.assertEqual('cdc_evaluations', oWarning.get_id())
         self.assertEqual('name of first evaluation cdc check  (2)', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(65, oWarning.get_linenumber())
+        self.assertEqual(67, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[7]
         self.assertEqual('cdc_evaluations', oWarning.get_id())
         self.assertEqual('name of second evaluation cdc check (1)', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(66, oWarning.get_linenumber())
+        self.assertEqual(68, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[8]
         self.assertEqual('empty_modules', oWarning.get_id())
         self.assertEqual('Number of Empty Modules      = 10', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(94, oWarning.get_linenumber())
+        self.assertEqual(96, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[9]
         self.assertEqual('unresolved_modules', oWarning.get_id())
         self.assertEqual('Number of Unresolved Modules = 5', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(95, oWarning.get_linenumber())
+        self.assertEqual(98, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[10]
         self.assertEqual('non_user_defined_port_domain', oWarning.get_id())
         self.assertEqual('O_B       output                 { domain_b }    QuestaCDC', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(104, oWarning.get_linenumber())
+        self.assertEqual(108, oWarning.get_linenumber())
 
         oWarning = oWarningList.warnings[11]
         self.assertEqual('non_user_defined_port_domain', oWarning.get_id())
         self.assertEqual('I_B       input                  { domain_a }    QuestaCDC', oWarning.get_message())
         self.assertEqual(None, oWarning.get_filename())
-        self.assertEqual(105, oWarning.get_linenumber())
+        self.assertEqual(109, oWarning.get_linenumber())
 
         self.assertEqual(12, len(oWarningList.warnings))
 

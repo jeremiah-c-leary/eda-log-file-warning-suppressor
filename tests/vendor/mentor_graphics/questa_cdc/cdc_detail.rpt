@@ -31,6 +31,7 @@ Clock Group Summary for 'FPGA_NAME'
 Total Number of Clock Groups      : 5
  1. User-Specified                :(4)
  2. Inferred                      :(1)
+ 2. Inferred                      :(0)
  3. Ignored
 
 ================================================================
@@ -42,6 +43,7 @@ Reset Tree Summary for 'FPGA_NAME'
 Total Number of Clock Groups      : 2
  1. User-Specified                :(1)
  2. Inferred                      :(1)
+ 2. Inferred                      :(0)
  3. Ignored
 
 
@@ -92,7 +94,9 @@ Section 9  : Design Information
 Design Information
 ----------------------
 Number of Empty Modules      = 10
+Number of Empty Modules      = 0
 Number of Unresolved Modules = 5
+Number of Unresolved Modules = 0
 
 
 ================================================================

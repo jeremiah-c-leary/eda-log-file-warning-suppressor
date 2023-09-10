@@ -97,7 +97,7 @@ def check_design_element_which_must_be_zero(oReturn, lFile, sID, sType):
                break
            if sLine.startswith(sType):
                lLine = sLine.split()
-               if lLine[-1] != 0:
+               if lLine[-1] != '0':
                    oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
                    oReturn.add_warning(oWarning) 
 
