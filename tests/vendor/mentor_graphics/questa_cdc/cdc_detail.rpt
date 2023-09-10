@@ -99,6 +99,7 @@ Number of Unresolved Modules = 5
 Section 10 : Port Domain Information
 ================================================================
 Port    Direction  Constraints   Clock Domain   Type
+-------------------------------------------------------------
 I_A       input       clock      { domain_a }    User
 O_B       output                 { domain_b }    QuestaCDC
 I_B       input                  { domain_a }    QuestaCDC

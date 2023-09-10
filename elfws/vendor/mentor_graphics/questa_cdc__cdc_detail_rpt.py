@@ -140,14 +140,14 @@ def extract_port_domain_information(oReturn, lFile):
     fWarningSectionFound = False
     sID = 'non_user_defined_port_domain'
     for iLineNumber, sLine in enumerate(lFile):
-        if sequence_of_lines_starts_with(iLineNumber, lFile, ['Section 10 :', '====', 'Port']):
+        if sequence_of_lines_starts_with(iLineNumber, lFile, ['Section 10 :', '====', 'Port', '----']):
             fWarningSectionFound = True
             continue
         if fWarningSectionFound:
             if sLine == '':
                 break
             lLine = sLine.split()
-            if lLine[-1] == 'User':
+            if lLine[-1] != 'User':
                oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
                oReturn.add_warning(oWarning) 
 
@@ -155,8 +155,9 @@ def extract_port_domain_information(oReturn, lFile):
 def sequence_of_lines_starts_with(iLineNumber, lFile, lSequence):
     if iLineNumber < len(lSequence):
         return False
+    iTemp = len(lSequence) - 1
     for x in range(len(lSequence)):
-        if not lFile[iLineNumber + x].startswith(lSequence[x]):
+        if not lFile[iLineNumber - iTemp + x].startswith(lSequence[x]):
             return False
     return True
 
