@@ -69,3 +69,19 @@ release = str(elfws.version.version)
 language = None
 
 pygments_style = 'sphinx'
+
+html_theme_options = {
+  'logo_only': False,
+  'display_version': True,
+  'prev_next_bottons_location': 'bottom',
+  'style_external_links': False,
+  'vcs_pageview_mode': '',
+#  'style_nav_header_background': 'white',
+  # ToC options
+  'collapse_navigation': False,
+  'sticky_navigation': True,
+  'navigation_depth': 3,
+  'includehidden': False,
+  'titles_only': False
+}
+
