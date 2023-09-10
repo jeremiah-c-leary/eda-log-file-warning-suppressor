@@ -1,0 +1,111 @@
+
+Questa CDC Version 2022.1_2 5314694 linux_x86_64 05-Apr-2022
+
+----------------------------------------------------------------
+Clock Domain Crossing Analysis Report.
+
+Created
+----------------------------------------------------------------
+
+
+================================================================
+Section 1  : Clock Information
+Section 2  : Reset Information
+Section 3  : CDC Results
+Section 4  : Custom Synchronization
+Section 5  : Custom Synchronizers without External Crossings
+Section 6  : Modal Analysis Information
+Section 7  : Modal Design Information
+Section 8  : Constant Information
+Section 9  : Design Information
+Section 10 : Port Domain Information
+================================================================
+
+
+================================================================
+Section 1  : Clock Information
+================================================================
+
+Clock Group Summary for 'FPGA_NAME'
+===================================
+Total Number of Clock Groups      : 5
+ 1. User-Specified                :(4)
+ 2. Inferred                      :(1)
+ 2. Inferred                      :(0)
+ 3. Ignored
+
+================================================================
+Section 2  : Reset Information
+================================================================
+
+Reset Tree Summary for 'FPGA_NAME'
+==================================
+Total Number of Clock Groups      : 2
+ 1. User-Specified                :(1)
+ 2. Inferred                      :(1)
+ 2. Inferred                      :(0)
+ 3. Ignored
+
+
+================================================================
+Section 3  : CDC Results
+================================================================
+CDC Summary
+================================================================
+Violations (3)
+----------------------------------------------------------------
+name of first violation cdc check  (2)
+name of second violation cdc check (1)
+
+Cautions (3)
+----------------------------------------------------------------
+name of first caution cdc check  (2)
+name of second caution cdc check (1)
+
+Evaluations (3)
+----------------------------------------------------------------
+name of first evaluation cdc check  (2)
+name of second evaluation cdc check (1)
+
+Resolved - Waived or Verified Status (3)
+----------------------------------------------------------------
+name of first resolved cdc check  (2)
+name of second resolved cdc check (1)
+
+Proven (3)
+----------------------------------------------------------------
+name of first proven cdc check  (2)
+name of second proven cdc check (1)
+
+Filtered (3)
+----------------------------------------------------------------
+name of first filtered cdc check  (2)
+name of second filtered cdc check (1)
+
+Violations
+================================================================
+<None>
+
+
+================================================================
+Section 9  : Design Information
+================================================================
+
+Design Information
+----------------------
+Number of Empty Modules      = 10
+Number of Empty Modules      = 0
+Number of Unresolved Modules = 5
+Number of Unresolved Modules = 0
+
+
+================================================================
+Section 10 : Port Domain Information
+================================================================
+Port    Direction  Constraints   Clock Domain   Type
+-------------------------------------------------------------
+I_A       input       clock      { domain_a }    User
+O_B       output                 { domain_b }    QuestaCDC
+I_B       input                  { domain_a }    QuestaCDC
+O_A       output                 { domain_b }    User
+
