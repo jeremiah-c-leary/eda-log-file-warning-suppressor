@@ -1,5 +1,5 @@
 Quasta CDC
-##########
+~~~~~~~~~~
 
 Questa CDC provides several reports which can be parsed.
 
