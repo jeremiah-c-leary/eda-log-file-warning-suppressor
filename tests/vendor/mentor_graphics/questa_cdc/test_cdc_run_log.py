@@ -82,10 +82,9 @@ class testFunctions(unittest.TestCase):
         lLogFile.append('# Version 2022.1_2')
         lLogFile.append('')
         lLogFile.append('')
-        lLogFile.append('Command : cdc run')
+        lLogFile.append('  -tool cdc')
         lLogFile.append('')
         lLogFile.append('')
-        lLogFile.append('log created Sun Sep')
         lLogFile.append('')
 
         self.assertTrue(tool.is_logfile(lLogFile))

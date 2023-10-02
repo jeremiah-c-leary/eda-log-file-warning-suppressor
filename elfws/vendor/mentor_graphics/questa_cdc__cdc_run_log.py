@@ -18,9 +18,9 @@ def is_logfile(lFile):
     fToolFound = False
     for iLineNumber, sLine in enumerate(lFile):
         if fToolFound:
-           if sLine.startswith('log created'):
+           if sLine.lstrip().startswith('-tool cdc'):
                return True
-        if sLine.startswith('Command : cdc run'):
+        if sLine.startswith('# Questa Static Verification System'):
             fToolFound = True
         if iLineNumber == 20:
             break
