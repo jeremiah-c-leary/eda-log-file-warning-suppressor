@@ -242,9 +242,10 @@ class test_functions(unittest.TestCase):
 
     def test_get_vendors(self):
         lActual = utils.get_vendors()
-        self.assertEqual(3, len(lActual))
+        self.assertEqual(4, len(lActual))
         self.assertTrue('mentor_graphics' in lActual) 
         self.assertTrue('microsemi' in lActual) 
+        self.assertTrue('synopsys' in lActual) 
         self.assertTrue('xilinx' in lActual) 
 
     def test_get_tools(self):
