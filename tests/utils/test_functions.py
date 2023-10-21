@@ -57,6 +57,15 @@ class test_functions(unittest.TestCase):
 
         self.assertEqual(dExpected, dActual)
 
+    @mock.patch('sys.stdout')
+    def test_read_suppression_file_w_error(self, mock_stdout):
+
+        try:
+            utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'error_suppress.yaml'))
+        except SystemExit as e:
+            self.assertEqual(e.code, 1)
+            pass
+
     def test_create_suppression_list(self):
 
         dSuppression = {}

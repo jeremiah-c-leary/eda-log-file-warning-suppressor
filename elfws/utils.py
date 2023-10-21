@@ -19,8 +19,12 @@ def read_suppression_file(sFileName):
 
     Returns:  dictionary
     '''
-    with open(sFileName) as yaml_file:
-        dReturn = yaml.full_load(yaml_file)
+    try:
+        with open(sFileName) as yaml_file:
+            dReturn = yaml.full_load(yaml_file)
+    except Exception as e:
+        print(e)
+        sys.exit(1)
 
     if dReturn is None:
         dReturn = {}
