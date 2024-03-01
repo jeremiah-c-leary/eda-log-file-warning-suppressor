@@ -1,7 +1,10 @@
 Mentor Graphics
 ---------------
 
-.. include:: precision.rst
-.. include:: questa_lint.rst
-.. include:: questa_cdc.rst
+.. toctree::
+   :maxdepth: 2
+
+   precision.rst
+   questa_lint.rst
+   questa_cdc/questa_cdc.rst
 

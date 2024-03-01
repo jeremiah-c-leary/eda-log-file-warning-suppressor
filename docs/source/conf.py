@@ -66,14 +66,14 @@ version = str(elfws.version.version)
 
 release = str(elfws.version.version)
 
-language = None
+language = 'en'
 
 pygments_style = 'sphinx'
 
 html_theme_options = {
   'logo_only': False,
   'display_version': True,
-  'prev_next_bottons_location': 'bottom',
+#  'prev_next_bottons_location': 'bottom',
   'style_external_links': False,
   'vcs_pageview_mode': '',
 #  'style_nav_header_background': 'white',
