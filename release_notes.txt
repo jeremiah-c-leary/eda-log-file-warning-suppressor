@@ -1,0 +1,26 @@
+New Features
+------------
+
+  issue #10:
+    Capture and display exceptions from PyYAML.
+
+  issue #26:
+    Adds parsing of Vivado Methodology reports.
+
+  issue #27:
+    Adds parsing of Synplify Pro log files.
+
+Retired Issues
+--------------
+
+  None
+
+Bug Fixes
+---------
+
+  None
+
+Miscellaneous
+-------------
+
+  None
