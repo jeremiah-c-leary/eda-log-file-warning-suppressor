@@ -9,7 +9,7 @@ from elfws import __main__
 from elfws import version
 from elfws import utils
 
-sWarningFile = 'tests/junit/warning_messages.log'
+sWarningFile = os.path.join(os.path.dirname(__file__), 'warning_messages.log')
 
 sXmlFile = 'deleteme.xml'
 
@@ -28,7 +28,7 @@ class test_arguments(unittest.TestCase):
         sys.argv = ['elfws', 'show', sWarningFile, '--junit', sXmlFile]
         __main__.main()
 
-        lExpected = utils.read_log_file('tests/junit/junit_output.xml')
+        lExpected = utils.read_log_file(os.path.join(os.path.dirname(__file__), 'junit_output.xml'))
         lActual = utils.read_log_file(sXmlFile)
 
         self.assertEqual(len(lExpected), len(lActual))
