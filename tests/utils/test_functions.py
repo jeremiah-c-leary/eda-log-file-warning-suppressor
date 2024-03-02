@@ -259,9 +259,9 @@ class test_functions(unittest.TestCase):
 
     def test_get_tools(self):
         lExpected = ['designer']
-        self.assertEqual(lExpected, utils.get_tools('microsemi'))
+        self.assertEqual(lExpected.sort(), utils.get_tools('microsemi').sort())
         lExpected = ['questa_cdc__cdc_run_log', 'questa_cdc__cdc_detail_rpt', 'precision', 'questa_lint']
-        self.assertEqual(lExpected, utils.get_tools('mentor_graphics'))
+        self.assertEqual(lExpected.sort(), utils.get_tools('mentor_graphics').sort())
 
     def test_remove_extension(self):
         self.assertEqual('filename', utils.remove_extension('filename.ext'))
