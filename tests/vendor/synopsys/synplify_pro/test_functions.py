@@ -5,11 +5,11 @@ import unittest
 from elfws.vendor.synopsys import synplify_pro
 from tests import test_utils
 
-lLogFile = test_utils.read_file(os.path.join(os.path.dirname(__file__), 'warning_messages.log'))
 
 class testFunctions(unittest.TestCase):
 
     def test_extract_warnings(self):
+        lLogFile = test_utils.read_file(os.path.join(os.path.dirname(__file__), 'warning_messages.log'))
         oWarningList = synplify_pro.extract_warnings(lLogFile)
 
         oWarning = oWarningList.warnings[0]
