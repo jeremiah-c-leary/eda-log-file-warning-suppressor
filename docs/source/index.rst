@@ -13,6 +13,7 @@ Welcome to eda-log-file-warning-suppressor's documentation!
    overview
    installation
    usage
+   exit_codes
    evaluating_warnings
    suppression_rules
    theory_of_operation/theory_of_operation

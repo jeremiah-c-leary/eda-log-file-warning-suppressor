@@ -37,10 +37,14 @@ class test_arguments(unittest.TestCase):
     @mock.patch('sys.stdout')
     def test_version(self, mockStdout):
         sys.argv = ['elfws', 'version']
+
         try:
             __main__.main()
-        except SystemExit:
-            pass
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
+
 
         mockStdout.write.assert_has_calls([
             mock.call('EDA Log File Warning Suppressor (ELFWS) version ' + version.version), mock.call('\n')
@@ -52,7 +56,13 @@ class test_arguments(unittest.TestCase):
     def test_show(self, mock_datetime, mock_stdout):
         mock_datetime.now.return_value = 'Some Date'
         sys.argv = ['elfws', 'show', sWarningFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lLogFile = utils.read_log_file('tests/elfws/show_output.txt')
         
@@ -66,7 +76,13 @@ class test_arguments(unittest.TestCase):
     @mock.patch('elfws.version.version', '0.1')
     def test_create_without_suppression_file(self):
         sys.argv = ['elfws', 'create', sWarningFile, sYamlFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/elfws/create_yaml_wo_suppression.yaml')
         lActual = utils.read_log_file(sYamlFile)
@@ -76,7 +92,13 @@ class test_arguments(unittest.TestCase):
     @mock.patch('elfws.version.version', '0.1')
     def test_create_with_suppression_file(self):
         sys.argv = ['elfws', 'create', sWarningFile, sYamlFile, '--suppression_file', sSupFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/elfws/create_yaml_with_suppression.yaml')
         lActual = utils.read_log_file(sYamlFile)
@@ -89,7 +111,13 @@ class test_arguments(unittest.TestCase):
     def test_suppress(self, mock_datetime, mock_stdout):
         mock_datetime.now.return_value = 'Some Date'
         sys.argv = ['elfws', 'suppress', sWarningFile, sSupFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lLogFile = utils.read_log_file('tests/elfws/suppress_output.txt')
         
@@ -105,7 +133,13 @@ class test_arguments(unittest.TestCase):
     def test_report(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
         sys.argv = ['elfws', 'report', sWarningFile, 'tests/subcommand/report/suppress_microsemi_designer_logfile.yaml', sReportFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/elfws/report_output.txt')
         lActual = utils.read_log_file(sReportFile)
@@ -117,7 +151,13 @@ class test_arguments(unittest.TestCase):
     def test_report_all_warnings_suppressed(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
         sys.argv = ['elfws', 'report', sWarningFile, 'tests/elfws/suppress_all_microsemi_designer_warnings.yaml', sReportFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/elfws/report_output_all_warnings_suppressed.txt')
         lActual = utils.read_log_file(sReportFile)
@@ -129,7 +169,13 @@ class test_arguments(unittest.TestCase):
     def test_report_no_warnings(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
         sys.argv = ['elfws', 'report', 'tests/elfws/no_warnings/warning_messages.rpt', 'tests/elfws/no_warnings/suppression_file.yaml', sReportFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/elfws/no_warnings/report_output.txt')
         lActual = utils.read_log_file(sReportFile)
@@ -141,7 +187,13 @@ class test_arguments(unittest.TestCase):
     def test_report_w_long_id(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
         sys.argv = ['elfws', 'report', 'tests/vendor/microsemi/designer/warning_messages_w_long_id.rpt', 'tests/subcommand/report/suppress_microsemi_designer_logfile_w_long_id.yaml', sReportFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/elfws/report_output_long_id.txt')
         lActual = utils.read_log_file(sReportFile)
@@ -153,7 +205,13 @@ class test_arguments(unittest.TestCase):
     def test_report_w_investigate(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
         sys.argv = ['elfws', 'report', 'tests/vendor/microsemi/designer/warning_messages.log', 'tests/elfws/investigate/suppression.yaml', sReportFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/elfws/investigate/report_output.txt')
         lActual = utils.read_log_file(sReportFile)
@@ -162,7 +220,13 @@ class test_arguments(unittest.TestCase):
 
     def test_report_w_junit_output(self):
         sys.argv = ['elfws', 'report', 'tests/vendor/microsemi/designer/warning_messages.log', 'tests/subcommand/report/suppress_for_junit_xml.yaml', sReportFile, '--junit', sXmlFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/subcommand/report/junit_output.xml')
         lActual = utils.read_log_file(sXmlFile)
@@ -175,7 +239,13 @@ class test_arguments(unittest.TestCase):
     @mock.patch('sys.stdout')
     def test_show_w_junit_output(self, mockStdout):
         sys.argv = ['elfws', 'show', 'tests/vendor/microsemi/designer/warning_messages.log', '--junit', sXmlFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/subcommand/show/junit_output.xml')
         lActual = utils.read_log_file(sXmlFile)

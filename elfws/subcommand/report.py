@@ -28,11 +28,13 @@ def report(cla):
     build_section_5(oWarnList, lReport)
     build_summary(oWarnList, oSupList, lReport)
 
-    utils.write_file(cla.report_file, lReport)
+    utils.write_report_file(cla.report_file, lReport)
 
     if cla.junit:
         lJUnitFile = junit.generate_junit_xml_file(cla, oWarnList, oSupList)
-        utils.write_file(cla.junit, lJUnitFile)
+        utils.write_junit_file(cla.junit, lJUnitFile)
+
+    sys.exit(0)
 
 
 def build_header(cla, lReport):

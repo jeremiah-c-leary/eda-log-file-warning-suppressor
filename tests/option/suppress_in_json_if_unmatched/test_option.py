@@ -20,7 +20,13 @@ class test_arguments(unittest.TestCase):
     def test_report_w_junit_output(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
         sys.argv = ['elfws', 'report', os.path.join(os.path.dirname(__file__), 'warning_messages.log'), os.path.join(os.path.dirname(__file__), 'suppression.yaml'), sReportFile, '--junit', sXmlFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file('tests/option/suppress_in_json_if_unmatched/expected.xml')
         lActual = utils.read_log_file(sXmlFile)

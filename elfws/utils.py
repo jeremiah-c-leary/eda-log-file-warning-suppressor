@@ -299,7 +299,7 @@ def create_warning_list(lLogFile, sLogFileName):
         return mTool.extract_warnings(lLogFile)
     except AttributeError:
         print('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.')
-        sys.exit(1)
+        sys.exit(2)
 
 
 def apply_suppression_rules_to_warnings(oWarnList, oSupList):
@@ -378,7 +378,15 @@ def do_messages_match(oWarning, oSuppression):
     return False
 
 
-def write_file(sFilename, lFile):
+def write_junit_file(sFilename, lFile):
+    write_file(sFilename, lFile, 5)
+
+
+def write_report_file(sFilename, lFile):
+    write_file(sFilename, lFile, 4)
+
+
+def write_file(sFilename, lFile, iExitCode):
     '''
     Writes a list of strings to a file.
 
@@ -396,3 +404,4 @@ def write_file(sFilename, lFile):
                 oFile.write(sLine + '\n')
     except PermissionError as err:
         print(err, "Could not write to file " + sFilename)
+        sys.exit(iExitCode)

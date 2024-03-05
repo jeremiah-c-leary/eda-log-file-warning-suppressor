@@ -21,6 +21,8 @@ def suppress(cla):
 
     display.results(cla.log_file, cla.suppression_file, oSupList, oWarnList)
 
+    sys.exit(0)
+
 
 def extract_non_suppressed_warnings(oWarnList, oSupList):
     oReturn = warning_list.create()
