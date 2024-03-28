@@ -1,4 +1,4 @@
-Quasta Lint
+Questa Lint
 ~~~~~~~~~~~~
 
 Questa Lint has a single format for errors, warnings and infos.
