@@ -9,7 +9,9 @@ Section 1 : Clock Information
 The number of inferred clocks should be 0.
 The following line will be checked:
 
-2. Inferred     :(0)
+.. code-block:: text
+
+   2. Inferred     :(0)
 
 If the number in the parenthesis is not 0, then a warning will be reported.
 
@@ -19,7 +21,9 @@ Section 2 : Reset Information
 The number of inferred resets should be 0.
 The following line will be checked:
 
-2. Inferred     :(0)
+.. code-block:: text
+
+   2. Inferred     :(0)
 
 If the number in the parenthesis is not 0, then a warning will be reported.
 
@@ -38,8 +42,10 @@ The number of empty modules and unresolved modules should be 0 to ensure a prope
 
 The following lines will be checked:
 
-Number of Empty Modules  = 0
-Number of Unresolved Modules = 0
+.. code-block:: text
+
+   Number of Empty Modules  = 0
+   Number of Unresolved Modules = 0
 
 If the number after the equal sign is not 0, then a warning will be reported.
 
@@ -51,7 +57,9 @@ It also reports whether the user defined the clock domain or if QuestaCDC assign
 
 Each line follows this format:
 
-<Port> <Direction> <Constraints> {<Clock Domain>} <Type>
+.. code-block:: text
+
+   <Port> <Direction> <Constraints> {<Clock Domain>} <Type>
 
 If <Type> is not "User" then an warning will be reported.
 
