@@ -27,7 +27,7 @@ class testCmdLineArgsModule(unittest.TestCase):
         sOutput += '    suppress            Suppresses warnings in logfiles\n'
         sOutput += '    version             Displays ELFWS version information\n'
         sOutput += '\n'
-        sOutput += 'optional arguments:\n'
+        sOutput += 'options:\n'
         sOutput += '  -h, --help            show this help message and exit\n'
 
         mockStdout.write.assert_has_calls([
@@ -48,7 +48,7 @@ class testCmdLineArgsModule(unittest.TestCase):
         sOutput += '  log_file          Log file to check for warnings\n'
         sOutput += '  suppression_file  YAML formatted warning suppression file\n'
         sOutput += '\n'
-        sOutput += 'optional arguments:\n'
+        sOutput += 'options:\n'
         sOutput += '  -h, --help        show this help message and exit\n'
 
         mockStdout.write.assert_has_calls([

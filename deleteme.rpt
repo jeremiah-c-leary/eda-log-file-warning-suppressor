@@ -1,0 +1,169 @@
+================================================================================
+ELFWS version         : 0.1
+Date                  : Some Date
+Log file              : /home/jcleary/projects/eda-log-file-warning-suppressor/tests/option/suppress_in_json_if_unmatched/warning_messages.log
+Suppression Rule File : /home/jcleary/projects/eda-log-file-warning-suppressor/tests/option/suppress_in_json_if_unmatched/suppression.yaml
+
+Table of Contents:
+
+  1.  Unsuppressed Warnings
+  2.  Suppressed Warnings
+  3.  Unused Suppression Rules
+  4.  Warnings Under Investigation
+  5.  Warnings Suppressed by Multiple Rules
+  6.  Summary
+
+--------------------------------------------------------------------------------
+  1. Unsuppressed Warnings
+--------------------------------------------------------------------------------
+
+  -----------------+--------+---------------------------------------------------
+   ID              | Line # | Warning Message
+  -----------------+--------+---------------------------------------------------
+   MULTI546        |     15 | This is the first line of the warning This is the second line of the warning This is the last line of the warning.
+  -----------------+--------+---------------------------------------------------
+
+--------------------------------------------------------------------------------
+  2. Suppressed Warnings
+--------------------------------------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is a warning with a :
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     12 | This is a warning with a : that does not have an ID
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is the first line : of the
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     20 | This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     11 | This is a warning without an ID
+     NO_ID           |     12 | This is a warning with a : that does not have an ID
+     NO_ID           |     20 | This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.
+    -----------------+--------+-------------------------------------------------
+
+--------------------------------------------------------------------------------
+  3. Unused Suppression Rules
+--------------------------------------------------------------------------------
+
+  Warning ID : NO_ID
+  Author     : <None>
+  Rule       : .*This is the first line of.*
+  Comment    : Check with...
+
+  Warning ID : SOME_ID
+  Author     : <None>
+  Rule       : .*This is a test of the ignore_on_no_match.*
+  Comment    : <None>
+
+--------------------------------------------------------------------------------
+  4. Warnings Under Investigation
+--------------------------------------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : <None>
+  Suppression Rule    : This is a warning without an ID
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     NO_ID           |     11 | This is a warning without an ID
+    -----------------+--------+-------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Suppression Author  : <None>
+  Suppression Comment : This needs to be checked...
+  Suppression Rule    : This is a warning
+
+    -----------------+--------+-------------------------------------------------
+     ID              | Line # | Warning Message
+    -----------------+--------+-------------------------------------------------
+     DEF1234         |      8 | This is a warning
+    -----------------+--------+-------------------------------------------------
+
+--------------------------------------------------------------------------------
+  5. Warnings Suppressed by Multiple Rules
+--------------------------------------------------------------------------------
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Warning ID  : NO_ID
+  Line Number : 11
+  Message     : This is a warning without an ID
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This is a warning without an ID.*
+    Comment    : <None>
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This.*
+    Comment    : <None>
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Warning ID  : NO_ID
+  Line Number : 12
+  Message     : This is a warning with a : that does not have an ID
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This is a warning with a :.*
+    Comment    : <None>
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This.*
+    Comment    : <None>
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Warning ID  : NO_ID
+  Line Number : 20
+  Message     : This is the first line : of the message This is the second line of the message This is the third line of the message This is the last line of the message.
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This is the first line : of the.*
+    Comment    : <None>
+
+    Warning ID : NO_ID
+    Author     : <None>
+    Rule       : .*This.*
+    Comment    : <None>
+
+--------------------------------------------------------------------------------
+  6. Summary
+--------------------------------------------------------------------------------
+
+  Suppression Rules
+    Total                  :     7
+    Unused                 :     2
+
+  Warnings
+    Total                  :     5
+    Suppressed             :     2
+    Unsuppressed           :     1
+    Under Investigation    :     2
+    Multiply Suppressed    :     3
+
+================================================================================
