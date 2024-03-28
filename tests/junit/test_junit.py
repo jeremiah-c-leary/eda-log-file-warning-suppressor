@@ -26,7 +26,13 @@ class test_arguments(unittest.TestCase):
     @mock.patch('sys.stdout')
     def test_report_w_junit_output(self, mockStdout):
         sys.argv = ['elfws', 'show', sWarningFile, '--junit', sXmlFile]
-        __main__.main()
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
 
         lExpected = utils.read_log_file(os.path.join(os.path.dirname(__file__), 'junit_output.xml'))
         lActual = utils.read_log_file(sXmlFile)

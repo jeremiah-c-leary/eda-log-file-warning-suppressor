@@ -23,6 +23,8 @@ def create(cla):
     with open(cla.output_suppression_file, 'w') as file:
         yaml.dump(dSup, file)
 
+    sys.exit(0)
+
 
 def create_suppression_dict(oWarnList):
     '''

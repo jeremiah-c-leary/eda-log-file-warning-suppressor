@@ -20,4 +20,6 @@ def show(cla):
 
     if cla.junit:
         lJUnitFile = junit.generate_junit_xml_file(cla, oWarnList, oSupList)
-        utils.write_file(cla.junit, lJUnitFile)
+        utils.write_junit_file(cla.junit, lJUnitFile)
+
+    sys.exit(0)

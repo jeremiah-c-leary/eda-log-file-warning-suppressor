@@ -33,7 +33,7 @@ def print_help_if_no_command_line_options_given(oParser):
     '''
     if len(sys.argv) == 1:
         oParser.print_help()
-        sys.exit(1)
+        sys.exit(3)
 
 
 def add_file_arguments_to_parser(oParser):
