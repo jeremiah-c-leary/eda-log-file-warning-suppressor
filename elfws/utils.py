@@ -249,6 +249,8 @@ def get_tools(sVendor):
             continue
         if sListing == 'utils.py':
             continue
+        if sListing.startswith('.'):
+            continue
         lReturn.append(remove_extension(sListing))
     return lReturn
 
