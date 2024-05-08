@@ -122,6 +122,19 @@ class testFunctions(unittest.TestCase):
 
         self.assertFalse(tool.is_logfile(lLogFile))
 
+    def test_is_2023_logfile(self):
+        lLogFile = []
+        lLogFile.append('#')
+        lLogFile.append('# Questa Static Verification System')
+        lLogFile.append('# Version 2022.1_2')
+        lLogFile.append('log created  ')
+        lLogFile.append('')
+        lLogFile.append('Executing Command: cdc run')
+        lLogFile.append('')
+        lLogFile.append('')
+        lLogFile.append('')
+
+        self.assertTrue(tool.is_logfile(lLogFile))
 
     def test_get_vendor(self):
         self.assertEqual(['Mentor Graphics'], tool.get_vendor())
