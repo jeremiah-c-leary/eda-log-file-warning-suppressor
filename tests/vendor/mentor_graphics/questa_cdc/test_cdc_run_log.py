@@ -129,7 +129,7 @@ class testFunctions(unittest.TestCase):
         lLogFile.append('# Version 2022.1_2')
         lLogFile.append('log created  ')
         lLogFile.append('')
-        lLogFile.append('Executing Command: cdc run')
+        lLogFile.append('Executing Command : cdc run')
         lLogFile.append('')
         lLogFile.append('')
         lLogFile.append('')
