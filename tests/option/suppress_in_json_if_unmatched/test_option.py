@@ -15,6 +15,22 @@ sXmlFile = 'deleteme.xml'
 
 class test_arguments(unittest.TestCase):
 
+    def setUp(self):
+        if os.path.isfile(sYamlFile):
+            os.remove(sYamlFile)
+        if os.path.isfile(sReportFile):
+            os.remove(sReportFile)
+        if os.path.isfile(sXmlFile):
+            os.remove(sXmlFile)
+    
+    def tearDown(self):
+        if os.path.isfile(sYamlFile):
+            os.remove(sYamlFile)
+        if os.path.isfile(sReportFile):
+            os.remove(sReportFile)
+        if os.path.isfile(sXmlFile):
+            os.remove(sXmlFile)
+
     @mock.patch('elfws.version.version', '0.1')
     @mock.patch('elfws.display.datetime')
     def test_report_w_junit_output(self, mock_datetime):
