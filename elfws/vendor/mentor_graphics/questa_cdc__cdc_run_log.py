@@ -20,6 +20,8 @@ def is_logfile(lFile):
         if fToolFound:
            if sLine.lstrip().startswith('-tool cdc'):
                return True
+           if sLine.lstrip().startswith('Executing Command : cdc run'):
+               return True
         if sLine.startswith('# Questa Static Verification System'):
             fToolFound = True
         if iLineNumber == 20:
