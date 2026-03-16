@@ -177,25 +177,22 @@ def read_log_file(sFileName):
 
 def import_vendor_module(sToolPath):
     '''
-    Imports a module from the elfws/vendor directory based on the parameters.
+    Imports a module based on the path provided.
 
     For example:
        elfws/vendor/microsemi/designer.py
 
     Parameters:
 
-      sVendor : (string)
-
-      sTool   : (string)
+      sToolPath   : (string)
 
     Returns : (module)
     '''
-    spec = importlib.util.spec_from_file_location("blah", sToolPath + '.py')
-    foo = importlib.util.module_from_spec(spec)
-    sys.modules['blah'] = foo
-    spec.loader.exec_module(foo)
-    return foo
-    return importlib.import_module(sToolPath)
+    spec = importlib.util.spec_from_file_location("tool", sToolPath + '.py')
+    tool = importlib.util.module_from_spec(spec)
+    sys.modules['tool'] = tool
+    spec.loader.exec_module(tool)
+    return tool
 
 
 def get_built_in_vendors():
@@ -324,6 +321,7 @@ def get_tool_module(lLogFile, fVendor):
             toolModule = import_vendor_module(sToolPath)
             if toolModule.is_logfile(lLogFile):
                 return toolModule
+
 
 def get_vendor_tool_module(lLogFile):
     '''
