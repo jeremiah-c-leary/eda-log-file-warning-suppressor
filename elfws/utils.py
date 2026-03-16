@@ -294,20 +294,38 @@ def get_built_in_tool_module(lLogFile):
 
     Returns:  (module)
     '''
-    for sVendorPath in get_built_in_vendors():
-        for sToolPath in get_tools(sVendorPath):
-            toolModule = import_vendor_module(sToolPath)
-            if toolModule.is_logfile(lLogFile):
-                return toolModule
+    return get_tool_module(lLogFile, get_built_in_vendors)
 
 
 def get_user_defined_tool_module(lLogFile):
-    for sVendorPath in get_user_defined_vendors():
+    '''
+    Searches for a vendor tool in the that can parse the given logfile.
+
+    Parameters:
+
+      lLogFile : (list of strings)
+
+    Returns:  (module)
+    '''
+    return get_tool_module(lLogFile, get_user_defined_vendors)
+
+
+def get_tool_module(lLogFile, fVendor):
+    '''
+    Searches for a vendor tool in the that can parse the given logfile.
+
+    Parameters:
+
+      lLogFile : (list of strings)
+      fVendor  : function to search for vendors
+
+    Returns:  (module)
+    '''
+    for sVendorPath in fVendor():
         for sToolPath in get_tools(sVendorPath):
             toolModule = import_vendor_module(sToolPath)
             if toolModule.is_logfile(lLogFile):
                 return toolModule
-
 
 def get_vendor_tool_module(lLogFile):
     '''
