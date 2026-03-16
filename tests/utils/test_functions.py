@@ -11,11 +11,6 @@ from elfws import suppression
 
 class test_functions(unittest.TestCase):
 
-    def test_build_vendor_module_path(self):
-        self.assertEqual('elfws.vendor.microsemi.designer', utils.build_vendor_module_path('microsemi', 'designer'))
-        self.assertEqual('elfws.vendor.vendorname.toolname', utils.build_vendor_module_path('vendorName', 'toolName'))
-
-
     def test_read_suppression_file(self):
         dExpected = {}
         dExpected['suppress'] = {}
@@ -246,22 +241,19 @@ class test_functions(unittest.TestCase):
 
         self.assertEqual(lExpected, utils.read_log_file('tests/vendor/microsemi/designer/warning_messages.log'))
 
-    def test_import_vendor_module(self):
-        self.assertEqual(importlib.import_module('elfws.vendor.microsemi.designer'), utils.import_vendor_module('microsemi', 'designer'))
-
     def test_get_vendors(self):
-        lActual = utils.get_vendors()
+        lActual = utils.get_vendors('elfws/vendor')
         self.assertEqual(4, len(lActual))
-        self.assertTrue('mentor_graphics' in lActual) 
-        self.assertTrue('microsemi' in lActual) 
-        self.assertTrue('synopsys' in lActual) 
-        self.assertTrue('xilinx' in lActual) 
+        self.assertTrue('elfws/vendor/mentor_graphics' in lActual) 
+        self.assertTrue('elfws/vendor/microsemi' in lActual) 
+        self.assertTrue('elfws/vendor/synopsys' in lActual) 
+        self.assertTrue('elfws/vendor/xilinx' in lActual) 
 
     def test_get_tools(self):
         lExpected = ['designer']
-        self.assertEqual(lExpected.sort(), utils.get_tools('microsemi').sort())
+        self.assertEqual(lExpected.sort(), utils.get_tools('elfws/vendor/microsemi').sort())
         lExpected = ['questa_cdc__cdc_run_log', 'questa_cdc__cdc_detail_rpt', 'precision', 'questa_lint']
-        self.assertEqual(lExpected.sort(), utils.get_tools('mentor_graphics').sort())
+        self.assertEqual(lExpected.sort(), utils.get_tools('elfws/vendor/mentor_graphics').sort())
 
     def test_remove_extension(self):
         self.assertEqual('filename', utils.remove_extension('filename.ext'))

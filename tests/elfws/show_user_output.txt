@@ -1,0 +1,26 @@
+================================================================================
+ELFWS version         : 0.1
+Date                  : Some Date
+Log file              : tests/vendor/mentor_graphics/questa_lint/user_warning_messages.rpt
+Suppression Rule File : <None>
+
+-----------------+--------+-----------------------------------------------------
+ ID              | Line # | Warning Message
+-----------------+--------+-----------------------------------------------------
+ Something       |     12 | error report over multiple lines but separated by blank lines
+ Something       |     16 | Yet another error over multiple lines
+ other_error     |     23 | [blah blah] more extra lines
+-----------------+--------+-----------------------------------------------------
+
+  Suppression Rules
+    Total                  :     0
+    Unused                 :     0
+
+  Warnings
+    Total                  :     3
+    Suppressed             :     0
+    Unsuppressed           :     3
+    Under Investigation    :     0
+    Multiply Suppressed    :     0
+
+================================================================================
