@@ -334,9 +334,9 @@ def get_vendor_tool_module(lLogFile):
 
     Returns:  (module)
     '''
-    toolModule = get_built_in_tool_module(lLogFile)
+    toolModule = get_user_defined_tool_module(lLogFile)
     if toolModule is None:
-        toolModule = get_user_defined_tool_module(lLogFile)
+        toolModule = get_built_in_tool_module(lLogFile)
     return toolModule
 
 
