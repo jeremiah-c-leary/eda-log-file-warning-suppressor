@@ -190,10 +190,8 @@ def import_vendor_module(sToolPath):
 
     Returns : (module)
     '''
-#    print(sToolPath)
     spec = importlib.util.spec_from_file_location("blah", sToolPath + '.py')
     foo = importlib.util.module_from_spec(spec)
-#    print(foo)
     sys.modules['blah'] = foo
     spec.loader.exec_module(foo)
     return foo
@@ -360,13 +358,6 @@ def create_warning_list(lLogFile, sLogFileName):
         print('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.')
         sys.exit(2)
     return mTool.extract_warnings(lLogFile)
-
-#    try:
-#        mTool = get_vendor_tool_module(lLogFile)
-#        return mTool.extract_warnings(lLogFile)
-#    except AttributeError:
-#        print('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.')
-#        sys.exit(2)
 
 
 def apply_suppression_rules_to_warnings(oWarnList, oSupList):
