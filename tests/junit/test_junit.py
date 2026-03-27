@@ -10,8 +10,7 @@ from elfws import __main__
 from elfws import version
 from elfws import utils
 
-#sWarningFile = os.path.join(Path(__file__).parent, 'warning_messages.log')
-sWarningFile = os.path.join('.', 'tests', 'junit', 'warning_messages.log')
+sWarningFile = os.path.join(Path(__file__).parent, 'warning_messages.rpt')
 
 sXmlFile = 'deleteme.xml'
 
@@ -25,27 +24,22 @@ class test_arguments(unittest.TestCase):
         if os.path.isfile(sXmlFile):
             os.remove(sXmlFile)
 
-#    @mock.patch('sys.stdout')
-#    def test_report_w_junit_output(self, mockStdout):
-    def test_report_w_junit_output(self):
-        print(f'Current directory: {os.getcwd()}')
-        for entry in os.scandir('./tests/junit'):
-            print(entry)
+    @mock.patch('sys.stdout')
+    def test_report_w_junit_output(self, mockStdout):
+        sys.argv = ['elfws', 'show', sWarningFile, '--junit', sXmlFile]
 
-#        sys.argv = ['elfws', 'show', sWarningFile, '--junit', sXmlFile]
-#
-#        try:
-#            __main__.main()
-#        except SystemExit as e:
-#            iExitStatus = e.args[0]
-#
-#        self.assertEqual(iExitStatus, 0)
-#
-#        lExpected = utils.read_log_file(os.path.join(os.path.dirname(__file__), 'junit_output.xml'))
-#        lActual = utils.read_log_file(sXmlFile)
-#
-#        self.assertEqual(len(lExpected), len(lActual))
-#        for iIndex, sLine in enumerate(lExpected):
-#            if not iIndex == 1:
-#                self.assertEqual(sLine, lActual[iIndex])
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
+
+        lExpected = utils.read_log_file(os.path.join(os.path.dirname(__file__), 'junit_output.xml'))
+        lActual = utils.read_log_file(sXmlFile)
+
+        self.assertEqual(len(lExpected), len(lActual))
+        for iIndex, sLine in enumerate(lExpected):
+            if not iIndex == 1:
+                self.assertEqual(sLine, lActual[iIndex])
 
