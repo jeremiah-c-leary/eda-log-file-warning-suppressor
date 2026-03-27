@@ -24,8 +24,9 @@ class test_arguments(unittest.TestCase):
         if os.path.isfile(sXmlFile):
             os.remove(sXmlFile)
 
-    @mock.patch('sys.stdout')
-    def test_report_w_junit_output(self, mockStdout):
+#    @mock.patch('sys.stdout')
+#    def test_report_w_junit_output(self, mockStdout):
+    def test_report_w_junit_output(self):
         sys.argv = ['elfws', 'show', sWarningFile, '--junit', sXmlFile]
 
         try:
