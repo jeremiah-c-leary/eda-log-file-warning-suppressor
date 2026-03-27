@@ -29,6 +29,9 @@ class test_arguments(unittest.TestCase):
 #    def test_report_w_junit_output(self, mockStdout):
     def test_report_w_junit_output(self):
         print(f'Current directory: {os.getcwd()}')
+        for entry in os.scandir('./tests/junit'):
+            print(entry)
+
 #        sys.argv = ['elfws', 'show', sWarningFile, '--junit', sXmlFile]
 #
 #        try:
