@@ -10,7 +10,8 @@ from elfws import __main__
 from elfws import version
 from elfws import utils
 
-sWarningFile = os.path.join(Path(__file__).parent, 'warning_messages.log')
+#sWarningFile = os.path.join(Path(__file__).parent, 'warning_messages.log')
+sWarningFile = os.path.join('.', 'tests', 'junit', 'warning_messages.log')
 
 sXmlFile = 'deleteme.xml'
 
