@@ -1,5 +1,6 @@
 
 import importlib
+import importlib.util
 import os
 import re
 import sys
@@ -175,41 +176,27 @@ def read_log_file(sFileName):
     return lLines
 
 
-def build_vendor_module_path(sVendor, sTool):
+def import_vendor_module(sToolPath):
     '''
-    Creates the path to a vendor's tool module.
-
-    Parameter:
-
-      sVendor : (string)
-
-      sTool   : (string)
-
-    Returns : (string)
-    '''
-    return '.'.join(['elfws', 'vendor', sVendor.lower(), sTool.lower()])
-
-
-def import_vendor_module(sVendor, sTool):
-    '''
-    Imports a module from the elfws/vendor directory based on the parameters.
+    Imports a module based on the path provided.
 
     For example:
        elfws/vendor/microsemi/designer.py
 
     Parameters:
 
-      sVendor : (string)
-
-      sTool   : (string)
+      sToolPath   : (string)
 
     Returns : (module)
     '''
-    sToolPath = build_vendor_module_path(sVendor, sTool)
-    return importlib.import_module(sToolPath)
+    spec = importlib.util.spec_from_file_location("tool", sToolPath + '.py')
+    tool = importlib.util.module_from_spec(spec)
+    sys.modules['tool'] = tool
+    spec.loader.exec_module(tool)
+    return tool
 
 
-def get_vendors():
+def get_built_in_vendors():
     '''
     Extract the vendors from the vendor directory.
 
@@ -219,19 +206,45 @@ def get_vendors():
 
     Returns: List of directory names
     '''
+    return get_vendors(os.path.join(os.path.dirname(__file__), 'vendor'))
+
+
+def get_user_defined_vendors():
+    '''
+    Extract the vendors from the vendor directory.
+
+    Parameters:
+
+      None
+
+    Returns: List of directory names
+    '''
+    if 'ELFWS_USER_VENDOR_DIR' in os.environ:
+        return get_vendors(os.getenv('ELFWS_USER_VENDOR_DIR'))
+    return []
+
+
+def get_vendors(sVendorPath):
+    '''
+    Extract the vendors from the user defined vendor directory.
+
+    Parameters:
+
+      None
+
+    Returns: List of directory names
+    '''
     lReturn = []
-    sVendorPath = os.path.join(os.path.dirname(__file__), 'vendor')
     lListing = os.listdir(sVendorPath)
     for sListing in lListing:
         if sListing.startswith('__'):
             continue
-        sPath = os.path.join(os.path.dirname(__file__), sListing)
-        if os.path.isdir(os.path.join(os.path.dirname(__file__), 'vendor', sListing)):
-            lReturn.append(sListing)
+        if os.path.isdir(os.path.join(sVendorPath, sListing)):
+            lReturn.append(os.path.join(sVendorPath, sListing))
     return lReturn
 
 
-def get_tools(sVendor):
+def get_tools(sVendorPath):
     '''
     Extract the tools for a vendor.
 
@@ -242,8 +255,7 @@ def get_tools(sVendor):
     Returns: list of tool names
     '''
     lReturn = []
-    sToolPath = os.path.join(os.path.dirname(__file__), 'vendor', sVendor)
-    lListing = os.listdir(sToolPath)
+    lListing = os.listdir(sVendorPath)
     for sListing in lListing:
         if sListing.startswith('__'):
             continue
@@ -251,7 +263,7 @@ def get_tools(sVendor):
             continue
         if sListing.startswith('.'):
             continue
-        lReturn.append(remove_extension(sListing))
+        lReturn.append(os.path.join(sVendorPath, remove_extension(sListing)))
     return lReturn
 
 
@@ -268,6 +280,50 @@ def remove_extension(sString):
     return os.path.splitext(sString)[0]
 
 
+def get_built_in_tool_module(lLogFile):
+    '''
+    Searches for a vendor tool in the that can parse the given logfile.
+
+    Parameters:
+
+      lLogFile : (list of strings)
+
+    Returns:  (module)
+    '''
+    return get_tool_module(lLogFile, get_built_in_vendors)
+
+
+def get_user_defined_tool_module(lLogFile):
+    '''
+    Searches for a vendor tool in the that can parse the given logfile.
+
+    Parameters:
+
+      lLogFile : (list of strings)
+
+    Returns:  (module)
+    '''
+    return get_tool_module(lLogFile, get_user_defined_vendors)
+
+
+def get_tool_module(lLogFile, fVendor):
+    '''
+    Searches for a vendor tool in the that can parse the given logfile.
+
+    Parameters:
+
+      lLogFile : (list of strings)
+      fVendor  : function to search for vendors
+
+    Returns:  (module)
+    '''
+    for sVendorPath in fVendor():
+        for sToolPath in get_tools(sVendorPath):
+            toolModule = import_vendor_module(sToolPath)
+            if toolModule.is_logfile(lLogFile):
+                return toolModule
+
+
 def get_vendor_tool_module(lLogFile):
     '''
     Searches for a vendor tool that can parse the given logfile.
@@ -278,12 +334,10 @@ def get_vendor_tool_module(lLogFile):
 
     Returns:  (module)
     '''
-    for sVendor in get_vendors():
-        for sTool in get_tools(sVendor):
-            toolModule = import_vendor_module(sVendor, sTool)
-            if toolModule.is_logfile(lLogFile):
-                return toolModule
-    return None
+    toolModule = get_user_defined_tool_module(lLogFile)
+    if toolModule is None:
+        toolModule = get_built_in_tool_module(lLogFile)
+    return toolModule
 
 
 def create_warning_list(lLogFile, sLogFileName):
@@ -296,12 +350,13 @@ def create_warning_list(lLogFile, sLogFileName):
 
     Returns:  (warning list object)
     '''
-    try:
-        mTool = get_vendor_tool_module(lLogFile)
-        return mTool.extract_warnings(lLogFile)
-    except AttributeError:
+    mTool = get_built_in_tool_module(lLogFile)
+    if mTool is None:
+        mTool = get_user_defined_tool_module(lLogFile)
+    if mTool is None:
         print('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.')
         sys.exit(2)
+    return mTool.extract_warnings(lLogFile)
 
 
 def apply_suppression_rules_to_warnings(oWarnList, oSupList):

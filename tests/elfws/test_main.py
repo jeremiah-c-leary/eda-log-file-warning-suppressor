@@ -11,6 +11,7 @@ from elfws import utils
 
 sWarningFile = 'tests/vendor/microsemi/designer/warning_messages.log'
 sSupFile = 'tests/subcommand/suppress/suppress_microsemi_designer_logfile.yaml'
+sUserWarningFile = 'tests/vendor/mentor_graphics/questa_lint/user_warning_messages.rpt'
 
 sYamlFile = 'deleteme.yaml'
 sReportFile = 'deleteme.rpt'
@@ -254,3 +255,28 @@ class test_arguments(unittest.TestCase):
         for iIndex, sLine in enumerate(lExpected):
             if not iIndex == 1:
                 self.assertEqual(sLine, lActual[iIndex])
+
+    @mock.patch('elfws.version.version', '0.1')
+    @mock.patch('sys.stdout')
+    @mock.patch('elfws.display.datetime')
+    @mock.patch.dict(os.environ, {'ELFWS_USER_VENDOR_DIR': 'tests/user_defined_tools/vendor'})
+    def test_user_defined_tool(self, mock_datetime, mock_stdout):
+        mock_datetime.now.return_value = 'Some Date'
+        sys.argv = ['elfws', 'show', sUserWarningFile]
+
+        try:
+            __main__.main()
+        except SystemExit as e:
+            iExitStatus = e.args[0]
+
+        self.assertEqual(iExitStatus, 0)
+
+        lLogFile = utils.read_log_file('tests/elfws/show_user_output.txt')
+        
+        lExpected = []
+        for sLine in lLogFile:
+            lExpected.append(mock.call(sLine))
+            lExpected.append(mock.call('\n'))
+
+        mock_stdout.write.assert_has_calls(lExpected)
+

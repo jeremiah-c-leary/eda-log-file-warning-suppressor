@@ -1,6 +1,7 @@
 
 import datetime
 import os
+from pathlib import Path
 import sys
 import unittest
 from unittest import mock
@@ -9,7 +10,7 @@ from elfws import __main__
 from elfws import version
 from elfws import utils
 
-sWarningFile = os.path.join(os.path.dirname(__file__), 'warning_messages.log')
+sWarningFile = os.path.join(Path(__file__).parent, 'warning_messages.rpt')
 
 sXmlFile = 'deleteme.xml'
 

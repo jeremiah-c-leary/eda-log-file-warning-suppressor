@@ -5,7 +5,7 @@ import unittest
 from elfws.vendor.mentor_graphics import questa_cdc__cdc_run_log as tool
 from tests import test_utils
 
-lLogFile = test_utils.read_file(os.path.join(os.path.dirname(__file__), 'cdc_run.log'))
+lLogFile = test_utils.read_file(os.path.join(os.path.dirname(__file__), 'cdc_run.rpt'))
 
 
 class testFunctions(unittest.TestCase):

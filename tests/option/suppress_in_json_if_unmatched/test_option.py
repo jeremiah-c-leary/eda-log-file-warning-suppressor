@@ -35,7 +35,7 @@ class test_arguments(unittest.TestCase):
     @mock.patch('elfws.display.datetime')
     def test_report_w_junit_output(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
-        sys.argv = ['elfws', 'report', os.path.join(os.path.dirname(__file__), 'warning_messages.log'), os.path.join(os.path.dirname(__file__), 'suppression.yaml'), sReportFile, '--junit', sXmlFile]
+        sys.argv = ['elfws', 'report', os.path.join(os.path.dirname(__file__), 'warning_messages.rpt'), os.path.join(os.path.dirname(__file__), 'suppression.yaml'), sReportFile, '--junit', sXmlFile]
 
         try:
             __main__.main()
