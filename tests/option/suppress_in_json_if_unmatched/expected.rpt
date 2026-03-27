@@ -1,7 +1,7 @@
 ================================================================================
 ELFWS version         : 0.1
 Date                  : Some Date
-Log file              : tests/option/suppress_in_json_if_unmatched/warning_messages.log
+Log file              : tests/option/suppress_in_json_if_unmatched/warning_messages.rpt
 Suppression Rule File : tests/option/suppress_in_json_if_unmatched/suppression.yaml
 
 Table of Contents:
