@@ -28,6 +28,7 @@ class test_arguments(unittest.TestCase):
 #    @mock.patch('sys.stdout')
 #    def test_report_w_junit_output(self, mockStdout):
     def test_report_w_junit_output(self):
+        print(f'Current directory: {os.getcwd()}')
         sys.argv = ['elfws', 'show', sWarningFile, '--junit', sXmlFile]
 
         try:
