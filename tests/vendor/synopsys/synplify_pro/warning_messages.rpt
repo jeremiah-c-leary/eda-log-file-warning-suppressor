@@ -1,0 +1,12 @@
+#Build: Synplify Pro (R) M-2017.03, Build 2626R, Feb 21 2017
+#install:
+#OS:
+#Hostname:
+
+@N : Some Note
+@W : ID1 : "file name" some message
+@N : Other Note 1
+@N : Other Note 2
+@W : ID1 : "file name" some other message
+@W : ID2 : Some message without a file
+

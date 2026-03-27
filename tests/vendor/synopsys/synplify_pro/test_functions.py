@@ -9,7 +9,7 @@ from tests import test_utils
 class testFunctions(unittest.TestCase):
 
     def test_extract_warnings(self):
-        lLogFile = test_utils.read_file(os.path.join(os.path.dirname(__file__), 'warning_messages.log'))
+        lLogFile = test_utils.read_file(os.path.join(os.path.dirname(__file__), 'warning_messages.rpt'))
         oWarningList = synplify_pro.extract_warnings(lLogFile)
 
         oWarning = oWarningList.warnings[0]
