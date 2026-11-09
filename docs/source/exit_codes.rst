@@ -18,4 +18,6 @@ ELFWS provides the following exit codes to report execution status.
 +------+---------------------------------+
 |  5   | Could not write junit file      |
 +------+---------------------------------+
+|  6   | Could not read log file         |
++------+---------------------------------+
 

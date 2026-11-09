@@ -245,13 +245,21 @@ def read_log_file(sFileName):
 
       sFileName : (string)
 
+    Bytes which are not valid UTF-8 are replaced rather than causing an
+    error, as EDA tools frequently write other encodings.
+
+    Exits with code 6 if the file cannot be read.
+
     Returns: (list of strings)
     '''
     lLines = []
-    with open(sFileName) as oFile:
-        for sLine in oFile:
-            lLines.append(sLine.rstrip())
-    oFile.close()
+    try:
+        with open(sFileName, encoding='utf-8', errors='replace') as oFile:
+            for sLine in oFile:
+                lLines.append(sLine.rstrip())
+    except OSError as e:
+        print('ERROR: Could not read log file ' + sFileName + ' : ' + str(e))
+        sys.exit(6)
     return lLines
 
 
