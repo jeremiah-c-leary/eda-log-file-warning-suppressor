@@ -1,6 +1,6 @@
 
 def sequence_of_lines_starts_with(iLineNumber, lFile, lSequence):
-    if iLineNumber < len(lSequence):
+    if iLineNumber < len(lSequence) - 1:
         return False
     iTemp = len(lSequence) - 1
     for x in range(len(lSequence)):
