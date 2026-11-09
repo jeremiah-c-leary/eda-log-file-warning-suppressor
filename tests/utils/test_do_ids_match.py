@@ -41,3 +41,18 @@ class test_functions(unittest.TestCase):
 
 
        
+
+    def test_id_does_not_match_as_prefix(self):
+       oWarning = warning.create('Synth 8-10')
+       oSuppression = suppression.create('Synth 8-1')
+       self.assertFalse(utils.do_ids_match(oWarning, oSuppression))
+
+    def test_id_with_trailing_characters_does_not_match(self):
+       oWarning = warning.create('first_id_extra')
+       oSuppression = suppression.create('first_id')
+       self.assertFalse(utils.do_ids_match(oWarning, oSuppression))
+
+    def test_explicit_prefix_regexp_matches(self):
+       oWarning = warning.create('Synth 8-10')
+       oSuppression = suppression.create('Synth 8-1.*')
+       self.assertTrue(utils.do_ids_match(oWarning, oSuppression))

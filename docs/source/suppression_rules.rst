@@ -32,6 +32,10 @@ Warning IDs
 
 Regular expressons are support in warning ids.
 This allows for another method of grouping suppressions.
+The warning id regular expression must match the **entire** warning id.
+For example, a rule with the id **Synth 8-1** will match the warning id **Synth 8-1**, but not **Synth 8-10**.
+Use **Synth 8-1.*** to match every id starting with **Synth 8-1**.
+
 In the example below, every ID that starts with **Synth-** and has **flip-flop** in the message will be suppressed.
 
 .. code-block:: yaml
