@@ -77,3 +77,22 @@ class testFunctions(unittest.TestCase):
         lLogFile.append(' ')
 
         self.assertFalse(designer.is_logfile(lLogFile))
+
+    def test_extract_warnings_on_last_line(self):
+        lLogFile = []
+        lLogFile.append('Microsemi Libero Software')
+        lLogFile.append('Warning: ABC: warning on last line')
+        oWarningList = designer.extract_warnings(lLogFile)
+        self.assertEqual(1, oWarningList.get_number_of_warnings())
+        self.assertEqual('ABC', oWarningList.warnings[0].get_id())
+        self.assertEqual('warning on last line', oWarningList.warnings[0].get_message())
+        self.assertEqual(2, oWarningList.warnings[0].get_linenumber())
+
+    def test_extract_multiline_warning_at_end_of_file(self):
+        lLogFile = []
+        lLogFile.append('Microsemi Libero Software')
+        lLogFile.append('Warning: ABC: first line')
+        lLogFile.append('         second line')
+        oWarningList = designer.extract_warnings(lLogFile)
+        self.assertEqual(1, oWarningList.get_number_of_warnings())
+        self.assertEqual('first line second line', oWarningList.warnings[0].get_message())
