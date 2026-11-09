@@ -22,7 +22,7 @@ def read_suppression_file(sFileName):
     '''
     try:
         with open(sFileName) as yaml_file:
-            dReturn = yaml.full_load(yaml_file)
+            dReturn = yaml.safe_load(yaml_file)
     except Exception as e:
         print(e)
         sys.exit(1)
@@ -37,6 +37,9 @@ def create_suppression_list(dSuppression):
     '''
     Processes a given dictionary and returns a suppression list object.
 
+    If any rule is malformed, every problem found is printed and the
+    program exits with code 1 (suppression file error).
+
     Parameters:
 
         dSuppression : (dict)
@@ -44,17 +47,22 @@ def create_suppression_list(dSuppression):
     Returns:  suppression list object
     '''
     oReturn = suppression_list.create()
-    try:
-        lRules = search_for_suppression_rules(dSuppression['suppress'])
-        for oRule in lRules:
+    lErrors = []
+    if not isinstance(dSuppression, dict):
+        lErrors.append('suppression file must contain a mapping with a "suppress" key')
+    elif dSuppression.get('suppress') is not None:
+        for oRule in search_for_suppression_rules(dSuppression['suppress'], ['suppress'], lErrors):
             oReturn.add_suppression(oRule)
-    except KeyError:
-        pass
+
+    if len(lErrors) > 0:
+        for sError in lErrors:
+            print('ERROR: Suppression file: ' + sError)
+        sys.exit(1)
 
     return oReturn
 
 
-def search_for_suppression_rules(dSubDict):
+def search_for_suppression_rules(dSubDict, lPath=None, lErrors=None):
     '''
     This function traverses all keys in a dictionary searching for the key 'rules.'
 
@@ -67,43 +75,114 @@ def search_for_suppression_rules(dSubDict):
 
         dSubDict : (dict)
 
+        lPath : (list of strings) keys leading to dSubDict, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
     Returns: list of suppression rules
     '''
+    lPath = lPath or []
+    lErrors = lErrors if lErrors is not None else []
     lReturn = []
+    if dSubDict is None:
+        return lReturn
+    if not isinstance(dSubDict, dict):
+        lErrors.append(format_path(lPath) + ': expected a group or "rules" key, found ' + repr(dSubDict))
+        return lReturn
     for dID in list(dSubDict.keys()):
         if dID == 'rules':
-            lRules = extract_suppression_rules(dSubDict[dID])
+            lRules = extract_suppression_rules(dSubDict[dID], lPath + [dID], lErrors)
         else:
-            lRules = search_for_suppression_rules(dSubDict[dID])
+            lRules = search_for_suppression_rules(dSubDict[dID], lPath + [str(dID)], lErrors)
         lReturn.extend(lRules)
 
     return lReturn
 
 
-def extract_suppression_rules(dRules):
+def extract_suppression_rules(dRules, lPath=None, lErrors=None):
     '''
     Processes a rule dictionary and return a list of suppression rules.
+
+    Malformed rules are skipped and described in lErrors.
 
     Parameters:
 
         dRules : (dict)
 
+        lPath : (list of strings) keys leading to dRules, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
     Returns: list of suppression rules
     '''
+    lPath = lPath or ['rules']
+    lErrors = lErrors if lErrors is not None else []
     lReturn = []
-    try:
-        for dID in list(dRules.keys()):
-            for dSup in dRules[dID]:
-                oSupRule = suppression.create(str(dID), dSup['msg'])
-                update_suppression_author(oSupRule, dSup)
-                update_suppression_comment(oSupRule, dSup)
-                update_suppression_investigate(oSupRule, dSup)
-                update_suppression_options(oSupRule, dSup)
-                lReturn.append(oSupRule)
-    except KeyError:
-        pass
+    if dRules is None:
+        return lReturn
+    if not isinstance(dRules, dict):
+        lErrors.append(format_path(lPath) + ': expected warning ids, found ' + repr(dRules))
+        return lReturn
+    for dID in list(dRules.keys()):
+        sIdPath = format_path(lPath + [str(dID)])
+        if not isinstance(dRules[dID], list):
+            lErrors.append(sIdPath + ': expected a list of rules, found ' + repr(dRules[dID]))
+            continue
+        for iIndex, dSup in enumerate(dRules[dID]):
+            sRulePath = sIdPath + '[' + str(iIndex) + ']'
+            if not isinstance(dSup, dict):
+                lErrors.append(sRulePath + ': expected a rule with a "msg" key, found ' + repr(dSup))
+                continue
+            if dSup.get('msg') is None:
+                lErrors.append(sRulePath + ': rule is missing the required "msg" key')
+                continue
+            oSupRule = suppression.create(str(dID), str(dSup['msg']))
+            if not are_rule_regular_expressions_valid(oSupRule, sRulePath, lErrors):
+                continue
+            update_suppression_author(oSupRule, dSup)
+            update_suppression_comment(oSupRule, dSup)
+            update_suppression_investigate(oSupRule, dSup)
+            update_suppression_options(oSupRule, dSup)
+            lReturn.append(oSupRule)
 
     return lReturn
+
+
+def are_rule_regular_expressions_valid(oSupRule, sRulePath, lErrors):
+    '''
+    Checks the warning id and message of a rule compile as regular expressions.
+
+    Parameters:
+
+        oSupRule : (suppression rule object)
+
+        sRulePath : (string) location of the rule, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
+    Returns: (boolean)
+    '''
+    fReturn = True
+    for sField, sRegex in [('warning id', oSupRule.get_warning_id()), ('msg', oSupRule.get_message())]:
+        try:
+            re.compile(sRegex)
+        except re.error as e:
+            lErrors.append(sRulePath + ': invalid regular expression in ' + sField + ' ' + repr(sRegex) + ': ' + str(e))
+            fReturn = False
+    return fReturn
+
+
+def format_path(lPath):
+    '''
+    Formats a list of keys as a location in the suppression file.
+
+    Parameters:
+
+        lPath : (list of strings)
+
+    Returns: (string)
+    '''
+    return ' -> '.join(lPath)
 
 
 def update_suppression_author(oSupRule, dSup):
