@@ -21,7 +21,7 @@ class failure():
         '''
         Return a formatted failure as a list of strings.
         '''
-        lJunit = ['    <failure type="' + self.type + '">']
+        lJunit = ['    <failure type="' + escape_xml_characters(self.type) + '">']
         for sText in self.text:
             lJunit.append('      ' + escape_xml_characters(sText))
         lJunit.append('    </failure>')
@@ -51,7 +51,7 @@ class testcase():
         Return formatted testcase as a list of strings.
         '''
 
-        lJunit = ['  <testcase name="' + self.name + '" time="' + self.time + '" classname="' + self.classname + '">']
+        lJunit = ['  <testcase name="' + escape_xml_characters(self.name) + '" time="' + escape_xml_characters(self.time) + '" classname="' + escape_xml_characters(self.classname) + '">']
 
         if self.failures:
             for oFailure in self.failures:
@@ -74,7 +74,7 @@ class testsuite():
         self.name = sName
         self.time = sTime
         self.testcases = None
-        self.timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%I:%M:%S")
+        self.timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_testcase(self, oTestcase):
         try:
@@ -88,7 +88,7 @@ class testsuite():
         '''
         sHeader = '<testsuite'
         sHeader += ' errors="0"'
-        sHeader += ' hostname="' + platform.uname()[1] + '"'
+        sHeader += ' hostname="' + escape_xml_characters(platform.uname()[1]) + '"'
         iFailures = 0
         for oTestcase in self.testcases:
             if oTestcase.failures:
@@ -96,8 +96,8 @@ class testsuite():
         sHeader += ' failures="' + str(iFailures) + '"'
         sHeader += ' timestamp="' + self.timestamp + '"'
         sHeader += ' tests="' + str(len(self.testcases)) + '"'
-        sHeader += ' time="' + self.time + '"'
-        sHeader += ' name="' + self.name + '"'
+        sHeader += ' time="' + escape_xml_characters(self.time) + '"'
+        sHeader += ' name="' + escape_xml_characters(self.name) + '"'
         sHeader += '>'
         lJunit = [sHeader]
         lJunit.append('  <properties>')
