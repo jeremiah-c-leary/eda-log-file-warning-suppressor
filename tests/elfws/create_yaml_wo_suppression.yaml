@@ -8,7 +8,7 @@ suppress:
     - author: elfws
       comment: <Add justification why this warning can be suppressed.>
       msg: This is the first line of the warning This is the second line of the warning
-        This is the last line of the warning.
+        This is the last line of the warning\.
     NO_ID:
     - author: elfws
       comment: <Add justification why this warning can be suppressed.>
@@ -20,4 +20,4 @@ suppress:
       comment: <Add justification why this warning can be suppressed.>
       msg: 'This is the first line : of the message This is the second line of the
         message This is the third line of the message This is the last line of the
-        message.'
+        message\.'

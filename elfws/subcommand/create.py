@@ -45,8 +45,24 @@ def create_suppression_dict(oWarnList):
         if sId not in lKeys:
             dReturn['suppress']['rules'][sId] = []
         dRule = {}
-        dRule['msg'] = oWarning.get_message()
+        dRule['msg'] = escape_regular_expression(oWarning.get_message())
         dRule['author'] = 'elfws'
         dRule['comment'] = '<Add justification why this warning can be suppressed.>'
         dReturn['suppress']['rules'][sId].append(dRule)
     return dReturn
+
+
+def escape_regular_expression(sString):
+    '''
+    Escapes regular expression metacharacters so the string matches literally.
+
+    Unlike re.escape, spaces and other ordinary characters are left alone to
+    keep the generated suppression file readable.
+
+    Parameters:
+
+      sString : (string)
+
+    Returns: (string)
+    '''
+    return re.sub(r'([\\.^$*+?{}\[\]|()])', r'\\\1', sString)
