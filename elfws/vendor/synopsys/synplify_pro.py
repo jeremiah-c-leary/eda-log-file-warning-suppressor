@@ -2,6 +2,8 @@
 from elfws import warning
 from elfws import warning_list
 
+LAST_HEADER_LINE_INDEX = 5
+
 
 def get_vendor():
     return ['Synopsys']
@@ -15,7 +17,7 @@ def is_logfile(lFile):
     for iLineNumber, sLine in enumerate(lFile):
         if sLine.startswith('#Build: Synplify Pro (R)'):
             return True
-        if iLineNumber == 5:
+        if iLineNumber == LAST_HEADER_LINE_INDEX:
             return False
     return False
 

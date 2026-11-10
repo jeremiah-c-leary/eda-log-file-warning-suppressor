@@ -8,6 +8,7 @@ import yaml
 
 from . import suppression
 from . import suppression_list
+from .exit_code import ExitCode
 
 # Parser modules which have already been imported, keyed by tool path.
 dToolModuleCache = {}
@@ -36,7 +37,7 @@ def load_yaml_file(sFileName):
 
 def exit_with_suppression_file_error(oError):
     print(oError)
-    sys.exit(1)
+    sys.exit(ExitCode.SUPPRESSION_FILE_ERROR)
 
 
 def create_suppression_list(dSuppression):
@@ -107,7 +108,7 @@ def exit_if_suppression_file_has_errors(lErrors):
     if not has_errors(lErrors):
         return
     print_suppression_file_errors(lErrors)
-    sys.exit(1)
+    sys.exit(ExitCode.SUPPRESSION_FILE_ERROR)
 
 
 def print_suppression_file_errors(lErrors):
@@ -463,7 +464,7 @@ def read_lines_without_line_endings(sFileName):
 
 def exit_with_log_file_error(sFileName, oError):
     print('ERROR: Could not read log file ' + sFileName + ' : ' + str(oError))
-    sys.exit(6)
+    sys.exit(ExitCode.LOG_FILE_READ_ERROR)
 
 
 def import_vendor_module(sToolPath):
@@ -661,7 +662,7 @@ def create_warning_list(lLogFile, sLogFileName):
     mTool = get_vendor_tool_module(lLogFile)
     if mTool is None:
         print('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.')
-        sys.exit(2)
+        sys.exit(ExitCode.NO_MATCHING_PARSER)
     return mTool.extract_warnings(lLogFile)
 
 
@@ -740,11 +741,11 @@ def do_messages_match(oWarning, oSuppression):
 
 
 def write_junit_file(sFilename, lFile):
-    write_file(sFilename, lFile, 5)
+    write_file(sFilename, lFile, ExitCode.JUNIT_FILE_WRITE_ERROR)
 
 
 def write_report_file(sFilename, lFile):
-    write_file(sFilename, lFile, 4)
+    write_file(sFilename, lFile, ExitCode.REPORT_FILE_WRITE_ERROR)
 
 
 def write_file(sFilename, lFile, iExitCode):

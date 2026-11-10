@@ -4,6 +4,7 @@ import sys
 from elfws import warning_list
 from elfws import utils
 from elfws import display
+from elfws.exit_code import ExitCode
 
 
 def suppress(cla):
@@ -19,7 +20,7 @@ def suppress(cla):
 
     display.results(cla.log_file, cla.suppression_file, oSupList, oWarnList)
 
-    sys.exit(0)
+    sys.exit(ExitCode.SUCCESS)
 
 
 def extract_non_suppressed_warnings(oWarnList, oSupList):

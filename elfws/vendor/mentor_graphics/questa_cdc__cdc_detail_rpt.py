@@ -5,6 +5,8 @@ from elfws import warning_list
 from elfws.vendor import utils as vendor_utils
 from elfws.vendor.mentor_graphics import utils as cdc_utils
 
+LAST_HEADER_LINE_INDEX = 10
+
 
 def get_vendor():
     return ['Mentor Graphics']
@@ -22,7 +24,7 @@ def is_logfile(lFile):
                return True
         if sLine.startswith('Questa CDC Version'):
             fToolFound = True
-        if iLineNumber == 10:
+        if iLineNumber == LAST_HEADER_LINE_INDEX:
             break
     return False
 

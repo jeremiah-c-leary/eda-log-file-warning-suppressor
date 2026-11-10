@@ -2,6 +2,8 @@
 from elfws import warning
 from elfws import warning_list
 
+LAST_HEADER_LINE_INDEX = 10
+
 
 def get_vendor():
     return ['Actel', 'Microsemi']
@@ -15,7 +17,7 @@ def is_logfile(lFile):
     for iLineNumber, sLine in enumerate(lFile):
         if sLine.startswith('Microsemi Libero Software'):
             return True
-        if iLineNumber == 10:
+        if iLineNumber == LAST_HEADER_LINE_INDEX:
             return False
     return False
 
