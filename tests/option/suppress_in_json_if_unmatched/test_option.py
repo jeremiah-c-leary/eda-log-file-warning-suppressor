@@ -1,7 +1,6 @@
 
 import datetime
 import os
-import sys
 import unittest
 from unittest import mock
 
@@ -31,18 +30,16 @@ class test_arguments(unittest.TestCase):
         if os.path.isfile(sXmlFile):
             os.remove(sXmlFile)
 
+    @mock.patch('sys.argv', ['elfws', 'report', os.path.join(os.path.dirname(__file__), 'warning_messages.rpt'), os.path.join(os.path.dirname(__file__), 'suppression.yaml'), sReportFile, '--junit', sXmlFile])
     @mock.patch('elfws.version.version', '0.1')
     @mock.patch('elfws.display.datetime')
     def test_report_w_junit_output(self, mock_datetime):
         mock_datetime.now.return_value = 'Some Date'
-        sys.argv = ['elfws', 'report', os.path.join(os.path.dirname(__file__), 'warning_messages.rpt'), os.path.join(os.path.dirname(__file__), 'suppression.yaml'), sReportFile, '--junit', sXmlFile]
 
-        try:
+        with self.assertRaises(SystemExit) as oContext:
             __main__.main()
-        except SystemExit as e:
-            iExitStatus = e.args[0]
 
-        self.assertEqual(iExitStatus, 0)
+        self.assertEqual(oContext.exception.code, 0)
 
         lExpected = utils.read_log_file('tests/option/suppress_in_json_if_unmatched/expected.xml')
         lActual = utils.read_log_file(sXmlFile)
