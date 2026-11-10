@@ -5,6 +5,7 @@ import yaml
 
 from elfws import utils
 from elfws.subcommand import suppress
+from elfws.exit_code import ExitCode
 
 
 def create(cla):
@@ -23,7 +24,7 @@ def create(cla):
     with open(cla.output_suppression_file, 'w') as file:
         yaml.dump(dSup, file)
 
-    sys.exit(0)
+    sys.exit(ExitCode.SUCCESS)
 
 
 def create_suppression_dict(oWarnList):

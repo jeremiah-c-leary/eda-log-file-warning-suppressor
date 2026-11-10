@@ -4,6 +4,7 @@ import sys
 from elfws import utils
 from elfws import display
 from elfws.report import junit
+from elfws.exit_code import ExitCode
 
 
 def report(cla):
@@ -32,7 +33,7 @@ def report(cla):
         lJUnitFile = junit.generate_junit_xml_file(cla, oWarnList, oSupList)
         utils.write_junit_file(cla.junit, lJUnitFile)
 
-    sys.exit(0)
+    sys.exit(ExitCode.SUCCESS)
 
 
 def build_header(cla, lReport):

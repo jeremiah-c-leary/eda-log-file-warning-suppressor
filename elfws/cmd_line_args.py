@@ -2,6 +2,8 @@
 import argparse
 import sys
 
+from elfws.exit_code import ExitCode
+
 
 def parse_command_line_arguments():
     '''
@@ -33,7 +35,7 @@ def print_help_if_no_command_line_options_given(oParser):
     '''
     if len(sys.argv) == 1:
         oParser.print_help()
-        sys.exit(3)
+        sys.exit(ExitCode.NO_COMMAND_LINE_ARGUMENTS)
 
 
 def add_file_arguments_to_parser(oParser):

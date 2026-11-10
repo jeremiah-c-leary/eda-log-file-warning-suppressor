@@ -3,6 +3,14 @@ from datetime import datetime
 
 from elfws import version
 
+REPORT_WIDTH = 80
+MINIMUM_ID_COLUMN_WIDTH = 15
+LINE_NUMBER_COLUMN_WIDTH = 6
+CELL_PADDING = 2
+NUMBER_OF_COLUMN_SEPARATORS = 2
+STATISTIC_LABEL_WIDTH = 22
+STATISTIC_VALUE_WIDTH = 5
+
 
 def results(sLogFileName, sSuppressionFileName, oSupList, oWarnList):
     '''
@@ -38,7 +46,7 @@ def build_header(sLogFileName, sSuppressionFileName):
     Returns: (list of strings)
     '''
     lReturn = []
-    lReturn.append('='*80)
+    lReturn.append('='*REPORT_WIDTH)
     lReturn.append('ELFWS version         : ' + version.version)
     lReturn.append('Date                  : ' + str(datetime.now()))
     lReturn.append('Log file              : ' + sLogFileName)
@@ -85,8 +93,14 @@ def build_table_row_seperator(iFirstColumnLength, iIndent=0):
     Returns: (string)
     '''
     sIndent = ' '*iIndent
-    iColumnLength = max(17, iFirstColumnLength + 2)
-    return sIndent + '-'*iColumnLength + '+' + '-'*8 + '+' + '-'*(80 - iColumnLength - 3 - 1 - 5 - 1 - iIndent)
+    iIdCellWidth = id_column_width(iFirstColumnLength) + CELL_PADDING
+    iLineNumberCellWidth = LINE_NUMBER_COLUMN_WIDTH + CELL_PADDING
+    iMessageCellWidth = REPORT_WIDTH - iIndent - iIdCellWidth - iLineNumberCellWidth - NUMBER_OF_COLUMN_SEPARATORS
+    return sIndent + '-'*iIdCellWidth + '+' + '-'*iLineNumberCellWidth + '+' + '-'*iMessageCellWidth
+
+
+def id_column_width(iIdLength):
+    return max(MINIMUM_ID_COLUMN_WIDTH, iIdLength)
 
 
 def build_stat_line(sString, iNumber):
@@ -101,7 +115,8 @@ def build_stat_line(sString, iNumber):
 
     Returns : (string)
     '''
-    return '    {0:<22s} : {1:5d}'.format(sString, iNumber)
+    sFormat = '    {0:<' + str(STATISTIC_LABEL_WIDTH) + 's} : {1:' + str(STATISTIC_VALUE_WIDTH) + 'd}'
+    return sFormat.format(sString, iNumber)
 
 
 def build_table_of_contents():
@@ -135,9 +150,9 @@ def build_report_section_divider(sTitle):
     Returns:  (list of strings)
     '''
     lReturn = []
-    lReturn.append('-'*80)
+    lReturn.append('-'*REPORT_WIDTH)
     lReturn.append(' ' + sTitle)
-    lReturn.append('-'*80)
+    lReturn.append('-'*REPORT_WIDTH)
     lReturn.append('')
 
     return lReturn
@@ -155,7 +170,7 @@ def build_suppressed_warning_header(oSuppression, iIndent=0):
     '''
     sIndent = ' '*iIndent
     lReturn = []
-    lReturn.append(sIndent + '~'*(80 - iIndent))
+    lReturn.append(sIndent + '~'*(REPORT_WIDTH - iIndent))
     lReturn.append(sIndent + 'Suppression Author  : ' + oSuppression.get_author())
     lReturn.append(sIndent + 'Suppression Comment : ' + oSuppression.get_comment())
     lReturn.append(sIndent + 'Suppression Rule    : ' + oSuppression.get_message())
@@ -222,7 +237,7 @@ def build_multiply_suppressed_warning_header(oWarning, iIndent=0):
     '''
     sIndent = ' '*iIndent
     lReturn = []
-    lReturn.append(sIndent + '~'*(80 - iIndent))
+    lReturn.append(sIndent + '~'*(REPORT_WIDTH - iIndent))
     lReturn.append(sIndent + 'Warning ID  : ' + oWarning.get_id())
     lReturn.append(sIndent + 'Line Number : ' + str(oWarning.get_linenumber()))
     lReturn.append(sIndent + 'Message     : ' + oWarning.get_message())
@@ -255,7 +270,7 @@ def build_report_summary_section(oWarnList, oSupList):
     lReturn.append(build_stat_line('Under Investigation', len(oWarnList.get_investigate_warnings())))
     lReturn.append(build_stat_line('Multiply Suppressed', len(oWarnList.get_warnings_suppressed_by_multiple_rules())))
     lReturn.append('')
-    lReturn.append('='*80)
+    lReturn.append('='*REPORT_WIDTH)
 
     return lReturn
 
@@ -289,7 +304,7 @@ def table_header_format_string(iIdLength, iIndent):
     Returns : (string)
     '''
     sReturn = iIndent * ' '
-    sReturn += ' {0:<' + str(max(15, iIdLength)) + 's} | {1:6s} | {2:s}'
+    sReturn += ' {0:<' + str(id_column_width(iIdLength)) + 's} | {1:' + str(LINE_NUMBER_COLUMN_WIDTH) + 's} | {2:s}'
     return sReturn
 
 
@@ -306,5 +321,5 @@ def table_row_format_string(iIdLength, iIndent):
     Returns : (string)
     '''
     sReturn = iIndent * ' '
-    sReturn += ' {0:<' + str(max(15, iIdLength)) + 's} | {1:6d} | {2:s}'
+    sReturn += ' {0:<' + str(id_column_width(iIdLength)) + 's} | {1:' + str(LINE_NUMBER_COLUMN_WIDTH) + 'd} | {2:s}'
     return sReturn

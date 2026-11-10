@@ -1,6 +1,8 @@
 from elfws import warning
 from elfws import warning_list
 
+LAST_HEADER_LINE_INDEX = 200
+
 
 def get_vendor():
     return ['Xilinx']
@@ -17,7 +19,7 @@ def is_logfile(lFile):
             bSearch = True
         if bSearch and sLine.startswith('Report Methodology'):
             return True
-        if iLineNumber == 200:
+        if iLineNumber == LAST_HEADER_LINE_INDEX:
             return False
     return False
 
