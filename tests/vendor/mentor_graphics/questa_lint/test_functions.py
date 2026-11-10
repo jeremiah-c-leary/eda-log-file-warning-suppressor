@@ -104,11 +104,11 @@ class testFunctions(unittest.TestCase):
         self.assertEqual(1, oWarningList.get_number_of_warnings())
         self.assertEqual('last warning', oWarningList.warnings[0].get_message())
 
-    def build_report(self, lCheckLines):
-        return ['Questa Lint  Version 2023', 'Section 2'] + lCheckLines
+    def build_report(self, lLintCheckLines):
+        return ['Questa Lint  Version 2023', 'Section 2'] + lLintCheckLines
 
-    def extract(self, lCheckLines):
-        return [(o.get_id(), o.get_message(), o.get_linenumber()) for o in tool.extract_warnings(self.build_report(lCheckLines)).get_warnings()]
+    def extract(self, lLintCheckLines):
+        return [(o.get_id(), o.get_message(), o.get_linenumber()) for o in tool.extract_warnings(self.build_report(lLintCheckLines)).get_warnings()]
 
     def test_warnings_without_blank_line_between_are_both_extracted(self):
         lActual = self.extract(['Check: A [x]', '----', 'A: first', 'A: second', ''])

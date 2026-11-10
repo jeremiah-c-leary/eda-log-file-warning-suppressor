@@ -25,15 +25,15 @@ def is_logfile(lFile):
 def extract_warnings(lFile):
     oReturn = warning_list.WarningList()
 
-    lWarningSection = warning_section(lFile)
-    for sCheckId, lCheckLines in check_blocks(lWarningSection):
-        for oWarning in extract_check_warnings(sCheckId, lCheckLines):
+    lWarningSection = extract_warning_section(lFile)
+    for sLintCheckId, lLintCheckLines in group_lines_by_lint_check(lWarningSection):
+        for oWarning in extract_lint_check_warnings(sLintCheckId, lLintCheckLines):
             oReturn.add_warning(oWarning)
 
     return oReturn
 
 
-def warning_section(lFile):
+def extract_warning_section(lFile):
     '''
     Returns the lines between the Section 2 heading and the Info section.
 
@@ -43,83 +43,83 @@ def warning_section(lFile):
 
     Returns: (list of tuples) line number, line
     '''
-    iStartIndex = index_of_first_line_starting_with(lFile, 'Section 2', 0)
-    iEndIndex = index_of_first_line_starting_with(lFile, '| Info', iStartIndex)
+    iStartIndex = find_index_of_first_line_starting_with(lFile, 'Section 2', 0)
+    iEndIndex = find_index_of_first_line_starting_with(lFile, '| Info', iStartIndex)
     return [(iIndex + 1, lFile[iIndex]) for iIndex in range(iStartIndex, iEndIndex)]
 
 
-def index_of_first_line_starting_with(lFile, sPrefix, iStartIndex):
+def find_index_of_first_line_starting_with(lFile, sPrefix, iStartIndex):
     for iIndex in range(iStartIndex, len(lFile)):
         if lFile[iIndex].startswith(sPrefix):
             return iIndex
     return len(lFile)
 
 
-def check_blocks(lSection):
+def group_lines_by_lint_check(lWarningSection):
     '''
-    Groups the warning section into one block per Check heading.
+    Groups the lines of the warning section by the lint check heading above them.
 
-    Lines before the first Check heading do not belong to any block.
+    Lines before the first lint check heading do not belong to any lint check.
 
     Parameters:
 
-      lSection : (list of tuples) line number, line
+      lWarningSection : (list of tuples) line number, line
 
-    Returns: (list of tuples) check id, lines below the Check heading
+    Returns: (list of tuples) lint check id, lines below the lint check heading
     '''
-    lBlocks = []
-    for iLineNumber, sLine in lSection:
-        if is_check_line(sLine):
-            lBlocks.append((check_id(sLine), []))
+    lLintChecks = []
+    for iLineNumber, sLine in lWarningSection:
+        if is_lint_check_heading(sLine):
+            lLintChecks.append((extract_lint_check_id(sLine), []))
             continue
 
-        if has_blocks(lBlocks):
-            lCurrentCheckLines = lBlocks[-1][1]
-            lCurrentCheckLines.append((iLineNumber, sLine))
+        if has_found_a_lint_check(lLintChecks):
+            lCurrentLintCheckLines = lLintChecks[-1][1]
+            lCurrentLintCheckLines.append((iLineNumber, sLine))
 
-    return lBlocks
+    return lLintChecks
 
 
-def is_check_line(sLine):
+def is_lint_check_heading(sLine):
     return sLine.startswith('Check:')
 
 
-def check_id(sLine):
+def extract_lint_check_id(sLine):
     return sLine.split()[1]
 
 
-def has_blocks(lBlocks):
-    return len(lBlocks) > 0
+def has_found_a_lint_check(lLintChecks):
+    return len(lLintChecks) > 0
 
 
-def extract_check_warnings(sCheckId, lCheckLines):
+def extract_lint_check_warnings(sLintCheckId, lLintCheckLines):
     lReturn = []
-    for iIndex, (iLineNumber, sLine) in enumerate(lCheckLines):
-        if is_warning_start(sLine, sCheckId):
-            lContinuationLines = continuation_lines(lCheckLines, iIndex + 1, sCheckId)
-            lReturn.append(build_warning(sCheckId, sLine, lContinuationLines, iLineNumber))
+    for iIndex, (iLineNumber, sLine) in enumerate(lLintCheckLines):
+        if is_warning_start(sLine, sLintCheckId):
+            lContinuationLines = collect_continuation_lines(lLintCheckLines, iIndex + 1, sLintCheckId)
+            lReturn.append(build_warning(sLintCheckId, sLine, lContinuationLines, iLineNumber))
     return lReturn
 
 
-def is_warning_start(sLine, sCheckId):
-    return sLine.startswith(sCheckId + ':')
+def is_warning_start(sLine, sLintCheckId):
+    return sLine.startswith(sLintCheckId + ':')
 
 
-def continuation_lines(lCheckLines, iStartIndex, sCheckId):
+def collect_continuation_lines(lLintCheckLines, iStartIndex, sLintCheckId):
     lReturn = []
-    for iLineNumber, sLine in lCheckLines[iStartIndex:]:
-        if is_end_of_message(sLine, sCheckId):
+    for iLineNumber, sLine in lLintCheckLines[iStartIndex:]:
+        if is_end_of_message(sLine, sLintCheckId):
             break
         lReturn.append(sLine)
     return lReturn
 
 
-def is_end_of_message(sLine, sCheckId):
-    return sLine == '' or is_warning_start(sLine, sCheckId)
+def is_end_of_message(sLine, sLintCheckId):
+    return sLine == '' or is_warning_start(sLine, sLintCheckId)
 
 
-def build_warning(sCheckId, sFirstLine, lContinuationLines, iLineNumber):
-    sMessage = sFirstLine[len(sCheckId) + 1:].lstrip()
+def build_warning(sLintCheckId, sFirstLine, lContinuationLines, iLineNumber):
+    sMessage = sFirstLine[len(sLintCheckId) + 1:].lstrip()
     for sLine in lContinuationLines:
         sMessage += ' ' + sLine
-    return warning.LogWarning(sCheckId, sMessage, None, iLineNumber)
+    return warning.LogWarning(sLintCheckId, sMessage, None, iLineNumber)
