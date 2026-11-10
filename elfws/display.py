@@ -37,7 +37,6 @@ def build_header(sLogFileName, sSuppressionFileName):
 
     Returns: (list of strings)
     '''
-    sDateTime = str(datetime.now())
     lReturn = []
     lReturn.append('='*80)
     lReturn.append('ELFWS version         : ' + version.version)
@@ -245,7 +244,6 @@ def build_report_summary_section(oWarnList, oSupList):
     Returns: (list of string)
     '''
     lReturn = []
-    sFormatString = '    {0:<22s} : {1:5d}'
     lReturn.append('  Suppression Rules')
     lReturn.append(build_stat_line('Total', oSupList.get_number_of_suppressions()))
     lReturn.append(build_stat_line('Unused', len(oSupList.get_suppressions_which_did_not_suppress_a_warning())))

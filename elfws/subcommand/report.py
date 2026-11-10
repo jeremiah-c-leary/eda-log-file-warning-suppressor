@@ -1,8 +1,6 @@
 
-import re
 import sys
 
-from elfws import warning_list
 from elfws import utils
 from elfws import display
 from elfws.report import junit

@@ -87,7 +87,6 @@ def extract_number_of_unresolved_modules(oReturn, lFile):
 def check_design_element_which_must_be_zero(oReturn, lFile, sID, sType):
 
     fWarningSectionFound = False
-    fTemp = False
     for iLineNumber, sLine in enumerate(lFile):
         if vendor_utils.sequence_of_lines_starts_with(iLineNumber, lFile, ['Design Information', '----']):
             fWarningSectionFound = True

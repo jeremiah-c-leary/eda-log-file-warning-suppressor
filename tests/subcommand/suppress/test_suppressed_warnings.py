@@ -1,11 +1,9 @@
 
-import os
 import unittest
 
 
 from elfws.subcommand import suppress
 from elfws import utils
-from elfws import warning
 
 from elfws.vendor.microsemi import designer
 

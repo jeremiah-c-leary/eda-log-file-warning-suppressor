@@ -1,11 +1,9 @@
 
-import datetime
 import os
 import unittest
 from unittest import mock
 
 from elfws import __main__
-from elfws import version
 from elfws import utils
 
 sYamlFile = 'deleteme.yaml'

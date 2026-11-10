@@ -26,7 +26,6 @@ def extract_warnings(lFile):
     oReturn = warning_list.create()
 
     lRules = extract_rule_ids_from_summary(lFile)
-    iNumSection = 0
     iWarningLine = 0
     for iLineNumber, sLine in enumerate(lFile):
 
