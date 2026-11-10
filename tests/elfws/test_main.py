@@ -5,7 +5,7 @@ from unittest import mock
 
 from elfws import __main__
 from elfws import version
-from elfws import utils
+from elfws import log_file
 
 sWarningFile = 'tests/vendor/microsemi/designer/warning_messages.log'
 sSupFile = 'tests/subcommand/suppress/suppress_microsemi_designer_logfile.yaml'
@@ -57,7 +57,7 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lLogFile = utils.read_log_file('tests/elfws/show_output.txt')
+        lLogFile = log_file.read_log_file('tests/elfws/show_output.txt')
         
         lExpected = []
         for sLine in lLogFile:
@@ -74,8 +74,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/elfws/create_yaml_wo_suppression.yaml')
-        lActual = utils.read_log_file(sYamlFile)
+        lExpected = log_file.read_log_file('tests/elfws/create_yaml_wo_suppression.yaml')
+        lActual = log_file.read_log_file(sYamlFile)
 
         self.assertEqual(lExpected, lActual)
 
@@ -87,8 +87,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/elfws/create_yaml_with_suppression.yaml')
-        lActual = utils.read_log_file(sYamlFile)
+        lExpected = log_file.read_log_file('tests/elfws/create_yaml_with_suppression.yaml')
+        lActual = log_file.read_log_file(sYamlFile)
 
         self.assertEqual(lExpected, lActual)
 
@@ -104,7 +104,7 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lLogFile = utils.read_log_file('tests/elfws/suppress_output.txt')
+        lLogFile = log_file.read_log_file('tests/elfws/suppress_output.txt')
         
         lExpected = []
         for sLine in lLogFile:
@@ -124,8 +124,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/elfws/report_output.txt')
-        lActual = utils.read_log_file(sReportFile)
+        lExpected = log_file.read_log_file('tests/elfws/report_output.txt')
+        lActual = log_file.read_log_file(sReportFile)
 
         self.assertEqual(lExpected, lActual)
 
@@ -140,8 +140,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/elfws/report_output_all_warnings_suppressed.txt')
-        lActual = utils.read_log_file(sReportFile)
+        lExpected = log_file.read_log_file('tests/elfws/report_output_all_warnings_suppressed.txt')
+        lActual = log_file.read_log_file(sReportFile)
 
         self.assertEqual(lExpected, lActual)
 
@@ -156,8 +156,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/elfws/no_warnings/report_output.txt')
-        lActual = utils.read_log_file(sReportFile)
+        lExpected = log_file.read_log_file('tests/elfws/no_warnings/report_output.txt')
+        lActual = log_file.read_log_file(sReportFile)
 
         self.assertEqual(lExpected, lActual)
 
@@ -172,8 +172,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/elfws/report_output_long_id.txt')
-        lActual = utils.read_log_file(sReportFile)
+        lExpected = log_file.read_log_file('tests/elfws/report_output_long_id.txt')
+        lActual = log_file.read_log_file(sReportFile)
 
         self.assertEqual(lExpected, lActual)
 
@@ -188,8 +188,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/elfws/investigate/report_output.txt')
-        lActual = utils.read_log_file(sReportFile)
+        lExpected = log_file.read_log_file('tests/elfws/investigate/report_output.txt')
+        lActual = log_file.read_log_file(sReportFile)
 
         self.assertEqual(lExpected, lActual)
 
@@ -200,8 +200,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/subcommand/report/junit_output.xml')
-        lActual = utils.read_log_file(sXmlFile)
+        lExpected = log_file.read_log_file('tests/subcommand/report/junit_output.xml')
+        lActual = log_file.read_log_file(sXmlFile)
 
         self.assertEqual(len(lExpected), len(lActual))
         for iIndex, sLine in enumerate(lExpected):
@@ -216,8 +216,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/subcommand/show/junit_output.xml')
-        lActual = utils.read_log_file(sXmlFile)
+        lExpected = log_file.read_log_file('tests/subcommand/show/junit_output.xml')
+        lActual = log_file.read_log_file(sXmlFile)
 
         self.assertEqual(len(lExpected), len(lActual))
         for iIndex, sLine in enumerate(lExpected):
@@ -237,7 +237,7 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lLogFile = utils.read_log_file('tests/elfws/show_user_output.txt')
+        lLogFile = log_file.read_log_file('tests/elfws/show_user_output.txt')
         
         lExpected = []
         for sLine in lLogFile:

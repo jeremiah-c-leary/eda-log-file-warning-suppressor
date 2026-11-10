@@ -4,7 +4,7 @@ import unittest
 from unittest import mock
 
 from elfws import __main__
-from elfws import utils
+from elfws import log_file
 
 sYamlFile = 'deleteme.yaml'
 sReportFile = 'deleteme.rpt'
@@ -39,8 +39,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file('tests/option/suppress_in_json_if_unmatched/expected.xml')
-        lActual = utils.read_log_file(sXmlFile)
+        lExpected = log_file.read_log_file('tests/option/suppress_in_json_if_unmatched/expected.xml')
+        lActual = log_file.read_log_file(sXmlFile)
 
         self.assertEqual(len(lExpected), len(lActual))
         for iIndex, sLine in enumerate(lExpected):
@@ -48,8 +48,8 @@ class test_arguments(unittest.TestCase):
                 continue
             self.assertEqual(sLine, lActual[iIndex])
 
-        lExpected = utils.read_log_file('tests/option/suppress_in_json_if_unmatched/expected.rpt')
-        lActual = utils.read_log_file(sReportFile)
+        lExpected = log_file.read_log_file('tests/option/suppress_in_json_if_unmatched/expected.rpt')
+        lActual = log_file.read_log_file(sReportFile)
 
         self.assertEqual(len(lExpected), len(lActual))
         for iIndex, sLine in enumerate(lExpected):

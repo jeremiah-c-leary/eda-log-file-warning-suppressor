@@ -3,9 +3,9 @@ import os
 import unittest
 from unittest import mock
 
-from elfws import utils
-from elfws import suppression_list
 from elfws import suppression
+from elfws import suppression_file
+from elfws import suppression_list
 
 
 class test_functions(unittest.TestCase):
@@ -41,20 +41,20 @@ class test_functions(unittest.TestCase):
         dRule['comment'] = 'Just because...'
         dExpected['suppress']['rules']['CMP2001'].append(dRule)
         
-        dActual = utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress.yaml'))
+        dActual = suppression_file.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress.yaml'))
         self.assertEqual(dExpected, dActual)
 
     def test_read_suppression_file_w_empty_file(self):
         dExpected = {}
 
-        dActual = utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'empty_suppress.yaml'))
+        dActual = suppression_file.read_suppression_file(os.path.join(os.path.dirname(__file__),'empty_suppress.yaml'))
 
         self.assertEqual(dExpected, dActual)
 
     @mock.patch('sys.stdout')
     def test_read_suppression_file_w_error(self, mock_stdout):
         with self.assertRaises(SystemExit) as oContext:
-            utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'error_suppress.yaml'))
+            suppression_file.read_suppression_file(os.path.join(os.path.dirname(__file__),'error_suppress.yaml'))
 
         self.assertEqual(oContext.exception.code, 1)
 
@@ -93,7 +93,7 @@ class test_functions(unittest.TestCase):
         dRule['msg'] = 'This rule has no comment'
         dSuppression['suppress']['rules']['NO_COMMENT'].append(dRule)
 
-        oActualSuppressionList = utils.create_suppression_list(dSuppression)
+        oActualSuppressionList = suppression_file.create_suppression_list(dSuppression)
 
         oExpectedSuppressList = suppression_list.SuppressionList()
 
@@ -126,15 +126,15 @@ class test_functions(unittest.TestCase):
 
     def test_create_suppression_list_w_empty_dictionary(self):
         dSuppression = {}
-        oActualSuppressionList = utils.create_suppression_list(dSuppression)
+        oActualSuppressionList = suppression_file.create_suppression_list(dSuppression)
 
         self.assertEqual(0, len(oActualSuppressionList.suppressions))
 
     def test_create_suppression_list_w_groupings(self):
 
-        dSuppression = utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress_w_groupings.yaml'))
+        dSuppression = suppression_file.read_suppression_file(os.path.join(os.path.dirname(__file__),'suppress_w_groupings.yaml'))
 
-        oActualSuppressionList = utils.create_suppression_list(dSuppression)
+        oActualSuppressionList = suppression_file.create_suppression_list(dSuppression)
 
         oExpectedSuppressList = suppression_list.SuppressionList()
 
@@ -166,9 +166,9 @@ class test_functions(unittest.TestCase):
 
     def test_create_suppression_list_w_investigates(self):
 
-        dSuppression = utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'investigate_suppress.yaml'))
+        dSuppression = suppression_file.read_suppression_file(os.path.join(os.path.dirname(__file__),'investigate_suppress.yaml'))
 
-        oActualSuppressionList = utils.create_suppression_list(dSuppression)
+        oActualSuppressionList = suppression_file.create_suppression_list(dSuppression)
 
         oExpectedSuppressList = suppression_list.SuppressionList()
 
@@ -203,82 +203,3 @@ class test_functions(unittest.TestCase):
             self.assertEqual(oExpected.get_author(), oActual.get_author())
             self.assertEqual(oExpected.get_comment(), oActual.get_comment())
             self.assertEqual(oExpected.get_investigate(), oActual.get_investigate())
-
-    def test_read_log_file(self):
-        lExpected = []
-        lExpected.append('Microsemi Libero Software')
-        lExpected.append('Version: 11.9.2.1')
-        lExpected.append('Release: 11.9 SP2')
-        lExpected.append('')
-        lExpected.append('Created a new design.')
-        lExpected.append('')
-        lExpected.append('# This is a warning with an ID')
-        lExpected.append('Warning: DEF1234 : This is a warning')
-        lExpected.append('')
-        lExpected.append('# This is a warning without an ID')
-        lExpected.append('Warning: This is a warning without an ID')
-        lExpected.append('Warning: This is a warning with a : that does not have an ID')
-        lExpected.append('')
-        lExpected.append('# This is a multiline warning with an ID')
-        lExpected.append('Warning: MULTI546 : This is the first line of the warning')
-        lExpected.append('         This is the second line of the warning')
-        lExpected.append(' This is the last line of the warning.')
-        lExpected.append('')
-        lExpected.append('# This is a multiline warning without an ID')
-        lExpected.append('Warning: This is the first line : of the message')
-        lExpected.append(' This is the second line of the message')
-        lExpected.append('   This is the third line of the message')
-        lExpected.append('  This is the last line of the message.')
-        lExpected.append('')
-        lExpected.append('#These should not be counted as warnings:')
-        lExpected.append(' Warning: ABC5425 : this is not a warning because of the leading space')
-        lExpected.append('')
-        lExpected.append('')
-
-        self.assertEqual(lExpected, utils.read_log_file('tests/vendor/microsemi/designer/warning_messages.log'))
-
-    def test_get_vendors(self):
-        lActual = utils.get_vendors('elfws/vendor')
-        self.assertEqual(4, len(lActual))
-        self.assertTrue('elfws/vendor/mentor_graphics' in lActual) 
-        self.assertTrue('elfws/vendor/microsemi' in lActual) 
-        self.assertTrue('elfws/vendor/synopsys' in lActual) 
-        self.assertTrue('elfws/vendor/xilinx' in lActual) 
-
-    def test_get_tools(self):
-        lExpected = ['designer']
-        lActual = [os.path.basename(s) for s in utils.get_tools('elfws/vendor/microsemi')]
-        self.assertEqual(sorted(lExpected), sorted(lActual))
-        lExpected = ['questa_cdc__cdc_run_log', 'questa_cdc__cdc_detail_rpt', 'precision', 'questa_lint']
-        lActual = [os.path.basename(s) for s in utils.get_tools('elfws/vendor/mentor_graphics')]
-        self.assertEqual(sorted(lExpected), sorted(lActual))
-
-    def test_remove_extension(self):
-        self.assertEqual('filename', utils.remove_extension('filename.ext'))
-        self.assertEqual('filename.blue', utils.remove_extension('filename.blue.ext'))
-
-    def test_get_vendor_tool_module(self):
-        lLogFile = []
-        lLogFile.append('Microsemi Libero Software')
-
-        mTool = utils.get_vendor_tool_module(lLogFile)
-        self.assertEqual('designer', mTool.get_tool_name())
-        self.assertEqual(['Actel', 'Microsemi'], mTool.get_vendor())
-
-        lLogFile = []
-        lLogFile.append('icrosemi Libero Software')
-
-        mTool = utils.get_vendor_tool_module(lLogFile)
-        self.assertEqual(None, mTool)
-
-    @mock.patch('sys.stdout')
-    def test_create_warning_list(self, mock_stdout):
-        with self.assertRaises(SystemExit) as oContext:
-            utils.create_warning_list(['Not a log file'], 'logfile_name')
-
-        self.assertEqual(oContext.exception.code, 2)
-
-        mock_stdout.write.assert_has_calls([
-            mock.call('ERROR: File logfile_name is not recognized as a supported logfile.'), mock.call('\n')
-        ])
-

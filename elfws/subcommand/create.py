@@ -3,17 +3,18 @@ import re
 import sys
 import yaml
 
-from elfws import utils
+from elfws import log_file
+from elfws import suppression_file
 from elfws.subcommand import suppress
 from elfws.exit_code import ExitCode
 
 
 def create(oCommandLineArguments):
 
-    oWarnList = utils.read_warning_list(oCommandLineArguments.log_file)
+    oWarnList = log_file.read_warning_list(oCommandLineArguments.log_file)
 
     if oCommandLineArguments.suppression_file is not None:
-        oSupList = utils.read_suppression_list(oCommandLineArguments.suppression_file)
+        oSupList = suppression_file.read_suppression_list(oCommandLineArguments.suppression_file)
         oWarnList = suppress.extract_non_suppressed_warnings(oWarnList, oSupList)
 
     dSup = create_suppression_dict(oWarnList)

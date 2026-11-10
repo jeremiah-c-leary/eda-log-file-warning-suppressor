@@ -3,7 +3,7 @@ import io
 import unittest
 from unittest import mock
 
-from elfws import utils
+from elfws import suppression_file
 
 
 def build(dRules):
@@ -15,7 +15,7 @@ class test_rule_validation(unittest.TestCase):
     def assert_exits_with_errors(self, dSuppression, lExpectedErrors):
         with mock.patch('sys.stdout', new_callable=io.StringIO) as mock_stdout:
             with self.assertRaises(SystemExit) as oContext:
-                utils.create_suppression_list(dSuppression)
+                suppression_file.create_suppression_list(dSuppression)
         self.assertEqual(1, oContext.exception.code)
         sOutput = mock_stdout.getvalue()
         for sError in lExpectedErrors:
@@ -24,7 +24,7 @@ class test_rule_validation(unittest.TestCase):
 
     def test_valid_rules_are_all_loaded(self):
         dSup = build({'A': [{'msg': 'x'}, {'msg': 'y'}], 'B': [{'msg': 'z'}]})
-        self.assertEqual(3, utils.create_suppression_list(dSup).get_number_of_suppressions())
+        self.assertEqual(3, suppression_file.create_suppression_list(dSup).get_number_of_suppressions())
 
     def test_missing_msg_reports_error_and_does_not_hide_other_errors(self):
         dSup = build({'A': [{'msg': 'x'}, {'comment': 'no msg'}, {'msg': 'y['}], 'B': [{'author': 'me'}]})
@@ -64,12 +64,12 @@ class test_rule_validation(unittest.TestCase):
         self.assert_exits_with_errors(['suppress'], ['must contain a mapping'])
 
     def test_empty_suppress_and_rules_sections_are_allowed(self):
-        self.assertEqual(0, utils.create_suppression_list({'suppress': None}).get_number_of_suppressions())
-        self.assertEqual(0, utils.create_suppression_list(build(None)).get_number_of_suppressions())
-        self.assertEqual(0, utils.create_suppression_list({}).get_number_of_suppressions())
+        self.assertEqual(0, suppression_file.create_suppression_list({'suppress': None}).get_number_of_suppressions())
+        self.assertEqual(0, suppression_file.create_suppression_list(build(None)).get_number_of_suppressions())
+        self.assertEqual(0, suppression_file.create_suppression_list({}).get_number_of_suppressions())
 
     def test_numeric_ids_and_messages_are_converted_to_strings(self):
-        oSupList = utils.create_suppression_list(build({1234: [{'msg': 56}]}))
+        oSupList = suppression_file.create_suppression_list(build({1234: [{'msg': 56}]}))
         oSup = oSupList.get_suppressions()[0]
         self.assertEqual('1234', oSup.get_warning_id())
         self.assertEqual('56', oSup.get_message())
@@ -83,5 +83,5 @@ class test_rule_validation(unittest.TestCase):
                 oFile.write('suppress: !!python/tuple [1, 2]\n')
             with mock.patch('sys.stdout', new_callable=io.StringIO):
                 with self.assertRaises(SystemExit) as oContext:
-                    utils.read_suppression_file(sFile)
+                    suppression_file.read_suppression_file(sFile)
         self.assertEqual(1, oContext.exception.code)
