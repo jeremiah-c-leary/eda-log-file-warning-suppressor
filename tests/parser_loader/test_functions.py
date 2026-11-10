@@ -1,9 +1,9 @@
 
 import os
 import unittest
-from unittest import mock
 
 from elfws import parser_loader
+from elfws import error
 
 
 class test_functions(unittest.TestCase):
@@ -42,13 +42,9 @@ class test_functions(unittest.TestCase):
         mTool = parser_loader.get_vendor_tool_module(lLogFile)
         self.assertEqual(None, mTool)
 
-    @mock.patch('sys.stdout')
-    def test_create_warning_list(self, mock_stdout):
-        with self.assertRaises(SystemExit) as oContext:
+    def test_create_warning_list(self):
+        with self.assertRaises(error.ElfwsError) as oContext:
             parser_loader.create_warning_list(['Not a log file'], 'logfile_name')
 
-        self.assertEqual(oContext.exception.code, 2)
-
-        mock_stdout.write.assert_has_calls([
-            mock.call('ERROR: File logfile_name is not recognized as a supported logfile.'), mock.call('\n')
-        ])
+        self.assertEqual(oContext.exception.iExitCode, 2)
+        self.assertEqual('ERROR: File logfile_name is not recognized as a supported logfile.', str(oContext.exception))

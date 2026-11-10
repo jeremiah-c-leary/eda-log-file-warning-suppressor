@@ -1,6 +1,5 @@
 
-import sys
-
+from elfws import error
 from elfws import parser_loader
 from elfws.exit_code import ExitCode
 
@@ -28,7 +27,7 @@ def read_log_file(sFileName):
     try:
         return read_lines_without_line_endings(sFileName)
     except OSError as e:
-        exit_with_log_file_error(sFileName, e)
+        raise_log_file_error(sFileName, e)
 
 
 def read_lines_without_line_endings(sFileName):
@@ -39,6 +38,6 @@ def read_lines_without_line_endings(sFileName):
     return lLines
 
 
-def exit_with_log_file_error(sFileName, oError):
-    print('ERROR: Could not read log file ' + sFileName + ' : ' + str(oError))
-    sys.exit(ExitCode.LOG_FILE_READ_ERROR)
+def raise_log_file_error(sFileName, oError):
+    sMessage = 'ERROR: Could not read log file ' + sFileName + ' : ' + str(oError)
+    raise error.ElfwsError(sMessage, ExitCode.LOG_FILE_READ_ERROR)

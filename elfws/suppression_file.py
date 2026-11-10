@@ -1,8 +1,8 @@
 
 import re
-import sys
 import yaml
 
+from elfws import error
 from elfws import suppression
 from elfws import suppression_list
 from elfws.exit_code import ExitCode
@@ -28,7 +28,7 @@ def read_suppression_file(sFileName):
     try:
         return replace_missing_with_default(load_yaml_file(sFileName), {})
     except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
-        exit_with_suppression_file_error(e)
+        raise_suppression_file_error(e)
 
 
 def load_yaml_file(sFileName):
@@ -36,9 +36,8 @@ def load_yaml_file(sFileName):
         return yaml.safe_load(yaml_file)
 
 
-def exit_with_suppression_file_error(oError):
-    print(oError)
-    sys.exit(ExitCode.SUPPRESSION_FILE_ERROR)
+def raise_suppression_file_error(oError):
+    raise error.ElfwsError(str(oError), ExitCode.SUPPRESSION_FILE_ERROR)
 
 
 def create_suppression_list(dSuppression):
@@ -56,7 +55,7 @@ def create_suppression_list(dSuppression):
     '''
     oExtractor = SuppressionRuleExtractor()
     lRules = oExtractor.extract_rules(dSuppression)
-    exit_if_suppression_file_has_errors(oExtractor.lErrors)
+    raise_if_suppression_file_has_errors(oExtractor.lErrors)
     return build_suppression_list(lRules)
 
 
@@ -164,9 +163,9 @@ class SuppressionRuleExtractor():
         self.lErrors.append(format_path(lPath) + ': ' + sMessage)
 
 
-def exit_if_suppression_file_has_errors(lErrors):
+def raise_if_suppression_file_has_errors(lErrors):
     '''
-    Prints all suppression file errors and exits with code 1 if there are any.
+    Raises an error describing every suppression file problem, if there are any.
 
     Parameters:
 
@@ -176,13 +175,15 @@ def exit_if_suppression_file_has_errors(lErrors):
     '''
     if not has_errors(lErrors):
         return
-    print_suppression_file_errors(lErrors)
-    sys.exit(ExitCode.SUPPRESSION_FILE_ERROR)
+    sMessage = format_suppression_file_errors(lErrors)
+    raise error.ElfwsError(sMessage, ExitCode.SUPPRESSION_FILE_ERROR)
 
 
-def print_suppression_file_errors(lErrors):
+def format_suppression_file_errors(lErrors):
+    lLines = []
     for sError in lErrors:
-        print('ERROR: Suppression file: ' + sError)
+        lLines.append('ERROR: Suppression file: ' + sError)
+    return '\n'.join(lLines)
 
 
 def build_suppression_list(lRules):

@@ -1,11 +1,10 @@
 
-import io
 import os
 import tempfile
 import unittest
-from unittest import mock
 
 from elfws import log_file
+from elfws import error
 
 
 class test_read_log_file(unittest.TestCase):
@@ -25,16 +24,14 @@ class test_read_log_file(unittest.TestCase):
                 oFile.write(b'line 1\r\nline 2\r\n')
             self.assertEqual(['line 1', 'line 2'], log_file.read_log_file(sFile))
 
-    def test_missing_file_exits_with_code_6(self):
-        with mock.patch('sys.stdout', new_callable=io.StringIO) as mock_stdout:
-            with self.assertRaises(SystemExit) as oContext:
-                log_file.read_log_file('does/not/exist.log')
-        self.assertEqual(6, oContext.exception.code)
-        self.assertIn('ERROR: Could not read log file does/not/exist.log', mock_stdout.getvalue())
+    def test_missing_file_raises_log_file_read_error(self):
+        with self.assertRaises(error.ElfwsError) as oContext:
+            log_file.read_log_file('does/not/exist.log')
+        self.assertEqual(6, oContext.exception.iExitCode)
+        self.assertIn('ERROR: Could not read log file does/not/exist.log', str(oContext.exception))
 
-    def test_directory_exits_with_code_6(self):
+    def test_directory_raises_log_file_read_error(self):
         with tempfile.TemporaryDirectory() as sDir:
-            with mock.patch('sys.stdout', new_callable=io.StringIO):
-                with self.assertRaises(SystemExit) as oContext:
-                    log_file.read_log_file(sDir)
-        self.assertEqual(6, oContext.exception.code)
+            with self.assertRaises(error.ElfwsError) as oContext:
+                log_file.read_log_file(sDir)
+        self.assertEqual(6, oContext.exception.iExitCode)

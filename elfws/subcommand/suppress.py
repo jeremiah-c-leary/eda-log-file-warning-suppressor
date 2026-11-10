@@ -1,6 +1,4 @@
 
-import sys
-
 from elfws import display
 from elfws import suppression_results
 from elfws.exit_code import ExitCode
@@ -12,4 +10,4 @@ def suppress(oCommandLineArguments):
 
     display.print_results(oResults)
 
-    sys.exit(ExitCode.SUCCESS)
+    return ExitCode.SUCCESS

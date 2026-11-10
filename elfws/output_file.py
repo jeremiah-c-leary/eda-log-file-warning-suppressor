@@ -1,6 +1,5 @@
 
-import sys
-
+from elfws import error
 from elfws.exit_code import ExitCode
 
 
@@ -29,5 +28,4 @@ def write_file(sFilename, lFile, iExitCode):
             for sLine in lFile:
                 oFile.write(sLine + '\n')
     except PermissionError as err:
-        print(err, "Could not write to file " + sFilename)
-        sys.exit(iExitCode)
+        raise error.ElfwsError(str(err) + ' Could not write to file ' + sFilename, iExitCode)
