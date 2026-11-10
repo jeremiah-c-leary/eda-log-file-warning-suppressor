@@ -4,6 +4,7 @@ import unittest
 from unittest import mock
 
 from elfws import cmd_line_args
+from elfws import subcommand
 
 class testCmdLineArgsModule(unittest.TestCase):
 
@@ -54,3 +55,17 @@ class testCmdLineArgsModule(unittest.TestCase):
         mockStdout.write.assert_has_calls([
             mock.call(sOutput)
         ])
+
+    def test_each_subcommand_dispatches_to_its_function(self):
+        dExpected = {
+            'create': (['create', 'log', 'out.yaml'], subcommand.create.create),
+            'report': (['report', 'log', 'sup.yaml', 'report.rpt'], subcommand.report.report),
+            'show': (['show', 'log'], subcommand.show.show),
+            'suppress': (['suppress', 'log', 'sup.yaml'], subcommand.suppress.suppress),
+            'version': (['version'], subcommand.version.version),
+        }
+        for sName, (lArgs, fExpected) in dExpected.items():
+            with self.subTest(subcommand=sName):
+                with mock.patch('sys.argv', ['elfws'] + lArgs):
+                    oCommandLineArguments = cmd_line_args.parse_command_line_arguments()
+                self.assertIs(fExpected, oCommandLineArguments.run_subcommand)
