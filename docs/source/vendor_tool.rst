@@ -64,7 +64,12 @@ extract_warnings
 ----------------
 
 This function parses the logfile for warnings.
-It returns a warning_list object with a collection of warning objects.
+It returns a WarningList object with a collection of LogWarning objects.
+
+.. note::
+
+   :code:`warning_list.create()` and :code:`warning.create()` are deprecated and will be removed in a future release.
+   Use :code:`warning_list.WarningList()` and :code:`warning.LogWarning()` instead.
 
 The following code looks for lines starting with *Warning* and then proceeds to handle warnings without IDs and multiline warnings.
 

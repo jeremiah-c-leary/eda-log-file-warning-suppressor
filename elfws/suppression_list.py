@@ -1,4 +1,6 @@
 
+from elfws import deprecation
+
 
 class SuppressionList():
 
@@ -34,3 +36,6 @@ class SuppressionList():
             if oSup.is_investigation_rule() and oSup.has_suppressed_a_warning():
                 lReturn.append(oSup)
         return lReturn
+
+
+__getattr__ = deprecation.build_module_getattr(__name__, {'create': SuppressionList})

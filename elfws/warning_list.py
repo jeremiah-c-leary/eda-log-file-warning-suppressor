@@ -1,4 +1,6 @@
 
+from elfws import deprecation
+
 
 class WarningList():
 
@@ -44,3 +46,6 @@ class WarningList():
             if oWarning.is_suppressed() and oWarning.is_investigate():
                 lReturn.append(oWarning)
         return lReturn
+
+
+__getattr__ = deprecation.build_module_getattr(__name__, {'create': WarningList})

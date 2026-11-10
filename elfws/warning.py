@@ -1,4 +1,6 @@
 
+from elfws import deprecation
+
 
 class LogWarning():
 
@@ -42,3 +44,6 @@ class LogWarning():
 
     def set_investigate(self):
         self.investigate = True
+
+
+__getattr__ = deprecation.build_module_getattr(__name__, {'create': LogWarning})
