@@ -10,6 +10,8 @@ from . import suppression
 from . import suppression_list
 from .exit_code import ExitCode
 
+NOT_SPECIFIED = '<None>'
+
 # Parser modules which have already been imported, keyed by tool path.
 dToolModuleCache = {}
 
@@ -396,11 +398,11 @@ def is_list(oValue):
 
 
 def update_suppression_author(oSupRule, dSup):
-    oSupRule.author = dSup.get('author', '<None>')
+    oSupRule.author = dSup.get('author', NOT_SPECIFIED)
 
 
 def update_suppression_comment(oSupRule, dSup):
-    oSupRule.comment = dSup.get('comment', '<None>')
+    oSupRule.comment = dSup.get('comment', NOT_SPECIFIED)
 
 
 def update_suppression_investigate(oSupRule, dSup):

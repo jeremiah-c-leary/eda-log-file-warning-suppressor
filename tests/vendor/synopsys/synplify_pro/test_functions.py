@@ -49,3 +49,8 @@ class testFunctions(unittest.TestCase):
 
         self.assertFalse(synplify_pro.is_logfile(lLogFile))
 
+
+    def test_extract_warning_without_id_separator(self):
+        oWarningList = synplify_pro.extract_warnings(['@W: no second colon here'])
+        self.assertEqual('NO_ID', oWarningList.get_warnings()[0].get_id())
+        self.assertEqual('no second colon here', oWarningList.get_warnings()[0].get_message())

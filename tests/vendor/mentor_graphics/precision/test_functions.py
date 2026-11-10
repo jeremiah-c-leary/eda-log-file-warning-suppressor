@@ -71,3 +71,8 @@ class testFunctions(unittest.TestCase):
 
     def test_get_tool_name(self):
         self.assertEqual('precision', tool.get_tool_name())
+
+    def test_extract_warning_without_id_separator(self):
+        oWarningList = tool.extract_warnings(['# Warning: noSecondColon'])
+        self.assertEqual('NO_ID', oWarningList.get_warnings()[0].get_id())
+        self.assertEqual('noSecondColon', oWarningList.get_warnings()[0].get_message())

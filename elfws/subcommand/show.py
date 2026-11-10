@@ -16,7 +16,7 @@ def show(oCommandLineArguments):
 
     oWarnList = utils.create_warning_list(lLogFile, oCommandLineArguments.log_file)
 
-    display.results(oCommandLineArguments.log_file, '<None>', oSupList, oWarnList)
+    display.results(oCommandLineArguments.log_file, utils.NOT_SPECIFIED, oSupList, oWarnList)
 
     if oCommandLineArguments.junit:
         lJUnitFile = junit.generate_junit_xml_file(oCommandLineArguments, oWarnList, oSupList)
