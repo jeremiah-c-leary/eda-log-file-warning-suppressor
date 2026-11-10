@@ -99,3 +99,23 @@ class testFunctions(unittest.TestCase):
 
     def test_tool_name(self):
         self.assertEqual('vivado', vivado.get_tool_name())
+
+    def test_extract_warnings_on_last_line(self):
+        lLogFile = []
+        lLogFile.append('****** Vivado v2018.3 (64-bit)')
+        lLogFile.append('WARNING: [Synth 8-1] first warning')
+        lLogFile.append('WARNING: [Synth 8-2] warning on last line')
+        oWarningList = vivado.extract_warnings(lLogFile)
+        self.assertEqual(2, oWarningList.get_number_of_warnings())
+        self.assertEqual('Synth 8-2', oWarningList.warnings[1].get_id())
+        self.assertEqual('warning on last line', oWarningList.warnings[1].get_message())
+        self.assertEqual(3, oWarningList.warnings[1].get_linenumber())
+
+    def test_extract_multiline_warning_at_end_of_file(self):
+        lLogFile = []
+        lLogFile.append('****** Vivado v2018.3 (64-bit)')
+        lLogFile.append('CRITICAL WARNING: [Synth 8-3] first line')
+        lLogFile.append('    second line')
+        oWarningList = vivado.extract_warnings(lLogFile)
+        self.assertEqual(1, oWarningList.get_number_of_warnings())
+        self.assertEqual('first line second line', oWarningList.warnings[0].get_message())

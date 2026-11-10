@@ -49,4 +49,7 @@ def extract_warnings(lFile):
                 sMessage = sLine[len(sID) + 2:]
                 iWarningLineNumber = iLineNumber + 1
 
+    if fWarningFound:
+        oReturn.add_warning(warning.create(sID, sMessage, None, iWarningLineNumber))
+
     return oReturn

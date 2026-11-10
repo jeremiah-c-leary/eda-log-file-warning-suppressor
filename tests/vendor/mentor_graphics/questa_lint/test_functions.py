@@ -77,3 +77,29 @@ class testFunctions(unittest.TestCase):
 
     def test_get_tool_name(self):
         self.assertEqual('questa_lint', tool.get_tool_name())
+
+    def test_extract_warning_at_end_of_file(self):
+        lLogFile = []
+        lLogFile.append('Questa Lint  Version 2023')
+        lLogFile.append('Section 2')
+        lLogFile.append('Check: Something_A [Category: ...]')
+        lLogFile.append('--------------------------------------------------')
+        lLogFile.append('Something_A: error report over')
+        lLogFile.append('multiple lines')
+        oWarningList = tool.extract_warnings(lLogFile)
+        self.assertEqual(1, oWarningList.get_number_of_warnings())
+        self.assertEqual('Something_A', oWarningList.warnings[0].get_id())
+        self.assertEqual('error report over multiple lines', oWarningList.warnings[0].get_message())
+        self.assertEqual(5, oWarningList.warnings[0].get_linenumber())
+
+    def test_extract_warning_directly_before_info_section(self):
+        lLogFile = []
+        lLogFile.append('Questa Lint  Version 2023')
+        lLogFile.append('Section 2')
+        lLogFile.append('Check: Something_A [Category: ...]')
+        lLogFile.append('--------------------------------------------------')
+        lLogFile.append('Something_A: last warning')
+        lLogFile.append('| Info (#) |')
+        oWarningList = tool.extract_warnings(lLogFile)
+        self.assertEqual(1, oWarningList.get_number_of_warnings())
+        self.assertEqual('last warning', oWarningList.warnings[0].get_message())
