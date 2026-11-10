@@ -3,8 +3,6 @@ Exit Codes
 
 ELFWS provides the following exit codes to report execution status.
 
-The codes are defined by the :code:`ExitCode` enumeration in :code:`elfws/exit_code.py`.
-
 +------+---------------------------------+
 | Code | Description                     |
 +======+=================================+
