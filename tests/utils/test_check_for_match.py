@@ -1,0 +1,29 @@
+
+import unittest
+
+from elfws import suppression
+from elfws import utils
+from elfws import warning
+
+
+class test_functions(unittest.TestCase):
+
+    def test_id_and_message_match(self):
+        oWarning = warning.create('Synth 8-1', 'Port I_CLK is not used')
+        oSuppression = suppression.create('Synth 8-1', 'I_CLK')
+        self.assertTrue(utils.check_for_match(oWarning, oSuppression))
+
+    def test_id_matches_but_message_does_not(self):
+        oWarning = warning.create('Synth 8-1', 'Port I_CLK is not used')
+        oSuppression = suppression.create('Synth 8-1', 'I_RST')
+        self.assertFalse(utils.check_for_match(oWarning, oSuppression))
+
+    def test_message_matches_but_id_does_not(self):
+        oWarning = warning.create('Synth 8-1', 'Port I_CLK is not used')
+        oSuppression = suppression.create('Synth 8-2', 'I_CLK')
+        self.assertFalse(utils.check_for_match(oWarning, oSuppression))
+
+    def test_neither_matches(self):
+        oWarning = warning.create('Synth 8-1', 'Port I_CLK is not used')
+        oSuppression = suppression.create('Synth 8-2', 'I_RST')
+        self.assertFalse(utils.check_for_match(oWarning, oSuppression))

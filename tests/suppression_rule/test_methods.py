@@ -70,3 +70,10 @@ class testSuppressionClassMethods(unittest.TestCase):
         self.assertFalse(oSuppression.is_investigation_rule())
         oSuppression.investigate = 'Investigate'
         self.assertTrue(oSuppression.is_investigation_rule())
+
+    def test_has_option(self):
+        oSuppression = suppression.create()
+        self.assertFalse(oSuppression.has_option('suppress_in_json_if_unmatched'))
+        oSuppression.set_options(['suppress_in_json_if_unmatched'])
+        self.assertTrue(oSuppression.has_option('suppress_in_json_if_unmatched'))
+        self.assertFalse(oSuppression.has_option('some_other_option'))

@@ -713,9 +713,7 @@ def check_for_match(oWarning, oSuppression):
 
     Returns: Boolean
     '''
-    if do_ids_match(oWarning, oSuppression):
-        return do_messages_match(oWarning, oSuppression)
-    return False
+    return do_ids_match(oWarning, oSuppression) and do_messages_match(oWarning, oSuppression)
 
 
 def do_ids_match(oWarning, oSuppression):
@@ -730,9 +728,7 @@ def do_ids_match(oWarning, oSuppression):
 
     Returns: (boolean)
     '''
-    if re.fullmatch(oSuppression.get_warning_id(), oWarning.get_id()):
-        return True
-    return False
+    return re.fullmatch(oSuppression.get_warning_id(), oWarning.get_id()) is not None
 
 
 def do_messages_match(oWarning, oSuppression):
@@ -747,9 +743,7 @@ def do_messages_match(oWarning, oSuppression):
 
     Returns: (boolean)
     '''
-    if re.match('^.*' + oSuppression.get_message(), oWarning.get_message()):
-        return True
-    return False
+    return re.match('^.*' + oSuppression.get_message(), oWarning.get_message()) is not None
 
 
 def write_junit_file(sFilename, lFile):
