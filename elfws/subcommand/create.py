@@ -12,9 +12,7 @@ def create(oCommandLineArguments):
 
     lWarnings = extract_warnings_to_suppress(oCommandLineArguments.log_file, oCommandLineArguments.suppression_file)
     dSup = create_suppression_dict(lWarnings)
-
-    with open(oCommandLineArguments.output_suppression_file, 'w') as file:
-        yaml.dump(dSup, file)
+    write_suppression_file(oCommandLineArguments.output_suppression_file, dSup)
 
     sys.exit(ExitCode.SUCCESS)
 
@@ -83,3 +81,8 @@ def escape_regular_expression(sString):
     Returns: (string)
     '''
     return re.sub(r'([\\.^$*+?{}\[\]|()])', r'\\\1', sString)
+
+
+def write_suppression_file(sFileName, dSuppression):
+    with open(sFileName, 'w') as oFile:
+        yaml.dump(dSuppression, oFile)
