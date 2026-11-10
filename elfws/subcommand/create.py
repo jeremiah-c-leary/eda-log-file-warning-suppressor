@@ -8,20 +8,20 @@ from elfws.subcommand import suppress
 from elfws.exit_code import ExitCode
 
 
-def create(cla):
+def create(oCommandLineArguments):
 
-    lLogFile = utils.read_log_file(cla.log_file)
+    lLogFile = utils.read_log_file(oCommandLineArguments.log_file)
 
-    oWarnList = utils.create_warning_list(lLogFile, cla.log_file)
+    oWarnList = utils.create_warning_list(lLogFile, oCommandLineArguments.log_file)
 
-    if cla.suppression_file is not None:
-        dSup = utils.read_suppression_file(cla.suppression_file)
+    if oCommandLineArguments.suppression_file is not None:
+        dSup = utils.read_suppression_file(oCommandLineArguments.suppression_file)
         oSupList = utils.create_suppression_list(dSup)
         oWarnList = suppress.extract_non_suppressed_warnings(oWarnList, oSupList)
 
     dSup = create_suppression_dict(oWarnList)
 
-    with open(cla.output_suppression_file, 'w') as file:
+    with open(oCommandLineArguments.output_suppression_file, 'w') as file:
         yaml.dump(dSup, file)
 
     sys.exit(ExitCode.SUCCESS)

@@ -2,13 +2,13 @@
 from elfws import junit
 
 
-def generate_junit_xml_file(cla, oWarnList, oSupList):
+def generate_junit_xml_file(oCommandLineArguments, oWarnList, oSupList):
     '''
     Generates a JUnit XML file.
 
     Parameters:
 
-      cla : (command line arguments)
+      oCommandLineArguments : (command line arguments)
 
       oWarnList : (warning_list object)
 

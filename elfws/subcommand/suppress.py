@@ -7,18 +7,18 @@ from elfws import display
 from elfws.exit_code import ExitCode
 
 
-def suppress(cla):
+def suppress(oCommandLineArguments):
 
-    dSup = utils.read_suppression_file(cla.suppression_file)
+    dSup = utils.read_suppression_file(oCommandLineArguments.suppression_file)
     oSupList = utils.create_suppression_list(dSup)
 
-    lLogFile = utils.read_log_file(cla.log_file)
+    lLogFile = utils.read_log_file(oCommandLineArguments.log_file)
 
-    oWarnList = utils.create_warning_list(lLogFile, cla.log_file)
+    oWarnList = utils.create_warning_list(lLogFile, oCommandLineArguments.log_file)
 
     utils.apply_suppression_rules_to_warnings(oWarnList, oSupList)
 
-    display.results(cla.log_file, cla.suppression_file, oSupList, oWarnList)
+    display.results(oCommandLineArguments.log_file, oCommandLineArguments.suppression_file, oSupList, oWarnList)
 
     sys.exit(ExitCode.SUCCESS)
 
