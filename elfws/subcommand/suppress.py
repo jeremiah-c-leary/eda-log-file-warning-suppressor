@@ -10,6 +10,6 @@ def suppress(oCommandLineArguments):
 
     oResults = suppression_results.apply_suppression_file(oCommandLineArguments.log_file, oCommandLineArguments.suppression_file)
 
-    display.results(oResults)
+    display.print_results(oResults)
 
     sys.exit(ExitCode.SUCCESS)

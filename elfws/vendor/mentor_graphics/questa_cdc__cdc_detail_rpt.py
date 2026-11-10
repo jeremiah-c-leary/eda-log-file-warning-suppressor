@@ -90,7 +90,7 @@ def check_design_element_which_must_be_zero(oReturn, lFile, sID, sType):
 
     fWarningSectionFound = False
     for iLineNumber, sLine in enumerate(lFile):
-        if vendor_utils.sequence_of_lines_starts_with(iLineNumber, lFile, ['Design Information', '----']):
+        if vendor_utils.do_lines_start_with_sequence(iLineNumber, lFile, ['Design Information', '----']):
             fWarningSectionFound = True
             continue
         if fWarningSectionFound:
@@ -107,7 +107,7 @@ def extract_port_domain_information(oReturn, lFile):
     fWarningSectionFound = False
     sID = 'non_user_defined_port_domain'
     for iLineNumber, sLine in enumerate(lFile):
-        if vendor_utils.sequence_of_lines_starts_with(iLineNumber, lFile, ['Section 10 :', '====', 'Port', '----']):
+        if vendor_utils.do_lines_start_with_sequence(iLineNumber, lFile, ['Section 10 :', '====', 'Port', '----']):
             fWarningSectionFound = True
             continue
         if fWarningSectionFound:

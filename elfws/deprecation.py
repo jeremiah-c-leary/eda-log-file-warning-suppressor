@@ -17,13 +17,13 @@ def build_module_getattr(sModuleName, dDeprecatedNames):
 
     Returns: (function)
     '''
-    def module_getattr(sName):
+    def get_deprecated_attribute(sName):
         if not is_deprecated_name(sName, dDeprecatedNames):
             raise AttributeError('module ' + repr(sModuleName) + ' has no attribute ' + repr(sName))
         warn_deprecated_name(sModuleName, sName, dDeprecatedNames[sName])
         return dDeprecatedNames[sName]
 
-    return module_getattr
+    return get_deprecated_attribute
 
 
 def warn_deprecated_name(sModuleName, sName, oReplacement):

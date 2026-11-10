@@ -1,6 +1,6 @@
 
-def sequence_of_lines_starts_with(iLastLineNumber, lFile, lSequence):
-    if sequence_would_start_before_first_line(iLastLineNumber, lSequence):
+def do_lines_start_with_sequence(iLastLineNumber, lFile, lSequence):
+    if would_sequence_start_before_first_line(iLastLineNumber, lSequence):
         return False
     iFirstLineNumber = iLastLineNumber - (len(lSequence) - 1)
     for iOffset, sExpectedStart in enumerate(lSequence):
@@ -9,7 +9,7 @@ def sequence_of_lines_starts_with(iLastLineNumber, lFile, lSequence):
     return True
 
 
-def sequence_would_start_before_first_line(iLastLineNumber, lSequence):
+def would_sequence_start_before_first_line(iLastLineNumber, lSequence):
     return iLastLineNumber < len(lSequence) - 1
 
 

@@ -11,7 +11,7 @@ def show(oCommandLineArguments):
 
     oResults = suppression_results.create_results_without_suppression_file(oCommandLineArguments.log_file)
 
-    display.results(oResults)
+    display.print_results(oResults)
     junit_results.write_junit_file_if_requested(oCommandLineArguments.junit, oResults)
 
     sys.exit(ExitCode.SUCCESS)

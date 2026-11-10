@@ -37,7 +37,7 @@ def extract_warnings(lFile):
 
 
 def extract_id_and_message(sLine):
-    sText = text_after_keyword(sLine)
+    sText = extract_text_after_keyword(sLine)
     if not has_id_separator(sText):
         return vendor_utils.NO_ID, sText.strip()
 
@@ -49,7 +49,7 @@ def extract_id_and_message(sLine):
     return sId, sMessage.strip()
 
 
-def text_after_keyword(sLine):
+def extract_text_after_keyword(sLine):
     return sLine.split(':', 1)[1]
 
 

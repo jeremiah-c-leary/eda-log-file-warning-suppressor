@@ -62,7 +62,7 @@ class testCmdLineArgsModule(unittest.TestCase):
             'report': (['report', 'log', 'sup.yaml', 'report.rpt'], subcommand.report.report),
             'show': (['show', 'log'], subcommand.show.show),
             'suppress': (['suppress', 'log', 'sup.yaml'], subcommand.suppress.suppress),
-            'version': (['version'], subcommand.version.version),
+            'version': (['version'], subcommand.version.print_version),
         }
         for sName, (lArgs, fExpected) in dExpected.items():
             with self.subTest(subcommand=sName):

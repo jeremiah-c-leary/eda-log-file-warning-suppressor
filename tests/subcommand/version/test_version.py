@@ -11,7 +11,7 @@ class testVersionModule(unittest.TestCase):
     @mock.patch('sys.stdout')
     def test_version(self, mockStdout):
         with self.assertRaises(SystemExit) as oContext:
-            version.print_version()
+            version.print_version(None)
 
         self.assertEqual(oContext.exception.code, 0)
 

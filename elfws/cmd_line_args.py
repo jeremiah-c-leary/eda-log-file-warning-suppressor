@@ -80,4 +80,4 @@ def build_show_subparser(oSubparser):
 def build_version_parser(oSubparser):
     parser = oSubparser.add_parser('version', help='Displays ELFWS version information')
 
-    parser.set_defaults(run_subcommand=subcommand.version.version)
+    parser.set_defaults(run_subcommand=subcommand.version.print_version)
