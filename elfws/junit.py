@@ -9,13 +9,10 @@ class failure():
 
     def __init__(self, sType):
         self.type = sType
-        self.text = None
+        self.text = []
 
     def add_text(self, sText):
-        try:
-            self.text.append(sText)
-        except AttributeError:
-            self.text = [sText]
+        self.text.append(sText)
 
     def build_junit(self):
         '''
@@ -38,13 +35,10 @@ class testcase():
         self.name = sName
         self.time = sTime
         self.classname = sClassName
-        self.failures = None
+        self.failures = []
 
     def add_failure(self, oFailure):
-        try:
-            self.failures.append(oFailure)
-        except AttributeError:
-            self.failures = [oFailure]
+        self.failures.append(oFailure)
 
     def build_junit(self):
         '''
@@ -53,12 +47,8 @@ class testcase():
 
         lJunit = ['  <testcase name="' + escape_xml_characters(self.name) + '" time="' + escape_xml_characters(self.time) + '" classname="' + escape_xml_characters(self.classname) + '">']
 
-        if self.failures:
-            for oFailure in self.failures:
-                try:
-                    lJunit.extend(oFailure.build_junit())
-                except TypeError:
-                    pass
+        for oFailure in self.failures:
+            lJunit.extend(oFailure.build_junit())
 
         lJunit.append('  </testcase>')
 
@@ -73,14 +63,11 @@ class testsuite():
     def __init__(self, sName, sTime):
         self.name = sName
         self.time = sTime
-        self.testcases = None
+        self.testcases = []
         self.timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
     def add_testcase(self, oTestcase):
-        try:
-            self.testcases.append(oTestcase)
-        except AttributeError:
-            self.testcases = [oTestcase]
+        self.testcases.append(oTestcase)
 
     def build_junit(self):
         '''
@@ -91,8 +78,7 @@ class testsuite():
         sHeader += ' hostname="' + escape_xml_characters(platform.uname()[1]) + '"'
         iFailures = 0
         for oTestcase in self.testcases:
-            if oTestcase.failures:
-                iFailures += len(oTestcase.failures)
+            iFailures += len(oTestcase.failures)
         sHeader += ' failures="' + str(iFailures) + '"'
         sHeader += ' timestamp="' + self.timestamp + '"'
         sHeader += ' tests="' + str(len(self.testcases)) + '"'
@@ -119,13 +105,10 @@ class xmlfile():
     '''
 
     def __init__(self):
-        self.testsuites = None
+        self.testsuites = []
 
     def add_testsuite(self, oTestsuite):
-        try:
-            self.testsuites.append(oTestsuite)
-        except AttributeError:
-            self.testsuites = [oTestsuite]
+        self.testsuites.append(oTestsuite)
 
     def build_junit(self):
         '''

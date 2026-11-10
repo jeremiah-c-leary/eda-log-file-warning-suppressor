@@ -24,16 +24,19 @@ def read_suppression_file(sFileName):
     Returns:  dictionary
     '''
     try:
-        with open(sFileName) as yaml_file:
-            dReturn = yaml.safe_load(yaml_file)
-    except Exception as e:
-        print(e)
-        sys.exit(1)
+        return value_or_default(load_yaml_file(sFileName), {})
+    except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
+        exit_with_suppression_file_error(e)
 
-    if dReturn is None:
-        dReturn = {}
 
-    return dReturn
+def load_yaml_file(sFileName):
+    with open(sFileName) as yaml_file:
+        return yaml.safe_load(yaml_file)
+
+
+def exit_with_suppression_file_error(oError):
+    print(oError)
+    sys.exit(1)
 
 
 def create_suppression_list(dSuppression):
@@ -392,17 +395,11 @@ def is_list(oValue):
 
 
 def update_suppression_author(oSupRule, dSup):
-    try:
-        oSupRule.author = dSup['author']
-    except KeyError:
-        oSupRule.author = '<None>'
+    oSupRule.author = dSup.get('author', '<None>')
 
 
 def update_suppression_comment(oSupRule, dSup):
-    try:
-        oSupRule.comment = dSup['comment']
-    except KeyError:
-        oSupRule.comment = '<None>'
+    oSupRule.comment = dSup.get('comment', '<None>')
 
 
 def update_suppression_investigate(oSupRule, dSup):
@@ -417,11 +414,7 @@ def update_suppression_investigate(oSupRule, dSup):
 
     Returns: Nothing
     '''
-    try:
-        if dSup['investigate']:
-            oSupRule.investigate = True
-    except KeyError:
-        oSupRule.investigate = False
+    oSupRule.investigate = bool(dSup.get('investigate', False))
 
 
 def update_suppression_options(oSupRule, dSup):
@@ -436,11 +429,7 @@ def update_suppression_options(oSupRule, dSup):
 
     Returns: Nothing
     '''
-    try:
-        if dSup['options']:
-            oSupRule.set_options(dSup['options'])
-    except KeyError:
-        oSupRule.set_options([])
+    oSupRule.set_options(value_or_default(dSup.get('options'), []))
 
 
 def read_log_file(sFileName):
