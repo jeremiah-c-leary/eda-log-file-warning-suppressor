@@ -26,23 +26,35 @@ def is_logfile(lFile):
 def extract_warnings(lFile):
     oReturn = warning_list.WarningList()
 
-    fWarningFound = False
-    for iLineNumber, sLine in enumerate(lFile):
-        # Clear the warning found flag
-        if not sLine.startswith(' ') and fWarningFound:
-            fWarningFound = False
-            oReturn.add_warning(oWarning)
-        if sLine.startswith(' ') and fWarningFound:
-            oWarning.message += ' ' + sLine.strip()
-        if sLine.startswith('Warning:'):
-            fWarningFound = True
-            sID, sMessage = extract_id_and_message(sLine)
-            oWarning = warning.LogWarning(sID, sMessage, None, iLineNumber + 1)
-
-    if fWarningFound:
-        oReturn.add_warning(oWarning)
+    for iIndex, sLine in enumerate(lFile):
+        if is_warning_start(sLine):
+            oReturn.add_warning(build_warning(sLine, continuation_lines(lFile, iIndex + 1), iIndex + 1))
 
     return oReturn
+
+
+def build_warning(sFirstLine, lContinuationLines, iLineNumber):
+    sID, sMessage = extract_id_and_message(sFirstLine)
+    for sLine in lContinuationLines:
+        sMessage += ' ' + sLine.strip()
+    return warning.LogWarning(sID, sMessage, None, iLineNumber)
+
+
+def continuation_lines(lFile, iStartIndex):
+    lReturn = []
+    for sLine in lFile[iStartIndex:]:
+        if not is_continuation(sLine):
+            break
+        lReturn.append(sLine)
+    return lReturn
+
+
+def is_warning_start(sLine):
+    return sLine.startswith('Warning:')
+
+
+def is_continuation(sLine):
+    return sLine.startswith(' ')
 
 
 def extract_id_and_message(sLine):

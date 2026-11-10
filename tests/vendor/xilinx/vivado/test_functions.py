@@ -119,3 +119,14 @@ class testFunctions(unittest.TestCase):
         oWarningList = vivado.extract_warnings(lLogFile)
         self.assertEqual(1, oWarningList.get_number_of_warnings())
         self.assertEqual('first line second line', oWarningList.warnings[0].get_message())
+
+    def test_indented_warning_is_a_continuation(self):
+        oWarningList = vivado.extract_warnings(['WARNING: [A 1] first', '  WARNING: [B 2] indented', 'x'])
+        self.assertEqual(1, oWarningList.get_number_of_warnings())
+        self.assertEqual('first WARNING: [B 2] indented', oWarningList.warnings[0].get_message())
+
+    def test_continuation_before_any_warning_is_ignored(self):
+        oWarningList = vivado.extract_warnings(['   orphan', 'WARNING: [A 1] msg'])
+        self.assertEqual(1, oWarningList.get_number_of_warnings())
+        self.assertEqual('msg', oWarningList.warnings[0].get_message())
+        self.assertEqual(2, oWarningList.warnings[0].get_linenumber())

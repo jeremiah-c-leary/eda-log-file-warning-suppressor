@@ -103,3 +103,27 @@ class testFunctions(unittest.TestCase):
         oWarningList = tool.extract_warnings(lLogFile)
         self.assertEqual(1, oWarningList.get_number_of_warnings())
         self.assertEqual('last warning', oWarningList.warnings[0].get_message())
+
+    def build_report(self, lCheckLines):
+        return ['Questa Lint  Version 2023', 'Section 2'] + lCheckLines
+
+    def extract(self, lCheckLines):
+        return [(o.get_id(), o.get_message(), o.get_linenumber()) for o in tool.extract_warnings(self.build_report(lCheckLines)).get_warnings()]
+
+    def test_warnings_without_blank_line_between_are_both_extracted(self):
+        lActual = self.extract(['Check: A [x]', '----', 'A: first', 'A: second', ''])
+        self.assertEqual([('A', 'first', 5), ('A', 'second', 6)], lActual)
+
+    def test_message_ends_at_next_check(self):
+        lActual = self.extract(['Check: A [x]', '----', 'A: first part', 'Check: B [x]', 'more', ''])
+        self.assertEqual([('A', 'first part', 5)], lActual)
+
+    def test_check_id_must_be_followed_by_colon(self):
+        lActual = self.extract(['Check: A [x]', '----', 'A: msg', '', 'ABC: not a warning', ''])
+        self.assertEqual([('A', 'msg', 5)], lActual)
+
+    def test_no_warnings_before_first_check(self):
+        self.assertEqual([], self.extract(['elfws: odd', '']))
+
+    def test_no_warnings_without_section_2(self):
+        self.assertEqual([], [o for o in tool.extract_warnings(['Questa Lint  Version 2023', 'Check: A [x]', 'A: msg', '']).get_warnings()])
