@@ -1,6 +1,7 @@
 
 from elfws import warning
 from elfws import warning_list
+from elfws.vendor import utils as vendor_utils
 
 LAST_HEADER_LINE_INDEX = 10
 
@@ -29,15 +30,42 @@ def extract_warnings(lFile):
 
     for iLineNumber, sLine in enumerate(lFile):
         if sLine.startswith('# Warning:'):
-            iColon1Index = sLine.find(':')
-            iColon2Index = sLine.find(':', iColon1Index+1)
-            sID = sLine[iColon1Index+1:iColon2Index].strip()
-            sID = sID[1:-1]
-            if ' ' in sID:
-                sID = 'NO_ID'
-                sMessage = sLine[iColon1Index+1:].strip()
-            else:
-                sMessage = sLine[iColon2Index+1:].strip()
+            sID, sMessage = extract_id_and_message(sLine)
             oWarning = warning.LogWarning(sID, sMessage, None, iLineNumber + 1)
             oReturn.add_warning(oWarning)
     return oReturn
+
+
+def extract_id_and_message(sLine):
+    sText = text_after_keyword(sLine)
+    if not has_id_separator(sText):
+        return vendor_utils.NO_ID, sText.strip()
+
+    sId, sMessage = sText.split(':', 1)
+    sId = remove_surrounding_brackets(sId.strip())
+    if contains_spaces(sId):
+        return vendor_utils.NO_ID, sText.strip()
+
+    return sId, sMessage.strip()
+
+
+def text_after_keyword(sLine):
+    return sLine.split(':', 1)[1]
+
+
+def has_id_separator(sText):
+    return ':' in sText
+
+
+def contains_spaces(sText):
+    return ' ' in sText
+
+
+def remove_surrounding_brackets(sId):
+    if not is_surrounded_by_brackets(sId):
+        return sId
+    return sId[1:-1]
+
+
+def is_surrounded_by_brackets(sId):
+    return sId.startswith('[') and sId.endswith(']')

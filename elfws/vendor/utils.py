@@ -11,3 +11,6 @@ def sequence_of_lines_starts_with(iLastLineNumber, lFile, lSequence):
 
 def sequence_would_start_before_first_line(iLastLineNumber, lSequence):
     return iLastLineNumber < len(lSequence) - 1
+
+
+NO_ID = 'NO_ID'

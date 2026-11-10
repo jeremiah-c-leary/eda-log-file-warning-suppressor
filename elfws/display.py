@@ -66,16 +66,18 @@ def build_warning_table(lWarningList, iIndent=0):
 
     Returns: (list of strings)
     '''
-    lReturn = []
+    if len(lWarningList) == 0:
+        return []
+
     iWarningIdLength = maximum_id_length(lWarningList)
-    if len(lWarningList) > 0:
-        lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-        lReturn.append(table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
-        lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-        for oWarning in lWarningList:
-            lReturn.append(table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
-        lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-        lReturn.append('')
+    lReturn = []
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
+    lReturn.append(table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
+    for oWarning in lWarningList:
+        lReturn.append(table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
+    lReturn.append('')
 
     return lReturn
 
@@ -189,17 +191,7 @@ def build_suppressed_warning_table(oSuppression, iIndent=0):
 
     Return: (list of strings)
     '''
-    iWarningIdLength = maximum_id_length(oSuppression.get_suppressed_warnings())
-    lReturn = []
-    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-    lReturn.append(table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
-    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-    for oWarning in oSuppression.get_suppressed_warnings():
-        lReturn.append(table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
-    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-    lReturn.append('')
-
-    return lReturn
+    return build_warning_table(oSuppression.get_suppressed_warnings(), iIndent)
 
 
 def build_suppression_item(oSuppression, iIndent=0):
@@ -303,9 +295,7 @@ def table_header_format_string(iIdLength, iIndent):
 
     Returns : (string)
     '''
-    sReturn = iIndent * ' '
-    sReturn += ' {0:<' + str(id_column_width(iIdLength)) + 's} | {1:' + str(LINE_NUMBER_COLUMN_WIDTH) + 's} | {2:s}'
-    return sReturn
+    return table_format_string(iIdLength, iIndent, 's')
 
 
 def table_row_format_string(iIdLength, iIndent):
@@ -320,6 +310,23 @@ def table_row_format_string(iIdLength, iIndent):
 
     Returns : (string)
     '''
+    return table_format_string(iIdLength, iIndent, 'd')
+
+
+def table_format_string(iIdLength, iIndent, sLineNumberType):
+    '''
+    Returns the format string shared by the table header and rows.
+
+    Parameters :
+
+      iIdLength : (integer)
+
+      iIndent : (integer)
+
+      sLineNumberType : (string) format type of the line number column, 's' for the header and 'd' for rows
+
+    Returns : (string)
+    '''
     sReturn = iIndent * ' '
-    sReturn += ' {0:<' + str(id_column_width(iIdLength)) + 's} | {1:' + str(LINE_NUMBER_COLUMN_WIDTH) + 'd} | {2:s}'
+    sReturn += ' {0:<' + str(id_column_width(iIdLength)) + 's} | {1:' + str(LINE_NUMBER_COLUMN_WIDTH) + sLineNumberType + '} | {2:s}'
     return sReturn

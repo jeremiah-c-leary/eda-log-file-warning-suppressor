@@ -44,24 +44,15 @@ def extract_warnings(lFile):
 
 
 def extract_message_warnings(oReturn, lFile):
-    fWarningSectionFound = False
-    sID = 'warning_check'
-    for iLineNumber, sLine in enumerate(lFile):
-        if vendor_utils.sequence_of_lines_starts_with(iLineNumber, lFile, ['Message Summary', '----', 'Count', '----']):
-            fWarningSectionFound = True
-            continue
-        if fWarningSectionFound:
-            if sLine == '':
-                break
-            lLine = sLine.split()
-            if is_message_type(lLine, 'Warning'):
-               oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
-               oReturn.add_warning(oWarning) 
+    extract_message_summary(oReturn, lFile, 'warning_check', 'Warning')
 
 
 def extract_message_errors(oReturn, lFile):
+    extract_message_summary(oReturn, lFile, 'error_check', 'Error')
+
+
+def extract_message_summary(oReturn, lFile, sID, sType):
     fWarningSectionFound = False
-    sID = 'error_check'
     for iLineNumber, sLine in enumerate(lFile):
         if vendor_utils.sequence_of_lines_starts_with(iLineNumber, lFile, ['Message Summary', '----', 'Count', '----']):
             fWarningSectionFound = True
@@ -70,9 +61,9 @@ def extract_message_errors(oReturn, lFile):
             if sLine == '':
                 break
             lLine = sLine.split()
-            if is_message_type(lLine, 'Error'):
-               oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
-               oReturn.add_warning(oWarning) 
+            if is_message_type(lLine, sType):
+                oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
+                oReturn.add_warning(oWarning)
 
 
 def is_message_type(lLine, sType):
