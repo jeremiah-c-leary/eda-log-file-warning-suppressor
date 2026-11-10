@@ -9,9 +9,7 @@ class create():
         self.warnings.append(oWarning)
 
     def has_warnings(self):
-        if len(self.warnings) == 0:
-            return False
-        return True
+        return len(self.warnings) > 0
 
     def get_number_of_warnings(self):
         return len(self.warnings)

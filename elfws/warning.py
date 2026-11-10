@@ -35,14 +35,10 @@ class create():
         return self.investigate
 
     def is_suppressed(self):
-        if len(self.suppressed_by) == 0:
-            return False
-        return True
+        return len(self.suppressed_by) > 0
 
     def is_suppressed_by_multiple_rules(self):
-        if len(self.suppressed_by) > 1:
-            return True
-        return False
+        return len(self.suppressed_by) > 1
 
     def set_investigate(self):
         self.investigate = True

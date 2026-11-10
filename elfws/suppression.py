@@ -33,17 +33,13 @@ class create():
         return self.warning_id
 
     def has_suppressed_a_warning(self):
-        if len(self.suppressed_warnings) == 0:
-            return False
-        return True
+        return len(self.suppressed_warnings) > 0
 
     def is_investigation_rule(self):
         return self.investigate
 
     def has_option(self, sOption):
-        if sOption in self.options:
-            return True
-        return False
+        return sOption in self.options
 
     def set_options(self, lOptions):
         self.options = lOptions
