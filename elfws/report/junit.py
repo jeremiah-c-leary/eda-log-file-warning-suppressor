@@ -1,20 +1,43 @@
 
 from elfws import junit
+from elfws import utils
 
 
-def generate_junit_xml_file(oCommandLineArguments, oWarnList, oSupList):
+def write_junit_file_if_requested(sJUnitFileName, oWarnList, oSupList):
     '''
-    Generates a JUnit XML file.
+    Writes a JUnit XML file if a file name was given on the command line.
 
     Parameters:
 
-      oCommandLineArguments : (command line arguments)
+      sJUnitFileName : (string) None when no JUnit file was requested
 
       oWarnList : (warning_list object)
 
       oSupList : (suppression_list object)
 
     Returns: Nothing
+    '''
+    if not is_junit_file_requested(sJUnitFileName):
+        return
+    lJUnitFile = generate_junit_xml_file(oWarnList, oSupList)
+    utils.write_junit_file(sJUnitFileName, lJUnitFile)
+
+
+def is_junit_file_requested(sJUnitFileName):
+    return not utils.is_missing(sJUnitFileName)
+
+
+def generate_junit_xml_file(oWarnList, oSupList):
+    '''
+    Generates a JUnit XML file.
+
+    Parameters:
+
+      oWarnList : (warning_list object)
+
+      oSupList : (suppression_list object)
+
+    Returns: (list of strings)
     '''
     oXmlFile = junit.XmlFile()
     oTestsuite = junit.TestSuite('eda-log-file-warning-suppressor', str(0))
