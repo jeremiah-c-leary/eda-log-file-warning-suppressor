@@ -730,7 +730,7 @@ def do_ids_match(oWarning, oSuppression):
 
     Returns: (boolean)
     '''
-    if re.match(oSuppression.get_warning_id(), oWarning.get_id()):
+    if re.fullmatch(oSuppression.get_warning_id(), oWarning.get_id()):
         return True
     return False
 
