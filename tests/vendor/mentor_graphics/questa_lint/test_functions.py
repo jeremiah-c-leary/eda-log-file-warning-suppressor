@@ -127,3 +127,20 @@ class testFunctions(unittest.TestCase):
 
     def test_no_warnings_without_section_2(self):
         self.assertEqual([], [o for o in tool.extract_warnings(['Questa Lint  Version 2023', 'Check: A [x]', 'A: msg', '']).get_warnings()])
+
+    def test_lint_check_extracts_its_own_warnings(self):
+        oLintCheck = tool.LintCheck('A')
+        oLintCheck.add_line(10, '----')
+        oLintCheck.add_line(11, 'A: first line')
+        oLintCheck.add_line(12, 'second line')
+        oLintCheck.add_line(13, '')
+        oLintCheck.add_line(14, 'A: another')
+        lActual = [(o.get_id(), o.get_message(), o.get_linenumber()) for o in oLintCheck.extract_warnings()]
+        self.assertEqual([('A', 'first line second line', 11), ('A', 'another', 14)], lActual)
+
+    def test_extract_lint_checks(self):
+        lWarningSection = [(1, 'ignored'), (2, 'Check: A [x]'), (3, 'A: one'), (4, 'Check: B [y]'), (5, 'B: two')]
+        lLintChecks = tool.extract_lint_checks(lWarningSection)
+        self.assertEqual(['A', 'B'], [oLintCheck.sId for oLintCheck in lLintChecks])
+        self.assertEqual([(3, 'A: one')], lLintChecks[0].lLines)
+        self.assertEqual([(5, 'B: two')], lLintChecks[1].lLines)
