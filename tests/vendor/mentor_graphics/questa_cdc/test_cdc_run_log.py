@@ -141,3 +141,17 @@ class testFunctions(unittest.TestCase):
 
     def test_get_tool_name(self):
         self.assertEqual('questa_cdc', tool.get_tool_name())
+
+    def test_message_summary_with_single_token_line(self):
+        lLogFile = []
+        lLogFile.append('Message Summary')
+        lLogFile.append('---------------------------------------------------------------')
+        lLogFile.append('Count  Type    Message ID             Summary')
+        lLogFile.append('---------------------------------------------------------------')
+        lLogFile.append('    1  Warning id2                    warning#1')
+        lLogFile.append('-------')
+        lLogFile.append('    2  Error   id3                    error#1')
+        lLogFile.append('')
+        oWarningList = tool.extract_warnings(lLogFile)
+        lIds = [oWarning.get_id() for oWarning in oWarningList.get_warnings()]
+        self.assertEqual(['warning_check', 'error_check'], lIds)

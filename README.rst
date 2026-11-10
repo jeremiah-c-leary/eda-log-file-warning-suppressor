@@ -9,16 +9,17 @@ EDA Log File Warning Suppressor (ELFWS)
 .. image:: https://img.shields.io/pypi/v/elfws.svg?style=flat-square
    :target: https://pypi.python.org/pypi/elfws
    :alt: PyPI Version
-.. image:: https://img.shields.io/travis/jeremiah-c-leary/eda-log-file-warning-suppressor/master.svg?style=flat-square
-   :target: https://travis-ci.org/jeremiah-c-leary/eda-log-file-warning-suppressor
+.. image:: https://img.shields.io/github/actions/workflow/status/jeremiah-c-leary/eda-log-file-warning-suppressor/main.yml?branch=master&style=flat-square
+   :target: https://github.com/jeremiah-c-leary/eda-log-file-warning-suppressor/actions/workflows/main.yml
    :alt: Build Status
 .. image:: https://img.shields.io/codecov/c/github/jeremiah-c-leary/eda-log-file-warning-suppressor/master.svg?style=flat-square
    :target: https://codecov.io/github/jeremiah-c-leary/eda-log-file-warning-suppressor
    :alt: Test Coverage
-.. image:: https://img.shields.io/readthedocs/vsg.svg?style=flat-square
+.. image:: https://img.shields.io/readthedocs/eda-log-file-warning-suppressor.svg?style=flat-square
    :target: http://eda-log-file-warning-suppressor.readthedocs.io/en/latest/index.html
    :alt: Read The Docs
-.. image:: https://api.codacy.com/project/badge/Grade/3ecbff706c6640fcae47b003b74c71dd    :target: https://www.codacy.com/manual/jeremiah-c-leary/eda-log-file-warning-suppressor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jeremiah-c-leary/eda-log-file-warning-suppressor&amp;utm_campaign=Badge_Grade
+.. image:: https://api.codacy.com/project/badge/Grade/3ecbff706c6640fcae47b003b74c71dd
+   :target: https://www.codacy.com/manual/jeremiah-c-leary/eda-log-file-warning-suppressor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jeremiah-c-leary/eda-log-file-warning-suppressor&amp;utm_campaign=Badge_Grade
    :alt: Codacy
 .. image:: https://api.codeclimate.com/v1/badges/6d41bcbece1f25056bdb/maintainability
    :target: https://codeclimate.com/github/jeremiah-c-leary/logfile-warning-suppressor/maintainability
@@ -193,13 +194,14 @@ The arguments for the subcommand can be listed using the *-h* option:
 
    $ elfws show -h
 
-   usage: elfws show [-h] log_file
+   usage: elfws show [-h] [--junit JUNIT] log_file
 
    positional arguments:
-     log_file    Log file to show warnings
+     log_file       Log file to show warnings
 
    optional arguments:
-     -h, --help  show this help message and exit
+     -h, --help     show this help message and exit
+     --junit JUNIT  Generate JUnit XML file JUNIT
 
 suppress
 --------

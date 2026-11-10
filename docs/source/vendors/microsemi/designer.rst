@@ -101,7 +101,7 @@ Extraction of warnings from the logfile will follow this process:
 2.  Classify warning
 
   a.    As ID if ID pattern matches
-  b.    As no_id if ID pattern does not match
+  b.    As NO_ID if ID pattern does not match
 
 3.  Check successive lines for line beginning with spaces
 

@@ -68,19 +68,21 @@ Each suppression rule will have the following fields available:
 +--------------------+----------+-------------------------------------------------+
 
 In addition to the standard warning ID, each tool may have warnings without IDs.
-When processing these warnings, ELFWS will use a warning ID of **no_id**.
+When processing these warnings, ELFWS will use a warning ID of **NO_ID**.
+Warning IDs are case sensitive, so the rule must use **NO_ID** exactly.
 
 .. code-block:: yaml
 
    suppress:
-     no_id:
-       msg: Unused port
-       comment: This port is not used.
-       author: mpw
-     <warning_id>:
-       msg: Port I_CLK not used
-       comment: This port is not used.
-       author: jcl
+     rules:
+       NO_ID:
+         - msg: Unused port
+           comment: This port is not used.
+           author: mpw
+       <warning_id>:
+         - msg: Port I_CLK not used
+           comment: This port is not used.
+           author: jcl
 
 If these unique IDs exist, they are listed in the tool section of this documentation.
 

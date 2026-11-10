@@ -22,7 +22,7 @@ def read_suppression_file(sFileName):
     '''
     try:
         with open(sFileName) as yaml_file:
-            dReturn = yaml.full_load(yaml_file)
+            dReturn = yaml.safe_load(yaml_file)
     except Exception as e:
         print(e)
         sys.exit(1)
@@ -37,24 +37,79 @@ def create_suppression_list(dSuppression):
     '''
     Processes a given dictionary and returns a suppression list object.
 
+    If any rule is malformed, every problem found is printed and the
+    program exits with code 1 (suppression file error).
+
     Parameters:
 
         dSuppression : (dict)
 
     Returns:  suppression list object
     '''
-    oReturn = suppression_list.create()
-    try:
-        lRules = search_for_suppression_rules(dSuppression['suppress'])
-        for oRule in lRules:
-            oReturn.add_suppression(oRule)
-    except KeyError:
-        pass
+    lErrors = []
+    lRules = extract_rules_from_suppression_file(dSuppression, lErrors)
+    exit_if_suppression_file_has_errors(lErrors)
+    return build_suppression_list(lRules)
 
+
+def extract_rules_from_suppression_file(dSuppression, lErrors):
+    '''
+    Extracts all suppression rules below the suppress key.
+
+    Parameters:
+
+        dSuppression : (dict)
+
+        lErrors : (list of strings) problems found are appended to this list
+
+    Returns: list of suppression rules
+    '''
+    if not is_mapping(dSuppression):
+        lErrors.append('suppression file must contain a mapping with a "suppress" key')
+        return []
+    if not has_suppress_section(dSuppression):
+        return []
+    return search_for_suppression_rules(dSuppression['suppress'], ['suppress'], lErrors)
+
+
+def build_suppression_list(lRules):
+    '''
+    Creates a suppression list object containing the given rules.
+
+    Parameters:
+
+        lRules : (list of suppression rules)
+
+    Returns:  suppression list object
+    '''
+    oReturn = suppression_list.create()
+    for oRule in lRules:
+        oReturn.add_suppression(oRule)
     return oReturn
 
 
-def search_for_suppression_rules(dSubDict):
+def exit_if_suppression_file_has_errors(lErrors):
+    '''
+    Prints all suppression file errors and exits with code 1 if there are any.
+
+    Parameters:
+
+        lErrors : (list of strings)
+
+    Returns: Nothing
+    '''
+    if not has_errors(lErrors):
+        return
+    print_suppression_file_errors(lErrors)
+    sys.exit(1)
+
+
+def print_suppression_file_errors(lErrors):
+    for sError in lErrors:
+        print('ERROR: Suppression file: ' + sError)
+
+
+def search_for_suppression_rules(dSubDict, lPath=None, lErrors=None):
     '''
     This function traverses all keys in a dictionary searching for the key 'rules.'
 
@@ -67,43 +122,270 @@ def search_for_suppression_rules(dSubDict):
 
         dSubDict : (dict)
 
+        lPath : (list of strings) keys leading to dSubDict, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
     Returns: list of suppression rules
     '''
+    lPath = value_or_default(lPath, [])
+    lErrors = value_or_default(lErrors, [])
+    if is_empty(dSubDict):
+        return []
+    if not is_mapping(dSubDict):
+        add_error(lErrors, format_path(lPath), 'expected a group or "rules" key, found ' + repr(dSubDict))
+        return []
     lReturn = []
-    for dID in list(dSubDict.keys()):
-        if dID == 'rules':
-            lRules = extract_suppression_rules(dSubDict[dID])
-        else:
-            lRules = search_for_suppression_rules(dSubDict[dID])
-        lReturn.extend(lRules)
-
+    for sKey in list(dSubDict.keys()):
+        lReturn.extend(search_key_for_suppression_rules(dSubDict, sKey, lPath, lErrors))
     return lReturn
 
 
-def extract_suppression_rules(dRules):
+def search_key_for_suppression_rules(dSubDict, sKey, lPath, lErrors):
+    '''
+    Extracts rules if the key is a rules key, otherwise searches the group below the key.
+
+    Parameters:
+
+        dSubDict : (dict)
+
+        sKey : (string) key in dSubDict to search
+
+        lPath : (list of strings) keys leading to dSubDict, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
+    Returns: list of suppression rules
+    '''
+    if is_rules_key(sKey):
+        return extract_suppression_rules(dSubDict[sKey], lPath + [sKey], lErrors)
+    return search_for_suppression_rules(dSubDict[sKey], lPath + [str(sKey)], lErrors)
+
+
+def extract_suppression_rules(dRules, lPath=None, lErrors=None):
     '''
     Processes a rule dictionary and return a list of suppression rules.
+
+    Malformed rules are skipped and described in lErrors.
 
     Parameters:
 
         dRules : (dict)
 
+        lPath : (list of strings) keys leading to dRules, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
     Returns: list of suppression rules
     '''
+    lPath = value_or_default(lPath, ['rules'])
+    lErrors = value_or_default(lErrors, [])
+    if is_empty(dRules):
+        return []
+    if not is_mapping(dRules):
+        add_error(lErrors, format_path(lPath), 'expected warning ids, found ' + repr(dRules))
+        return []
     lReturn = []
-    try:
-        for dID in list(dRules.keys()):
-            for dSup in dRules[dID]:
-                oSupRule = suppression.create(str(dID), dSup['msg'])
-                update_suppression_author(oSupRule, dSup)
-                update_suppression_comment(oSupRule, dSup)
-                update_suppression_investigate(oSupRule, dSup)
-                update_suppression_options(oSupRule, dSup)
-                lReturn.append(oSupRule)
-    except KeyError:
-        pass
-
+    for sId in list(dRules.keys()):
+        lReturn.extend(extract_rules_for_warning_id(sId, dRules[sId], lPath + [str(sId)], lErrors))
     return lReturn
+
+
+def extract_rules_for_warning_id(sId, lRules, lPath, lErrors):
+    '''
+    Processes the list of rules for a single warning id.
+
+    Parameters:
+
+        sId : (string) warning id
+
+        lRules : (list of dictionaries)
+
+        lPath : (list of strings) keys leading to the warning id, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
+    Returns: list of suppression rules
+    '''
+    sIdLocation = format_path(lPath)
+    if not is_list(lRules):
+        add_error(lErrors, sIdLocation, 'expected a list of rules, found ' + repr(lRules))
+        return []
+    lReturn = []
+    for iIndex, dSup in enumerate(lRules):
+        oSupRule = extract_rule(sId, dSup, format_rule_location(sIdLocation, iIndex), lErrors)
+        if was_rule_extracted(oSupRule):
+            lReturn.append(oSupRule)
+    return lReturn
+
+
+def extract_rule(sId, dSup, sLocation, lErrors):
+    '''
+    Creates a suppression rule if the rule definition is valid.
+
+    Parameters:
+
+        sId : (string) warning id
+
+        dSup : (dict) rule definition
+
+        sLocation : (string) location of the rule, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
+    Returns: suppression rule or None if the rule is not valid
+    '''
+    if not validate_rule_structure(dSup, sLocation, lErrors):
+        return None
+    oSupRule = create_suppression_rule(sId, dSup)
+    if not validate_rule_regular_expressions(oSupRule, sLocation, lErrors):
+        return None
+    return oSupRule
+
+
+def validate_rule_structure(dSup, sLocation, lErrors):
+    '''
+    Checks a rule definition is a mapping with a msg key.
+
+    Parameters:
+
+        dSup : (dict) rule definition
+
+        sLocation : (string) location of the rule, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
+    Returns: (boolean) True if the rule is valid
+    '''
+    if not is_mapping(dSup):
+        add_error(lErrors, sLocation, 'expected a rule with a "msg" key, found ' + repr(dSup))
+        return False
+    if not has_message(dSup):
+        add_error(lErrors, sLocation, 'rule is missing the required "msg" key')
+        return False
+    return True
+
+
+def create_suppression_rule(sId, dSup):
+    '''
+    Creates a suppression rule from a valid rule definition.
+
+    Parameters:
+
+        sId : (string) warning id
+
+        dSup : (dict) rule definition
+
+    Returns: suppression rule
+    '''
+    oSupRule = suppression.create(str(sId), str(dSup['msg']))
+    update_suppression_author(oSupRule, dSup)
+    update_suppression_comment(oSupRule, dSup)
+    update_suppression_investigate(oSupRule, dSup)
+    update_suppression_options(oSupRule, dSup)
+    return oSupRule
+
+
+def validate_rule_regular_expressions(oSupRule, sLocation, lErrors):
+    '''
+    Checks the warning id and message of a rule compile as regular expressions.
+
+    Parameters:
+
+        oSupRule : (suppression rule object)
+
+        sLocation : (string) location of the rule, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
+    Returns: (boolean) True if both regular expressions are valid
+    '''
+    fIdValid = validate_regular_expression(oSupRule.get_warning_id(), 'warning id', sLocation, lErrors)
+    fMessageValid = validate_regular_expression(oSupRule.get_message(), 'msg', sLocation, lErrors)
+    return fIdValid and fMessageValid
+
+
+def validate_regular_expression(sRegex, sField, sLocation, lErrors):
+    '''
+    Checks a regular expression compiles.
+
+    Parameters:
+
+        sRegex : (string)
+
+        sField : (string) name of the rule field, used in error messages
+
+        sLocation : (string) location of the rule, used in error messages
+
+        lErrors : (list of strings) problems found are appended to this list
+
+    Returns: (boolean) True if the regular expression is valid
+    '''
+    try:
+        re.compile(sRegex)
+    except re.error as e:
+        add_error(lErrors, sLocation, 'invalid regular expression in ' + sField + ' ' + repr(sRegex) + ': ' + str(e))
+        return False
+    return True
+
+
+def add_error(lErrors, sLocation, sMessage):
+    lErrors.append(sLocation + ': ' + sMessage)
+
+
+def format_path(lPath):
+    '''
+    Formats a list of keys as a location in the suppression file.
+
+    Parameters:
+
+        lPath : (list of strings)
+
+    Returns: (string)
+    '''
+    return ' -> '.join(lPath)
+
+
+def format_rule_location(sIdLocation, iIndex):
+    return sIdLocation + '[' + str(iIndex) + ']'
+
+
+def value_or_default(oValue, oDefault):
+    if is_empty(oValue):
+        return oDefault
+    return oValue
+
+
+def has_errors(lErrors):
+    return len(lErrors) > 0
+
+
+def has_suppress_section(dSuppression):
+    return not is_empty(dSuppression.get('suppress'))
+
+
+def has_message(dSup):
+    return not is_empty(dSup.get('msg'))
+
+
+def is_rules_key(sKey):
+    return sKey == 'rules'
+
+
+def was_rule_extracted(oSupRule):
+    return not is_empty(oSupRule)
+
+
+def is_empty(oValue):
+    return oValue is None
+
+
+def is_mapping(oValue):
+    return isinstance(oValue, dict)
+
+
+def is_list(oValue):
+    return isinstance(oValue, list)
 
 
 def update_suppression_author(oSupRule, dSup):
@@ -166,14 +448,30 @@ def read_log_file(sFileName):
 
       sFileName : (string)
 
+    Bytes which are not valid UTF-8 are replaced rather than causing an
+    error, as EDA tools frequently write other encodings.
+
+    Exits with code 6 if the file cannot be read.
+
     Returns: (list of strings)
     '''
+    try:
+        return read_lines_without_line_endings(sFileName)
+    except OSError as e:
+        exit_with_log_file_error(sFileName, e)
+
+
+def read_lines_without_line_endings(sFileName):
     lLines = []
-    with open(sFileName) as oFile:
+    with open(sFileName, encoding='utf-8', errors='replace') as oFile:
         for sLine in oFile:
             lLines.append(sLine.rstrip())
-    oFile.close()
     return lLines
+
+
+def exit_with_log_file_error(sFileName, oError):
+    print('ERROR: Could not read log file ' + sFileName + ' : ' + str(oError))
+    sys.exit(6)
 
 
 def import_vendor_module(sToolPath):
