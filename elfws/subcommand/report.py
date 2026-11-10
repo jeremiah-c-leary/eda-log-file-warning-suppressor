@@ -1,6 +1,4 @@
 
-import sys
-
 from elfws import display
 from elfws import junit_results
 from elfws import output_file
@@ -15,7 +13,7 @@ def report(oCommandLineArguments):
     output_file.write_report_file(oCommandLineArguments.report_file, lReport)
     junit_results.write_junit_file_if_requested(oCommandLineArguments.junit, oResults)
 
-    sys.exit(ExitCode.SUCCESS)
+    return ExitCode.SUCCESS
 
 
 def build_report(oResults):

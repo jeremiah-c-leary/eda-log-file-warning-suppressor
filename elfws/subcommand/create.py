@@ -1,6 +1,5 @@
 
 import re
-import sys
 import yaml
 
 from elfws import log_file
@@ -14,7 +13,7 @@ def create(oCommandLineArguments):
     dSup = create_suppression_dict(lWarnings)
     write_suppression_file(oCommandLineArguments.output_suppression_file, dSup)
 
-    sys.exit(ExitCode.SUCCESS)
+    return ExitCode.SUCCESS
 
 
 def extract_warnings_to_suppress(sLogFileName, sSuppressionFileName):

@@ -5,6 +5,7 @@ import os
 import re
 import sys
 
+from elfws import error
 from elfws.exit_code import ExitCode
 
 # Parser modules which have already been imported, keyed by tool path.
@@ -204,7 +205,10 @@ def create_warning_list(lLogFile, sLogFileName):
     Returns:  (warning list object)
     '''
     mTool = get_vendor_tool_module(lLogFile)
-    if mTool is None:
-        print('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.')
-        sys.exit(ExitCode.NO_MATCHING_PARSER)
+    if not was_parser_found(mTool):
+        raise error.ElfwsError('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.', ExitCode.NO_MATCHING_PARSER)
     return mTool.extract_warnings(lLogFile)
+
+
+def was_parser_found(mTool):
+    return mTool is not None

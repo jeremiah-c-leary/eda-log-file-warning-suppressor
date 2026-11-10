@@ -1,11 +1,11 @@
 
 import os
 import unittest
-from unittest import mock
 
 from elfws import suppression
 from elfws import suppression_file
 from elfws import suppression_list
+from elfws import error
 
 
 class test_functions(unittest.TestCase):
@@ -51,12 +51,11 @@ class test_functions(unittest.TestCase):
 
         self.assertEqual(dExpected, dActual)
 
-    @mock.patch('sys.stdout')
-    def test_read_suppression_file_w_error(self, mock_stdout):
-        with self.assertRaises(SystemExit) as oContext:
+    def test_read_suppression_file_w_error(self):
+        with self.assertRaises(error.ElfwsError) as oContext:
             suppression_file.read_suppression_file(os.path.join(os.path.dirname(__file__),'error_suppress.yaml'))
 
-        self.assertEqual(oContext.exception.code, 1)
+        self.assertEqual(oContext.exception.iExitCode, 1)
 
     def test_create_suppression_list(self):
 

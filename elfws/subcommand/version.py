@@ -1,6 +1,4 @@
 
-import sys
-
 from elfws import version as version_number
 from elfws.exit_code import ExitCode
 
@@ -8,4 +6,4 @@ from elfws.exit_code import ExitCode
 def print_version(oCommandLineArguments):
 
     print('EDA Log File Warning Suppressor (ELFWS) version ' + version_number.version)
-    sys.exit(ExitCode.SUCCESS)
+    return ExitCode.SUCCESS

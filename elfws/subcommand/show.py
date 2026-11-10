@@ -1,6 +1,4 @@
 
-import sys
-
 from elfws import display
 from elfws import junit_results
 from elfws import suppression_results
@@ -14,4 +12,4 @@ def show(oCommandLineArguments):
     display.print_results(oResults)
     junit_results.write_junit_file_if_requested(oCommandLineArguments.junit, oResults)
 
-    sys.exit(ExitCode.SUCCESS)
+    return ExitCode.SUCCESS

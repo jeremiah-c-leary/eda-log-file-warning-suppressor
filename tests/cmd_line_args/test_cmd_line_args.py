@@ -5,16 +5,17 @@ from unittest import mock
 
 from elfws import cmd_line_args
 from elfws import subcommand
+from elfws import error
 
 class testCmdLineArgsModule(unittest.TestCase):
 
     @mock.patch('sys.stdout')
     @mock.patch('sys.argv', ['elfws'])
     def test_parse_command_line_arguments_w_no_args(self, mockStdout):
-        with self.assertRaises(SystemExit) as oContext:
+        with self.assertRaises(error.ElfwsError) as oContext:
             cmd_line_args.parse_command_line_arguments()
 
-        self.assertEqual(oContext.exception.code, 3)
+        self.assertEqual(oContext.exception.iExitCode, 3)
 
         sOutput = 'usage: elfws [-h] {create,report,show,suppress,version} ...\n'
         sOutput += '\n'

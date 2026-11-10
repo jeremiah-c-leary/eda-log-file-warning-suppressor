@@ -1,11 +1,10 @@
 
-import io
 import os
 import tempfile
 import unittest
-from unittest import mock
 
 from elfws import suppression_file
+from elfws import error
 
 
 class test_read_suppression_file(unittest.TestCase):
@@ -22,23 +21,22 @@ class test_read_suppression_file(unittest.TestCase):
             oFile.write(bContent)
         return sPath
 
-    def assert_exits_with_code_1(self, sPath):
-        with mock.patch('sys.stdout', new_callable=io.StringIO):
-            with self.assertRaises(SystemExit) as oContext:
-                suppression_file.read_suppression_file(sPath)
-        self.assertEqual(oContext.exception.code, 1)
+    def assert_raises_suppression_file_error(self, sPath):
+        with self.assertRaises(error.ElfwsError) as oContext:
+            suppression_file.read_suppression_file(sPath)
+        self.assertEqual(oContext.exception.iExitCode, 1)
 
     def test_missing_file(self):
-        self.assert_exits_with_code_1(os.path.join(self.oTempDir.name, 'missing.yaml'))
+        self.assert_raises_suppression_file_error(os.path.join(self.oTempDir.name, 'missing.yaml'))
 
     def test_directory(self):
-        self.assert_exits_with_code_1(self.oTempDir.name)
+        self.assert_raises_suppression_file_error(self.oTempDir.name)
 
     def test_invalid_yaml(self):
-        self.assert_exits_with_code_1(self.write_file('bad.yaml', b'suppress: [\n'))
+        self.assert_raises_suppression_file_error(self.write_file('bad.yaml', b'suppress: [\n'))
 
     def test_non_utf8_file(self):
-        self.assert_exits_with_code_1(self.write_file('latin1.yaml', b'suppress:\n  rules:\n    A:\n      - msg: caf\xe9\n'))
+        self.assert_raises_suppression_file_error(self.write_file('latin1.yaml', b'suppress:\n  rules:\n    A:\n      - msg: caf\xe9\n'))
 
     def test_empty_file_returns_empty_dictionary(self):
         self.assertEqual({}, suppression_file.read_suppression_file(self.write_file('empty.yaml', b'')))
