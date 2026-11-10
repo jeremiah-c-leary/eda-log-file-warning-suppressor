@@ -1,6 +1,6 @@
 
 
-class create():
+class SuppressionList():
 
     def __init__(self):
         self.suppressions = []

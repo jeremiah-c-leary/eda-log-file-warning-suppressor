@@ -25,7 +25,7 @@ def is_logfile(lFile):
 
 
 def extract_warnings(lFile):
-    oReturn = warning_list.create()
+    oReturn = warning_list.WarningList()
 
     for iLineNumber, sLine in enumerate(lFile):
         if sLine.startswith('# Warning:'):
@@ -38,6 +38,6 @@ def extract_warnings(lFile):
                 sMessage = sLine[iColon1Index+1:].strip()
             else:
                 sMessage = sLine[iColon2Index+1:].strip()
-            oWarning = warning.create(sID, sMessage, None, iLineNumber + 1)
+            oWarning = warning.LogWarning(sID, sMessage, None, iLineNumber + 1)
             oReturn.add_warning(oWarning)
     return oReturn

@@ -89,7 +89,7 @@ def build_suppression_list(lRules):
 
     Returns:  suppression list object
     '''
-    oReturn = suppression_list.create()
+    oReturn = suppression_list.SuppressionList()
     for oRule in lRules:
         oReturn.add_suppression(oRule)
     return oReturn
@@ -285,7 +285,7 @@ def create_suppression_rule(sId, dSup):
 
     Returns: suppression rule
     '''
-    oSupRule = suppression.create(str(sId), str(dSup['msg']))
+    oSupRule = suppression.Suppression(str(sId), str(dSup['msg']))
     update_suppression_author(oSupRule, dSup)
     update_suppression_comment(oSupRule, dSup)
     update_suppression_investigate(oSupRule, dSup)

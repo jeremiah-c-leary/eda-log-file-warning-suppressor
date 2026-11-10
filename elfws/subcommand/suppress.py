@@ -24,7 +24,7 @@ def suppress(oCommandLineArguments):
 
 
 def extract_non_suppressed_warnings(oWarnList, oSupList):
-    oReturn = warning_list.create()
+    oReturn = warning_list.WarningList()
     for oWarning in oWarnList.get_warnings():
         fMatchFound = False
         for oSuppression in oSupList.get_suppressions():

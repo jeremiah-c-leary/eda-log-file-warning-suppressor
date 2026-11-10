@@ -1,6 +1,6 @@
 
 
-class create():
+class LogWarning():
 
     def __init__(self, warning_id=None, message=None, filename=None, linenumber=None):
         self.warning_id = warning_id

@@ -10,7 +10,7 @@ from elfws.exit_code import ExitCode
 
 def show(oCommandLineArguments):
 
-    oSupList = suppression_list.create()
+    oSupList = suppression_list.SuppressionList()
 
     lLogFile = utils.read_log_file(oCommandLineArguments.log_file)
 

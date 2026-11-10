@@ -71,7 +71,7 @@ The following code looks for lines starting with *Warning* and then proceeds to 
 .. code-block:: python
 
    def extract_warnings(lFile):
-       oReturn = warning_list.create()
+       oReturn = warning_list.WarningList()
    
        fWarningFound = False
        for iLineNumber, sLine in enumerate(lFile):
@@ -94,7 +94,7 @@ The following code looks for lines starting with *Warning* and then proceeds to 
                    if ' ' in sID:
                        sID = 'NO_ID'
                        sMessage = sLine[iColon1Index+1:].strip()
-               oWarning = warning.create(sID, sMessage, None, iLineNumber + 1)
+               oWarning = warning.LogWarning(sID, sMessage, None, iLineNumber + 1)
        return oReturn
 
 .. NOTE::  Use existing functions from other vendor tools as a basis to generate new ones.

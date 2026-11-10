@@ -95,21 +95,21 @@ class test_functions(unittest.TestCase):
 
         oActualSuppressionList = utils.create_suppression_list(dSuppression)
 
-        oExpectedSuppressList = suppression_list.create()
+        oExpectedSuppressList = suppression_list.SuppressionList()
 
-        oSuppression = suppression.create('SYN001', 'This is the message', 'jcleary', 'This is fine because...')
+        oSuppression = suppression.Suppression('SYN001', 'This is the message', 'jcleary', 'This is fine because...')
         oExpectedSuppressList.suppressions.append(oSuppression)
         
-        oSuppression = suppression.create('SYN001', 'This is another message', '<None>', 'Just ignore this...')
+        oSuppression = suppression.Suppression('SYN001', 'This is another message', '<None>', 'Just ignore this...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('NO_ID', 'Some warning without a proper ID', '<None>', 'This is fine...')
+        oSuppression = suppression.Suppression('NO_ID', 'Some warning without a proper ID', '<None>', 'This is fine...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('CMP2001', 'This is some compile warning', 'jcleary', 'Just because...')
+        oSuppression = suppression.Suppression('CMP2001', 'This is some compile warning', 'jcleary', 'Just because...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('NO_COMMENT', 'This rule has no comment', '<None>', '<None>')
+        oSuppression = suppression.Suppression('NO_COMMENT', 'This rule has no comment', '<None>', '<None>')
 
         self.assertEqual(5, len(oActualSuppressionList.suppressions))
         oExpectedSuppressList.suppressions.append(oSuppression)
@@ -136,21 +136,21 @@ class test_functions(unittest.TestCase):
 
         oActualSuppressionList = utils.create_suppression_list(dSuppression)
 
-        oExpectedSuppressList = suppression_list.create()
+        oExpectedSuppressList = suppression_list.SuppressionList()
 
-        oSuppression = suppression.create('SYN001', 'This is the message', 'jcleary', 'This is fine because...')
+        oSuppression = suppression.Suppression('SYN001', 'This is the message', 'jcleary', 'This is fine because...')
         oExpectedSuppressList.suppressions.append(oSuppression)
         
-        oSuppression = suppression.create('SYN001', 'This is another message', '<None>', 'Just ignore this...')
+        oSuppression = suppression.Suppression('SYN001', 'This is another message', '<None>', 'Just ignore this...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('NO_ID', 'Some warning without a proper ID', '<None>', 'This is fine...')
+        oSuppression = suppression.Suppression('NO_ID', 'Some warning without a proper ID', '<None>', 'This is fine...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('CMP2001', 'This is some compile warning', 'jcleary', 'Just because...')
+        oSuppression = suppression.Suppression('CMP2001', 'This is some compile warning', 'jcleary', 'Just because...')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('NO_ID', 'Top level message', '<None>', 'should be parsed as a warning.')
+        oSuppression = suppression.Suppression('NO_ID', 'Top level message', '<None>', 'should be parsed as a warning.')
 
         self.assertEqual(5, len(oActualSuppressionList.suppressions))
         oExpectedSuppressList.suppressions.append(oSuppression)
@@ -170,23 +170,23 @@ class test_functions(unittest.TestCase):
 
         oActualSuppressionList = utils.create_suppression_list(dSuppression)
 
-        oExpectedSuppressList = suppression_list.create()
+        oExpectedSuppressList = suppression_list.SuppressionList()
 
-        oSuppression = suppression.create('SYN001', 'This is the message', 'jcleary', 'This is fine because...')
+        oSuppression = suppression.Suppression('SYN001', 'This is the message', 'jcleary', 'This is fine because...')
         oExpectedSuppressList.suppressions.append(oSuppression)
         
-        oSuppression = suppression.create('SYN001', 'This is another message', '<None>', 'Just ignore this...')
+        oSuppression = suppression.Suppression('SYN001', 'This is another message', '<None>', 'Just ignore this...')
         oSuppression.investigate = True
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('NO_ID', 'Some warning without a proper ID', '<None>', 'This is fine...')
+        oSuppression = suppression.Suppression('NO_ID', 'Some warning without a proper ID', '<None>', 'This is fine...')
         oSuppression.investigate = True
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('NO_ID', 'This is another NO_ID suppression rule', '<None>', 'Both this and the other NO_ID must be present.')
+        oSuppression = suppression.Suppression('NO_ID', 'This is another NO_ID suppression rule', '<None>', 'Both this and the other NO_ID must be present.')
         oExpectedSuppressList.suppressions.append(oSuppression)
 
-        oSuppression = suppression.create('CMP2001', 'This is some compile warning', 'jcleary', 'Just because...')
+        oSuppression = suppression.Suppression('CMP2001', 'This is some compile warning', 'jcleary', 'Just because...')
         oSuppression.investigate = True
         oExpectedSuppressList.suppressions.append(oSuppression)
 

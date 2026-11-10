@@ -30,7 +30,7 @@ def extract_cdc_results(oReturn, lFile, sID, sType):
                continue
            if sLine == '':
                break
-           oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
+           oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
            oReturn.add_warning(oWarning) 
 
         if fWarningSectionFound and sLine.startswith(sType):

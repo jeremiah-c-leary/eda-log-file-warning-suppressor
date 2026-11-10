@@ -1,6 +1,6 @@
 
 
-class create():
+class WarningList():
 
     def __init__(self):
         self.warnings = []

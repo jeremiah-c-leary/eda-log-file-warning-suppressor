@@ -27,8 +27,8 @@ def is_logfile(lFile):
 
 
 def extract_warnings(lFile):
-    oReturn = warning_list.create()
-    oReturn.add_warning(warning.create('{name}', 'parsed by {name}', None, 1))
+    oReturn = warning_list.WarningList()
+    oReturn.add_warning(warning.LogWarning('{name}', 'parsed by {name}', None, 1))
     return oReturn
 '''
 
