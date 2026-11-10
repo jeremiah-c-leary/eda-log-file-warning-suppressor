@@ -28,16 +28,14 @@ def extract_warnings(lFile):
 
     for iIndex, sLine in enumerate(lFile):
         if is_warning_start(sLine):
-            oReturn.add_warning(build_warning(sLine, continuation_lines(lFile, iIndex + 1), iIndex + 1))
+            lContinuationLines = continuation_lines(lFile, iIndex + 1)
+            oReturn.add_warning(build_warning(sLine, lContinuationLines, iIndex + 1))
 
     return oReturn
 
 
-def build_warning(sFirstLine, lContinuationLines, iLineNumber):
-    sID, sMessage = extract_id_and_message(sFirstLine)
-    for sLine in lContinuationLines:
-        sMessage += ' ' + sLine.strip()
-    return warning.LogWarning(sID, sMessage, None, iLineNumber)
+def is_warning_start(sLine):
+    return sLine.startswith('Warning:')
 
 
 def continuation_lines(lFile, iStartIndex):
@@ -49,12 +47,15 @@ def continuation_lines(lFile, iStartIndex):
     return lReturn
 
 
-def is_warning_start(sLine):
-    return sLine.startswith('Warning:')
-
-
 def is_continuation(sLine):
     return sLine.startswith(' ')
+
+
+def build_warning(sFirstLine, lContinuationLines, iLineNumber):
+    sID, sMessage = extract_id_and_message(sFirstLine)
+    for sLine in lContinuationLines:
+        sMessage += ' ' + sLine.strip()
+    return warning.LogWarning(sID, sMessage, None, iLineNumber)
 
 
 def extract_id_and_message(sLine):
