@@ -1,42 +1,38 @@
 
 import sys
 
-from elfws import log_file
-from elfws import output_file
-from elfws import rule_matching
-from elfws import suppression_file
 from elfws import display
-from elfws.report import junit
+from elfws import junit_results
+from elfws import output_file
+from elfws import suppression_results
 from elfws.exit_code import ExitCode
 
 
 def report(oCommandLineArguments):
-    oSupList = suppression_file.read_suppression_list(oCommandLineArguments.suppression_file)
-    oWarnList = log_file.read_warning_list(oCommandLineArguments.log_file)
-    rule_matching.apply_suppression_rules_to_warnings(oWarnList, oSupList)
+    oResults = suppression_results.apply_suppression_file(oCommandLineArguments.log_file, oCommandLineArguments.suppression_file)
 
-    lReport = build_report(oCommandLineArguments.log_file, oCommandLineArguments.suppression_file, oWarnList, oSupList)
+    lReport = build_report(oResults)
     output_file.write_report_file(oCommandLineArguments.report_file, lReport)
-    junit.write_junit_file_if_requested(oCommandLineArguments.junit, oWarnList, oSupList)
+    junit_results.write_junit_file_if_requested(oCommandLineArguments.junit, oResults)
 
     sys.exit(ExitCode.SUCCESS)
 
 
-def build_report(sLogFileName, sSuppressionFileName, oWarnList, oSupList):
+def build_report(oResults):
     lReport = []
-    lReport.extend(build_header(sLogFileName, sSuppressionFileName))
-    lReport.extend(build_unsuppressed_warnings_section(oWarnList))
-    lReport.extend(build_suppressed_warnings_section(oSupList))
-    lReport.extend(build_unused_suppression_rules_section(oSupList))
-    lReport.extend(build_warnings_under_investigation_section(oSupList))
-    lReport.extend(build_multiply_suppressed_warnings_section(oWarnList))
-    lReport.extend(build_summary_section(oWarnList, oSupList))
+    lReport.extend(build_header(oResults))
+    lReport.extend(build_unsuppressed_warnings_section(oResults.oWarnList))
+    lReport.extend(build_suppressed_warnings_section(oResults.oSupList))
+    lReport.extend(build_unused_suppression_rules_section(oResults.oSupList))
+    lReport.extend(build_warnings_under_investigation_section(oResults.oSupList))
+    lReport.extend(build_multiply_suppressed_warnings_section(oResults.oWarnList))
+    lReport.extend(build_summary_section(oResults))
     return lReport
 
 
-def build_header(sLogFileName, sSuppressionFileName):
+def build_header(oResults):
     lReturn = []
-    lReturn.extend(display.build_header(sLogFileName, sSuppressionFileName))
+    lReturn.extend(display.build_header(oResults.sLogFileName, oResults.sSuppressionFileName))
     lReturn.extend(display.build_table_of_contents())
     return lReturn
 
@@ -84,8 +80,8 @@ def build_multiply_suppressed_warnings_section(oWarnList):
     return lReturn
 
 
-def build_summary_section(oWarnList, oSupList):
+def build_summary_section(oResults):
     lReturn = []
     lReturn.extend(display.build_report_section_divider(' 6. Summary'))
-    lReturn.extend(display.build_report_summary_section(oWarnList, oSupList))
+    lReturn.extend(display.build_report_summary_section(oResults))
     return lReturn

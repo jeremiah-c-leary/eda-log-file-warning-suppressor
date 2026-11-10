@@ -2,12 +2,6 @@
 import re
 
 
-def apply_suppression_rules_to_warnings(oWarnList, oSupList):
-    for oWarning in oWarnList.get_warnings():
-        for oSuppression in oSupList.get_suppressions():
-            suppress_warning_with_rule(oWarning, oSuppression)
-
-
 def suppress_warning_with_rule(oWarning, oSuppression):
     '''
     Suppresses a warning based on a suppression rule.

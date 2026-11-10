@@ -12,24 +12,31 @@ STATISTIC_LABEL_WIDTH = 22
 STATISTIC_VALUE_WIDTH = 5
 
 
-def results(sLogFileName, sSuppressionFileName, oSupList, oWarnList):
+def results(oResults):
     '''
     Displays results of a subcommand to the terminal window.
 
     Parameters:
 
-      sLogFileName: (string)
-      sSuppressionFileName : (string)
-      oSupList : (suppression list object)
-      oWarnList : (warning list object)
+      oResults : (SuppressionResults object)
 
     Returns : None
     '''
-    lPrint = build_header(sLogFileName, sSuppressionFileName)
-    lWarnings = oWarnList.get_unsuppressed_warnings()
-    lPrint.extend(build_warning_table(lWarnings))
-    lPrint.extend(build_report_summary_section(oWarnList, oSupList))
-    for sLine in lPrint:
+    lLines = build_results_lines(oResults)
+    print_lines(lLines)
+
+
+def build_results_lines(oResults):
+    lReturn = []
+    lReturn.extend(build_header(oResults.sLogFileName, oResults.sSuppressionFileName))
+    lUnsuppressedWarnings = oResults.oWarnList.get_unsuppressed_warnings()
+    lReturn.extend(build_warning_table(lUnsuppressedWarnings))
+    lReturn.extend(build_report_summary_section(oResults))
+    return lReturn
+
+
+def print_lines(lLines):
+    for sLine in lLines:
         print(sLine)
 
 
@@ -238,18 +245,18 @@ def build_multiply_suppressed_warning_header(oWarning, iIndent=0):
     return lReturn
 
 
-def build_report_summary_section(oWarnList, oSupList):
+def build_report_summary_section(oResults):
     '''
     Creates the summary section of the report.
 
     Parameters:
 
-      oWarnList : (warning list object)
-
-      oSupList : (suppression list object)
+      oResults : (SuppressionResults object)
 
     Returns: (list of string)
     '''
+    oSupList = oResults.oSupList
+    oWarnList = oResults.oWarnList
     lReturn = []
     lReturn.append('  Suppression Rules')
     lReturn.append(build_stat_line('Total', oSupList.get_number_of_suppressions()))

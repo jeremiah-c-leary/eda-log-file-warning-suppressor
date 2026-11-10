@@ -1,12 +1,7 @@
 
 import unittest
 
-
-from elfws.subcommand import suppress
-from elfws import log_file
-from elfws import suppression_file
-
-from elfws.vendor.microsemi import designer
+from elfws.subcommand import create
 
 
 def file_path(sFilename):
@@ -15,17 +10,15 @@ def file_path(sFilename):
 
 class test_suppressed_warnings(unittest.TestCase):
 
-    def test_extract_non_suppressed_warnings(self):
-        dSup = suppression_file.read_suppression_file(file_path('suppress_microsemi_designer_logfile.yaml'))
-        oSupList = suppression_file.create_suppression_list(dSup)
+    def test_create_only_includes_warnings_not_already_suppressed(self):
+        lActual = create.extract_warnings_to_suppress('tests/vendor/microsemi/designer/warning_messages.log', file_path('suppress_microsemi_designer_logfile.yaml'))
 
-        lLogFile = log_file.read_log_file('tests/vendor/microsemi/designer/warning_messages.log')
-        oWarnList = designer.extract_warnings(lLogFile)
+        self.assertEqual(1, len(lActual))
 
-        oActual = suppress.extract_non_suppressed_warnings(oWarnList, oSupList)
+        self.assertEqual('MULTI546', lActual[0].get_id())
+        self.assertEqual('This is the first line of the warning This is the second line of the warning This is the last line of the warning.', lActual[0].get_message())
 
-        self.assertEqual(1, oActual.get_number_of_warnings())
+    def test_create_includes_every_warning_without_a_suppression_file(self):
+        lActual = create.extract_warnings_to_suppress('tests/vendor/microsemi/designer/warning_messages.log', None)
 
-        self.assertEqual('MULTI546', oActual.warnings[0].get_id())
-        self.assertEqual('This is the first line of the warning This is the second line of the warning This is the last line of the warning.', oActual.warnings[0].get_message())
-
+        self.assertEqual(5, len(lActual))

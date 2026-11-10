@@ -1,13 +1,13 @@
 
 import unittest
+from unittest import mock
 
 
 from elfws import display
 from elfws import version
 from elfws import log_file
 from elfws import parser_loader
-from elfws import rule_matching
-from elfws import suppression_file
+from elfws import suppression_results
 from elfws import suppression
 from elfws import warning
 from elfws import warning_list
@@ -180,13 +180,9 @@ class test_functions(unittest.TestCase):
         lExpected.append('')
         lExpected.append('='*80)
 
-        oSupList = suppression_file.create_suppression_list(suppression_file.read_suppression_file('tests/subcommand/report/suppress_microsemi_designer_logfile.yaml'))
-        oWarnList = parser_loader.create_warning_list(log_file.read_log_file('tests/vendor/microsemi/designer/warning_messages.log'), 'tests/vendor/microsemi/designer/warning_messages.log')
+        oResults = suppression_results.apply_suppression_file('tests/vendor/microsemi/designer/warning_messages.log', 'tests/subcommand/report/suppress_microsemi_designer_logfile.yaml')
 
-
-        rule_matching.apply_suppression_rules_to_warnings(oWarnList, oSupList)
-
-        lActual = display.build_report_summary_section(oWarnList, oSupList)
+        lActual = display.build_report_summary_section(oResults)
 
         for iIndex, sLine in enumerate(lExpected):
             self.assertEqual(sLine, lActual[iIndex])
@@ -195,3 +191,19 @@ class test_functions(unittest.TestCase):
         self.assertEqual(0, display.maximum_id_length([]))
         self.assertEqual(1, display.maximum_id_length([warning.LogWarning('1')]))
         self.assertEqual(13, display.maximum_id_length([warning.LogWarning('11111'), warning.LogWarning('1111111111111'), warning.LogWarning('1')]))
+
+    @mock.patch('elfws.version.version', '0.1')
+    @mock.patch('elfws.display.datetime')
+    def test_build_results_lines(self, mock_datetime):
+        mock_datetime.now.return_value = 'Some Date'
+        oResults = suppression_results.create_results_without_suppression_file('tests/vendor/microsemi/designer/warning_messages.log')
+
+        lExpected = log_file.read_log_file('tests/elfws/show_output.txt')
+
+        self.assertEqual(lExpected, display.build_results_lines(oResults))
+
+    @mock.patch('sys.stdout')
+    def test_print_lines(self, mock_stdout):
+        display.print_lines(['first', 'second'])
+
+        mock_stdout.write.assert_has_calls([mock.call('first'), mock.call('\n'), mock.call('second'), mock.call('\n')])
