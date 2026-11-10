@@ -45,7 +45,6 @@ def extract_warnings(lFile):
                     sID = 'NO_ID'
                     sMessage = sLine[iColon1Index+1:].strip()
             oWarning = warning.create(sID, sMessage, None, iLineNumber + 1)
-    # Add any warning still being accumulated when the file ends
     if fWarningFound:
         oReturn.add_warning(oWarning)
     return oReturn
