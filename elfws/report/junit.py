@@ -1,6 +1,6 @@
 
 from elfws import junit
-from elfws import utils
+from elfws import output_file
 
 
 def write_junit_file_if_requested(sJUnitFileName, oWarnList, oSupList):
@@ -20,11 +20,11 @@ def write_junit_file_if_requested(sJUnitFileName, oWarnList, oSupList):
     if not is_junit_file_requested(sJUnitFileName):
         return
     lJUnitFile = generate_junit_xml_file(oWarnList, oSupList)
-    utils.write_junit_file(sJUnitFileName, lJUnitFile)
+    output_file.write_junit_file(sJUnitFileName, lJUnitFile)
 
 
 def is_junit_file_requested(sJUnitFileName):
-    return not utils.is_missing(sJUnitFileName)
+    return sJUnitFileName is not None
 
 
 def generate_junit_xml_file(oWarnList, oSupList):

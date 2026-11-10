@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from elfws import utils
+from elfws import parser_loader
 
 
 sParserTemplate = '''
@@ -55,23 +55,23 @@ class test_parser_loading(unittest.TestCase):
         write_file(os.path.join(sToolDir, 'parser.py~'), '')
         write_file(os.path.join(sToolDir, 'notes.txt'), '')
         write_file(os.path.join(sToolDir, 'subdir.py', 'x.py'), '')
-        lActual = [os.path.basename(s) for s in utils.get_tools(sToolDir)]
+        lActual = [os.path.basename(s) for s in parser_loader.get_tools(sToolDir)]
         self.assertEqual(['parser'], lActual)
 
     def test_user_defined_parser_overrides_built_in_parser(self):
         write_file(os.path.join(self.sVendorDir, 'test_vendor', 'user_designer.py'),
                    sParserTemplate.format(name='user_designer', banner='Microsemi Libero Software'))
         with mock.patch.dict(os.environ, {'ELFWS_USER_VENDOR_DIR': self.sVendorDir}):
-            mTool = utils.get_vendor_tool_module(['Microsemi Libero Software'])
+            mTool = parser_loader.get_vendor_tool_module(['Microsemi Libero Software'])
             self.assertEqual('user_designer', mTool.get_tool_name())
-            oWarnList = utils.create_warning_list(['Microsemi Libero Software'], 'logfile')
+            oWarnList = parser_loader.create_warning_list(['Microsemi Libero Software'], 'logfile')
             self.assertEqual('user_designer', oWarnList.get_warnings()[0].get_id())
 
     def test_built_in_parser_used_when_no_user_parser_matches(self):
         write_file(os.path.join(self.sVendorDir, 'test_vendor', 'other.py'),
                    sParserTemplate.format(name='other', banner='Something Else'))
         with mock.patch.dict(os.environ, {'ELFWS_USER_VENDOR_DIR': self.sVendorDir}):
-            mTool = utils.get_vendor_tool_module(['Microsemi Libero Software'])
+            mTool = parser_loader.get_vendor_tool_module(['Microsemi Libero Software'])
             self.assertEqual('designer', mTool.get_tool_name())
 
     @mock.patch('sys.stderr', new_callable=io.StringIO)
@@ -81,7 +81,7 @@ class test_parser_loading(unittest.TestCase):
         write_file(os.path.join(self.sVendorDir, 'b_vendor', 'good.py'),
                    sParserTemplate.format(name='good', banner='Good Log'))
         with mock.patch.dict(os.environ, {'ELFWS_USER_VENDOR_DIR': self.sVendorDir}):
-            mTool = utils.get_vendor_tool_module(['Good Log'])
+            mTool = parser_loader.get_vendor_tool_module(['Good Log'])
         self.assertEqual('good', mTool.get_tool_name())
         self.assertIn('Could not load parser', mock_stderr.getvalue())
         self.assertIn(sBroken, mock_stderr.getvalue())
@@ -91,8 +91,8 @@ class test_parser_loading(unittest.TestCase):
         sToolB = os.path.join(self.sVendorDir, 'vendor_b', 'tool')
         write_file(sToolA + '.py', sParserTemplate.format(name='a', banner='A'))
         write_file(sToolB + '.py', sParserTemplate.format(name='b', banner='B'))
-        mToolA = utils.import_vendor_module(sToolA)
-        mToolB = utils.import_vendor_module(sToolB)
+        mToolA = parser_loader.import_vendor_module(sToolA)
+        mToolB = parser_loader.import_vendor_module(sToolB)
         self.assertNotEqual(mToolA.__name__, mToolB.__name__)
         self.assertIs(sys.modules[mToolA.__name__], mToolA)
         self.assertIs(sys.modules[mToolB.__name__], mToolB)
@@ -102,4 +102,4 @@ class test_parser_loading(unittest.TestCase):
     def test_parser_modules_are_cached(self):
         sTool = os.path.join(self.sVendorDir, 'vendor_a', 'tool')
         write_file(sTool + '.py', sParserTemplate.format(name='a', banner='A'))
-        self.assertIs(utils.import_vendor_module(sTool), utils.import_vendor_module(sTool))
+        self.assertIs(parser_loader.import_vendor_module(sTool), parser_loader.import_vendor_module(sTool))

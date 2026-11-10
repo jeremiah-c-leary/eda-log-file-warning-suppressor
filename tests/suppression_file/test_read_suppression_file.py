@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from elfws import utils
+from elfws import suppression_file
 
 
 class test_read_suppression_file(unittest.TestCase):
@@ -25,7 +25,7 @@ class test_read_suppression_file(unittest.TestCase):
     def assert_exits_with_code_1(self, sPath):
         with mock.patch('sys.stdout', new_callable=io.StringIO):
             with self.assertRaises(SystemExit) as oContext:
-                utils.read_suppression_file(sPath)
+                suppression_file.read_suppression_file(sPath)
         self.assertEqual(oContext.exception.code, 1)
 
     def test_missing_file(self):
@@ -41,8 +41,8 @@ class test_read_suppression_file(unittest.TestCase):
         self.assert_exits_with_code_1(self.write_file('latin1.yaml', b'suppress:\n  rules:\n    A:\n      - msg: caf\xe9\n'))
 
     def test_empty_file_returns_empty_dictionary(self):
-        self.assertEqual({}, utils.read_suppression_file(self.write_file('empty.yaml', b'')))
+        self.assertEqual({}, suppression_file.read_suppression_file(self.write_file('empty.yaml', b'')))
 
     def test_valid_file(self):
         sPath = self.write_file('ok.yaml', b'suppress:\n  rules:\n    A:\n      - msg: x\n')
-        self.assertEqual({'suppress': {'rules': {'A': [{'msg': 'x'}]}}}, utils.read_suppression_file(sPath))
+        self.assertEqual({'suppress': {'rules': {'A': [{'msg': 'x'}]}}}, suppression_file.read_suppression_file(sPath))

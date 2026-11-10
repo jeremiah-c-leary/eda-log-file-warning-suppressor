@@ -1,19 +1,22 @@
 
 import sys
 
-from elfws import utils
+from elfws import log_file
+from elfws import output_file
+from elfws import rule_matching
+from elfws import suppression_file
 from elfws import display
 from elfws.report import junit
 from elfws.exit_code import ExitCode
 
 
 def report(oCommandLineArguments):
-    oSupList = utils.read_suppression_list(oCommandLineArguments.suppression_file)
-    oWarnList = utils.read_warning_list(oCommandLineArguments.log_file)
-    utils.apply_suppression_rules_to_warnings(oWarnList, oSupList)
+    oSupList = suppression_file.read_suppression_list(oCommandLineArguments.suppression_file)
+    oWarnList = log_file.read_warning_list(oCommandLineArguments.log_file)
+    rule_matching.apply_suppression_rules_to_warnings(oWarnList, oSupList)
 
     lReport = build_report(oCommandLineArguments.log_file, oCommandLineArguments.suppression_file, oWarnList, oSupList)
-    utils.write_report_file(oCommandLineArguments.report_file, lReport)
+    output_file.write_report_file(oCommandLineArguments.report_file, lReport)
     junit.write_junit_file_if_requested(oCommandLineArguments.junit, oWarnList, oSupList)
 
     sys.exit(ExitCode.SUCCESS)

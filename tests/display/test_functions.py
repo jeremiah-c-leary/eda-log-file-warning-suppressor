@@ -4,7 +4,10 @@ import unittest
 
 from elfws import display
 from elfws import version
-from elfws import utils
+from elfws import log_file
+from elfws import parser_loader
+from elfws import rule_matching
+from elfws import suppression_file
 from elfws import suppression
 from elfws import warning
 from elfws import warning_list
@@ -42,9 +45,9 @@ class test_functions(unittest.TestCase):
         lExpected.append('-'*17 + '+' + '-'*8 + '+' + '-'*(80 - 20 - 1 - 5 - 1))
         lExpected.append('')
 
-        lLogFile = utils.read_log_file('tests/vendor/microsemi/designer/warning_messages.log')
+        lLogFile = log_file.read_log_file('tests/vendor/microsemi/designer/warning_messages.log')
 
-        mTool = utils.get_vendor_tool_module(lLogFile)
+        mTool = parser_loader.get_vendor_tool_module(lLogFile)
         oWarnList = mTool.extract_warnings(lLogFile)
         lWarnList = oWarnList.get_warnings()
 
@@ -177,11 +180,11 @@ class test_functions(unittest.TestCase):
         lExpected.append('')
         lExpected.append('='*80)
 
-        oSupList = utils.create_suppression_list(utils.read_suppression_file('tests/subcommand/report/suppress_microsemi_designer_logfile.yaml'))
-        oWarnList = utils.create_warning_list(utils.read_log_file('tests/vendor/microsemi/designer/warning_messages.log'), 'tests/vendor/microsemi/designer/warning_messages.log')
+        oSupList = suppression_file.create_suppression_list(suppression_file.read_suppression_file('tests/subcommand/report/suppress_microsemi_designer_logfile.yaml'))
+        oWarnList = parser_loader.create_warning_list(log_file.read_log_file('tests/vendor/microsemi/designer/warning_messages.log'), 'tests/vendor/microsemi/designer/warning_messages.log')
 
 
-        utils.apply_suppression_rules_to_warnings(oWarnList, oSupList)
+        rule_matching.apply_suppression_rules_to_warnings(oWarnList, oSupList)
 
         lActual = display.build_report_summary_section(oWarnList, oSupList)
 

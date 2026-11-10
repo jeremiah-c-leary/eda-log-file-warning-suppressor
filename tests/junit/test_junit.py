@@ -5,7 +5,7 @@ import unittest
 from unittest import mock
 
 from elfws import __main__
-from elfws import utils
+from elfws import log_file
 
 sWarningFile = os.path.join(Path(__file__).parent, 'warning_messages.rpt')
 
@@ -29,8 +29,8 @@ class test_arguments(unittest.TestCase):
 
         self.assertEqual(oContext.exception.code, 0)
 
-        lExpected = utils.read_log_file(os.path.join(os.path.dirname(__file__), 'junit_output.xml'))
-        lActual = utils.read_log_file(sXmlFile)
+        lExpected = log_file.read_log_file(os.path.join(os.path.dirname(__file__), 'junit_output.xml'))
+        lActual = log_file.read_log_file(sXmlFile)
 
         self.assertEqual(len(lExpected), len(lActual))
         for iIndex, sLine in enumerate(lExpected):

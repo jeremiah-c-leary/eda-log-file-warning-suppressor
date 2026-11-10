@@ -2,15 +2,15 @@
 import unittest
 
 from elfws import suppression
-from elfws import utils
+from elfws import suppression_file
 
 
 def build_rule(dSup):
     oSupRule = suppression.Suppression('ID', 'msg')
-    utils.update_suppression_author(oSupRule, dSup)
-    utils.update_suppression_comment(oSupRule, dSup)
-    utils.update_suppression_investigate(oSupRule, dSup)
-    utils.update_suppression_options(oSupRule, dSup)
+    suppression_file.update_suppression_author(oSupRule, dSup)
+    suppression_file.update_suppression_comment(oSupRule, dSup)
+    suppression_file.update_suppression_investigate(oSupRule, dSup)
+    suppression_file.update_suppression_options(oSupRule, dSup)
     return oSupRule
 
 
