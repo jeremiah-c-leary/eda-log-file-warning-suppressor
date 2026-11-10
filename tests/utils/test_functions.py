@@ -1,5 +1,4 @@
 
-import importlib
 import os
 import unittest
 from unittest import mock
@@ -128,7 +127,6 @@ class test_functions(unittest.TestCase):
     def test_create_suppression_list_w_empty_dictionary(self):
         dSuppression = {}
         oActualSuppressionList = utils.create_suppression_list(dSuppression)
-        oExpectedSuppressionList = suppression_list.create()
 
         self.assertEqual(0, len(oActualSuppressionList.suppressions))
 

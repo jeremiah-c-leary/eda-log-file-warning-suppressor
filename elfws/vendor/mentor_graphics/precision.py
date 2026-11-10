@@ -25,7 +25,6 @@ def is_logfile(lFile):
 def extract_warnings(lFile):
     oReturn = warning_list.create()
 
-    fWarningFound = False
     for iLineNumber, sLine in enumerate(lFile):
         if sLine.startswith('# Warning:'):
             iColon1Index = sLine.find(':')

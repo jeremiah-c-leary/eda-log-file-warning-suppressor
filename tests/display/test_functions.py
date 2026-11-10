@@ -188,4 +188,7 @@ class test_functions(unittest.TestCase):
         for iIndex, sLine in enumerate(lExpected):
             self.assertEqual(sLine, lActual[iIndex])
 
-
+    def test_maximum_id_length(self):
+        self.assertEqual(0, display.maximum_id_length([]))
+        self.assertEqual(1, display.maximum_id_length([warning.create('1')]))
+        self.assertEqual(13, display.maximum_id_length([warning.create('11111'), warning.create('1111111111111'), warning.create('1')]))

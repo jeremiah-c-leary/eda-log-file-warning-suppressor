@@ -1,5 +1,4 @@
 
-import re
 import sys
 
 from elfws import warning_list
@@ -17,7 +16,6 @@ def suppress(cla):
     oWarnList = utils.create_warning_list(lLogFile, cla.log_file)
 
     utils.apply_suppression_rules_to_warnings(oWarnList, oSupList)
-    oNonSuppressedWarnings = oWarnList.get_unsuppressed_warnings()
 
     display.results(cla.log_file, cla.suppression_file, oSupList, oWarnList)
 

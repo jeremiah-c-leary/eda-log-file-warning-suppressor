@@ -1,12 +1,10 @@
 
-import datetime
 import os
 from pathlib import Path
 import unittest
 from unittest import mock
 
 from elfws import __main__
-from elfws import version
 from elfws import utils
 
 sWarningFile = os.path.join(Path(__file__).parent, 'warning_messages.rpt')
