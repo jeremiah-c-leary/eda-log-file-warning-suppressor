@@ -102,3 +102,8 @@ class testFunctions(unittest.TestCase):
         self.assertEqual(('ABC', ''), designer.extract_id_and_message('Warning: ABC:'))
         self.assertEqual(('NO_ID', 'has spaces: msg'), designer.extract_id_and_message('Warning: has spaces: msg'))
         self.assertEqual(('NO_ID', 'no separator'), designer.extract_id_and_message('Warning: no separator'))
+
+    def test_back_to_back_multiline_warnings(self):
+        oWarningList = designer.extract_warnings(['Warning: A: one', '   more', 'Warning: B: two', '   end'])
+        lActual = [(o.get_id(), o.get_message(), o.get_linenumber()) for o in oWarningList.get_warnings()]
+        self.assertEqual([('A', 'one more', 1), ('B', 'two end', 3)], lActual)
