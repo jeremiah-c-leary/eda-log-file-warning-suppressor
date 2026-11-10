@@ -10,13 +10,10 @@ from elfws.exit_code import ExitCode
 
 def create(oCommandLineArguments):
 
-    lLogFile = utils.read_log_file(oCommandLineArguments.log_file)
-
-    oWarnList = utils.create_warning_list(lLogFile, oCommandLineArguments.log_file)
+    oWarnList = utils.read_warning_list(oCommandLineArguments.log_file)
 
     if oCommandLineArguments.suppression_file is not None:
-        dSup = utils.read_suppression_file(oCommandLineArguments.suppression_file)
-        oSupList = utils.create_suppression_list(dSup)
+        oSupList = utils.read_suppression_list(oCommandLineArguments.suppression_file)
         oWarnList = suppress.extract_non_suppressed_warnings(oWarnList, oSupList)
 
     dSup = create_suppression_dict(oWarnList)

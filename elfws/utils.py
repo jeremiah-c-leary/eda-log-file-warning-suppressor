@@ -16,6 +16,11 @@ NOT_SPECIFIED = '<None>'
 dToolModuleCache = {}
 
 
+def read_suppression_list(sFileName):
+    dSuppression = read_suppression_file(sFileName)
+    return create_suppression_list(dSuppression)
+
+
 def read_suppression_file(sFileName):
     '''
     Attempts to read the suppression file and return an list of rules.
@@ -433,6 +438,11 @@ def update_suppression_options(oSupRule, dSup):
     Returns: Nothing
     '''
     oSupRule.set_options(value_or_default(dSup.get('options'), []))
+
+
+def read_warning_list(sFileName):
+    lLogFile = read_log_file(sFileName)
+    return create_warning_list(lLogFile, sFileName)
 
 
 def read_log_file(sFileName):
