@@ -58,7 +58,7 @@ class test_functions(unittest.TestCase):
     def test_build_warning_table_with_no_warnings(self):
         lExpected = []
 
-        oWarnList = warning_list.create()
+        oWarnList = warning_list.WarningList()
         lWarnList = oWarnList.get_warnings()
 
         lActual = display.build_warning_table(lWarnList)
@@ -100,7 +100,7 @@ class test_functions(unittest.TestCase):
         lExpected.append('Suppression Rule    : Some warning mess')
         lExpected.append('')
 
-        oSup = suppression.create(None, 'Some warning mess', 'jcleary', 'This is fine because...')
+        oSup = suppression.Suppression(None, 'Some warning mess', 'jcleary', 'This is fine because...')
 
         self.assertEqual(lExpected, display.build_suppressed_warning_header(oSup))
 
@@ -117,12 +117,12 @@ class test_functions(unittest.TestCase):
         lExpected.append('-'*17 + '+' + '-'*8 + '+' + '-'*(80 - 20 - 1 - 5 - 1))
         lExpected.append('')
 
-        oSup = suppression.create()
-        oSup.add_suppressed_warning(warning.create('CMP001', 'message 1', None, 1))
-        oSup.add_suppressed_warning(warning.create('CMP002', 'message 2', None, 2))
-        oSup.add_suppressed_warning(warning.create('CMP003', 'message 3', None, 3))
-        oSup.add_suppressed_warning(warning.create('CMP004', 'message 4', None, 4))
-        oSup.add_suppressed_warning(warning.create('CMP005', 'message 5', None, 5))
+        oSup = suppression.Suppression()
+        oSup.add_suppressed_warning(warning.LogWarning('CMP001', 'message 1', None, 1))
+        oSup.add_suppressed_warning(warning.LogWarning('CMP002', 'message 2', None, 2))
+        oSup.add_suppressed_warning(warning.LogWarning('CMP003', 'message 3', None, 3))
+        oSup.add_suppressed_warning(warning.LogWarning('CMP004', 'message 4', None, 4))
+        oSup.add_suppressed_warning(warning.LogWarning('CMP005', 'message 5', None, 5))
 
         lActual = display.build_suppressed_warning_table(oSup)
 
@@ -138,7 +138,7 @@ class test_functions(unittest.TestCase):
         lExpected.append('Comment    : This is good because...')
         lExpected.append('')
 
-        oSup = suppression.create('CMD001', 'Some', 'jcleary', 'This is good because...')
+        oSup = suppression.Suppression('CMD001', 'Some', 'jcleary', 'This is good because...')
 
         lActual = display.build_suppression_item(oSup, 0)
 
@@ -154,7 +154,7 @@ class test_functions(unittest.TestCase):
         lExpected.append('Message     : Some warning message')
         lExpected.append('')
 
-        oWarning = warning.create('SYN001', 'Some warning message', None, 54)
+        oWarning = warning.LogWarning('SYN001', 'Some warning message', None, 54)
 
         lActual = display.build_multiply_suppressed_warning_header(oWarning)
 
@@ -190,5 +190,5 @@ class test_functions(unittest.TestCase):
 
     def test_maximum_id_length(self):
         self.assertEqual(0, display.maximum_id_length([]))
-        self.assertEqual(1, display.maximum_id_length([warning.create('1')]))
-        self.assertEqual(13, display.maximum_id_length([warning.create('11111'), warning.create('1111111111111'), warning.create('1')]))
+        self.assertEqual(1, display.maximum_id_length([warning.LogWarning('1')]))
+        self.assertEqual(13, display.maximum_id_length([warning.LogWarning('11111'), warning.LogWarning('1111111111111'), warning.LogWarning('1')]))

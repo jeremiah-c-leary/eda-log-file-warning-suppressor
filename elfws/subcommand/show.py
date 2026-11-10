@@ -8,18 +8,18 @@ from elfws import utils
 from elfws.exit_code import ExitCode
 
 
-def show(cla):
+def show(oCommandLineArguments):
 
-    oSupList = suppression_list.create()
+    oSupList = suppression_list.SuppressionList()
 
-    lLogFile = utils.read_log_file(cla.log_file)
+    lLogFile = utils.read_log_file(oCommandLineArguments.log_file)
 
-    oWarnList = utils.create_warning_list(lLogFile, cla.log_file)
+    oWarnList = utils.create_warning_list(lLogFile, oCommandLineArguments.log_file)
 
-    display.results(cla.log_file, '<None>', oSupList, oWarnList)
+    display.results(oCommandLineArguments.log_file, '<None>', oSupList, oWarnList)
 
-    if cla.junit:
-        lJUnitFile = junit.generate_junit_xml_file(cla, oWarnList, oSupList)
-        utils.write_junit_file(cla.junit, lJUnitFile)
+    if oCommandLineArguments.junit:
+        lJUnitFile = junit.generate_junit_xml_file(oCommandLineArguments, oWarnList, oSupList)
+        utils.write_junit_file(oCommandLineArguments.junit, lJUnitFile)
 
     sys.exit(ExitCode.SUCCESS)

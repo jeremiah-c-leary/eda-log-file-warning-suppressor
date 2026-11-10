@@ -32,7 +32,7 @@ def is_logfile(lFile):
 
 
 def extract_warnings(lFile):
-    oReturn = warning_list.create()
+    oReturn = warning_list.WarningList()
 
     cdc_utils.extract_cdc_violations(oReturn, lFile)
     cdc_utils.extract_cdc_cautions(oReturn, lFile)
@@ -55,7 +55,7 @@ def extract_message_warnings(oReturn, lFile):
                 break
             lLine = sLine.split()
             if is_message_type(lLine, 'Warning'):
-               oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
+               oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
                oReturn.add_warning(oWarning) 
 
 
@@ -71,7 +71,7 @@ def extract_message_errors(oReturn, lFile):
                 break
             lLine = sLine.split()
             if is_message_type(lLine, 'Error'):
-               oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
+               oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
                oReturn.add_warning(oWarning) 
 
 

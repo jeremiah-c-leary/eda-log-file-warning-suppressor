@@ -64,14 +64,19 @@ extract_warnings
 ----------------
 
 This function parses the logfile for warnings.
-It returns a warning_list object with a collection of warning objects.
+It returns a WarningList object with a collection of LogWarning objects.
+
+.. note::
+
+   :code:`warning_list.create()` and :code:`warning.create()` are deprecated and will be removed in a future release.
+   Use :code:`warning_list.WarningList()` and :code:`warning.LogWarning()` instead.
 
 The following code looks for lines starting with *Warning* and then proceeds to handle warnings without IDs and multiline warnings.
 
 .. code-block:: python
 
    def extract_warnings(lFile):
-       oReturn = warning_list.create()
+       oReturn = warning_list.WarningList()
    
        fWarningFound = False
        for iLineNumber, sLine in enumerate(lFile):
@@ -94,7 +99,7 @@ The following code looks for lines starting with *Warning* and then proceeds to 
                    if ' ' in sID:
                        sID = 'NO_ID'
                        sMessage = sLine[iColon1Index+1:].strip()
-               oWarning = warning.create(sID, sMessage, None, iLineNumber + 1)
+               oWarning = warning.LogWarning(sID, sMessage, None, iLineNumber + 1)
        return oReturn
 
 .. NOTE::  Use existing functions from other vendor tools as a basis to generate new ones.

@@ -89,7 +89,7 @@ def build_suppression_list(lRules):
 
     Returns:  suppression list object
     '''
-    oReturn = suppression_list.create()
+    oReturn = suppression_list.SuppressionList()
     for oRule in lRules:
         oReturn.add_suppression(oRule)
     return oReturn
@@ -137,7 +137,7 @@ def search_for_suppression_rules(dSubDict, lPath=None, lErrors=None):
     '''
     lPath = value_or_default(lPath, [])
     lErrors = value_or_default(lErrors, [])
-    if is_empty(dSubDict):
+    if is_missing(dSubDict):
         return []
     if not is_mapping(dSubDict):
         add_error(lErrors, format_path(lPath), 'expected a group or "rules" key, found ' + repr(dSubDict))
@@ -187,7 +187,7 @@ def extract_suppression_rules(dRules, lPath=None, lErrors=None):
     '''
     lPath = value_or_default(lPath, ['rules'])
     lErrors = value_or_default(lErrors, [])
-    if is_empty(dRules):
+    if is_missing(dRules):
         return []
     if not is_mapping(dRules):
         add_error(lErrors, format_path(lPath), 'expected warning ids, found ' + repr(dRules))
@@ -285,7 +285,7 @@ def create_suppression_rule(sId, dSup):
 
     Returns: suppression rule
     '''
-    oSupRule = suppression.create(str(sId), str(dSup['msg']))
+    oSupRule = suppression.Suppression(str(sId), str(dSup['msg']))
     update_suppression_author(oSupRule, dSup)
     update_suppression_comment(oSupRule, dSup)
     update_suppression_investigate(oSupRule, dSup)
@@ -358,7 +358,7 @@ def format_rule_location(sIdLocation, iIndex):
 
 
 def value_or_default(oValue, oDefault):
-    if is_empty(oValue):
+    if is_missing(oValue):
         return oDefault
     return oValue
 
@@ -368,11 +368,11 @@ def has_errors(lErrors):
 
 
 def has_suppress_section(dSuppression):
-    return not is_empty(dSuppression.get('suppress'))
+    return not is_missing(dSuppression.get('suppress'))
 
 
 def has_message(dSup):
-    return not is_empty(dSup.get('msg'))
+    return not is_missing(dSup.get('msg'))
 
 
 def is_rules_key(sKey):
@@ -380,10 +380,10 @@ def is_rules_key(sKey):
 
 
 def was_rule_extracted(oSupRule):
-    return not is_empty(oSupRule)
+    return not is_missing(oSupRule)
 
 
-def is_empty(oValue):
+def is_missing(oValue):
     return oValue is None
 
 

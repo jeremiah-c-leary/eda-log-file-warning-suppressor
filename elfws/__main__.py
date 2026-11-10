@@ -7,18 +7,18 @@ def main():
     Main routine of the EDA Log File Warning Suppressor (ELFWS) program.
     '''
 
-    commandLineArguments = cmd_line_args.parse_command_line_arguments()
+    oCommandLineArguments = cmd_line_args.parse_command_line_arguments()
 
-    if commandLineArguments.which == 'version':
+    if oCommandLineArguments.which == 'version':
         subcommand.version.print_version()
-    elif commandLineArguments.which == 'suppress':
-        subcommand.suppress.suppress(commandLineArguments)
-    elif commandLineArguments.which == 'show':
-        subcommand.show.show(commandLineArguments)
-    elif commandLineArguments.which == 'create':
-        subcommand.create.create(commandLineArguments)
-    elif commandLineArguments.which == 'report':
-        subcommand.report.report(commandLineArguments)
+    elif oCommandLineArguments.which == 'suppress':
+        subcommand.suppress.suppress(oCommandLineArguments)
+    elif oCommandLineArguments.which == 'show':
+        subcommand.show.show(oCommandLineArguments)
+    elif oCommandLineArguments.which == 'create':
+        subcommand.create.create(oCommandLineArguments)
+    elif oCommandLineArguments.which == 'report':
+        subcommand.report.report(oCommandLineArguments)
 
 
 if __name__ == '__main__':

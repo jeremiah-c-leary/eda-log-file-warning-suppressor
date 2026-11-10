@@ -2,13 +2,13 @@
 from elfws import junit
 
 
-def generate_junit_xml_file(cla, oWarnList, oSupList):
+def generate_junit_xml_file(oCommandLineArguments, oWarnList, oSupList):
     '''
     Generates a JUnit XML file.
 
     Parameters:
 
-      cla : (command line arguments)
+      oCommandLineArguments : (command line arguments)
 
       oWarnList : (warning_list object)
 
@@ -16,8 +16,8 @@ def generate_junit_xml_file(cla, oWarnList, oSupList):
 
     Returns: Nothing
     '''
-    oXmlFile = junit.xmlfile()
-    oTestsuite = junit.testsuite('eda-log-file-warning-suppressor', str(0))
+    oXmlFile = junit.XmlFile()
+    oTestsuite = junit.TestSuite('eda-log-file-warning-suppressor', str(0))
 
     oTestsuite.add_testcase(build_junit_unsuppressed_testcase(oWarnList))
     oTestsuite.add_testcase(build_junit_unused_suppression_rule_testcase(oSupList))
@@ -32,11 +32,11 @@ def build_junit_unsuppressed_testcase(oWarnList):
 
 
 def build_junit_unused_suppression_rule_testcase(oSupList):
-    oTestcase = junit.testcase('Unused Suppression Rules', str(0), 'failure')
+    oTestcase = junit.TestCase('Unused Suppression Rules', str(0), 'failure')
     lSuppressions = oSupList.get_suppressions_which_did_not_suppress_a_warning()
     lSuppressions = remove_suppressions_per_options(lSuppressions)
     if len(lSuppressions) > 0:
-        oFailure = junit.failure('Failure')
+        oFailure = junit.Failure('Failure')
         for oSup in lSuppressions:
             sOutput = '[' + ']['.join([oSup.get_warning_id(), str(oSup.get_author()), oSup.get_message(), oSup.get_comment()]) + ']'
             oFailure.add_text(sOutput)
@@ -49,10 +49,10 @@ def build_junit_multiply_suppressed_warnings_testcase(oWarnList):
 
 
 def build_junit_warning_testcase(lWarnings, sTestCaseName):
-    oTestcase = junit.testcase(sTestCaseName, str(0), 'failure')
+    oTestcase = junit.TestCase(sTestCaseName, str(0), 'failure')
 
     if len(lWarnings) > 0:
-        oFailure = junit.failure('Failure')
+        oFailure = junit.Failure('Failure')
         for oWarning in lWarnings:
             oFailure.add_text(construct_junit_warning_output(oWarning))
         oTestcase.add_failure(oFailure)

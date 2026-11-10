@@ -6,7 +6,7 @@ from elfws import utils
 
 
 def build_rule(dSup):
-    oSupRule = suppression.create('ID', 'msg')
+    oSupRule = suppression.Suppression('ID', 'msg')
     utils.update_suppression_author(oSupRule, dSup)
     utils.update_suppression_comment(oSupRule, dSup)
     utils.update_suppression_investigate(oSupRule, dSup)

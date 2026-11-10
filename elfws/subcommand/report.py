@@ -7,19 +7,19 @@ from elfws.report import junit
 from elfws.exit_code import ExitCode
 
 
-def report(cla):
+def report(oCommandLineArguments):
 
-    dSup = utils.read_suppression_file(cla.suppression_file)
+    dSup = utils.read_suppression_file(oCommandLineArguments.suppression_file)
     oSupList = utils.create_suppression_list(dSup)
 
-    lLogFile = utils.read_log_file(cla.log_file)
+    lLogFile = utils.read_log_file(oCommandLineArguments.log_file)
 
-    oWarnList = utils.create_warning_list(lLogFile, cla.log_file)
+    oWarnList = utils.create_warning_list(lLogFile, oCommandLineArguments.log_file)
 
     utils.apply_suppression_rules_to_warnings(oWarnList, oSupList)
 
     lReport = []
-    build_header(cla, lReport)
+    build_header(oCommandLineArguments, lReport)
     build_section_1(oWarnList, lReport)
     build_section_2(oSupList, lReport)
     build_section_3(oSupList, lReport)
@@ -27,17 +27,17 @@ def report(cla):
     build_section_5(oWarnList, lReport)
     build_summary(oWarnList, oSupList, lReport)
 
-    utils.write_report_file(cla.report_file, lReport)
+    utils.write_report_file(oCommandLineArguments.report_file, lReport)
 
-    if cla.junit:
-        lJUnitFile = junit.generate_junit_xml_file(cla, oWarnList, oSupList)
-        utils.write_junit_file(cla.junit, lJUnitFile)
+    if oCommandLineArguments.junit:
+        lJUnitFile = junit.generate_junit_xml_file(oCommandLineArguments, oWarnList, oSupList)
+        utils.write_junit_file(oCommandLineArguments.junit, lJUnitFile)
 
     sys.exit(ExitCode.SUCCESS)
 
 
-def build_header(cla, lReport):
-    lReport.extend(display.build_header(cla.log_file, cla.suppression_file))
+def build_header(oCommandLineArguments, lReport):
+    lReport.extend(display.build_header(oCommandLineArguments.log_file, oCommandLineArguments.suppression_file))
     lReport.extend(display.build_table_of_contents())
 
 

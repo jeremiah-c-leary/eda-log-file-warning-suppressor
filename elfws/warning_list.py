@@ -1,6 +1,8 @@
 
+from elfws import deprecation
 
-class create():
+
+class WarningList():
 
     def __init__(self):
         self.warnings = []
@@ -44,3 +46,6 @@ class create():
             if oWarning.is_suppressed() and oWarning.is_investigate():
                 lReturn.append(oWarning)
         return lReturn
+
+
+__getattr__ = deprecation.build_module_getattr(__name__, {'create': WarningList})

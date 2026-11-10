@@ -1,6 +1,8 @@
 
+from elfws import deprecation
 
-class create():
+
+class LogWarning():
 
     def __init__(self, warning_id=None, message=None, filename=None, linenumber=None):
         self.warning_id = warning_id
@@ -42,3 +44,6 @@ class create():
 
     def set_investigate(self):
         self.investigate = True
+
+
+__getattr__ = deprecation.build_module_getattr(__name__, {'create': LogWarning})

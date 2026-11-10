@@ -30,7 +30,7 @@ def is_logfile(lFile):
 
 
 def extract_warnings(lFile):
-    oReturn = warning_list.create()
+    oReturn = warning_list.WarningList()
 
     extract_inferred_clocks(oReturn, lFile)
     extract_inferred_resets(oReturn, lFile)
@@ -67,7 +67,7 @@ def extract_inferred(oReturn, lFile, sID, sType):
             if sLine.startswith(' 2. Inferred'):
                 lLine = sLine.split()
                 if lLine[-1] != ':(0)':
-                    oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
+                    oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
                     oReturn.add_warning(oWarning)
 
 
@@ -99,7 +99,7 @@ def check_design_element_which_must_be_zero(oReturn, lFile, sID, sType):
            if sLine.startswith(sType):
                lLine = sLine.split()
                if lLine[-1] != '0':
-                   oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
+                   oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
                    oReturn.add_warning(oWarning) 
 
 
@@ -115,6 +115,6 @@ def extract_port_domain_information(oReturn, lFile):
                 break
             lLine = sLine.split()
             if lLine[-1] != 'User':
-               oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
+               oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
                oReturn.add_warning(oWarning) 
 

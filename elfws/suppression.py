@@ -1,6 +1,8 @@
 
+from elfws import deprecation
 
-class create():
+
+class Suppression():
 
     def __init__(self, warning_id=None, message=None, author=None, comment=None):
         self.warning_id = warning_id
@@ -43,3 +45,6 @@ class create():
 
     def set_options(self, lOptions):
         self.options = lOptions
+
+
+__getattr__ = deprecation.build_module_getattr(__name__, {'create': Suppression})

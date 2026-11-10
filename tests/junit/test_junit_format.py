@@ -11,14 +11,14 @@ class test_junit_format(unittest.TestCase):
     @mock.patch('elfws.junit.datetime')
     def test_timestamp_uses_24_hour_clock(self, mock_datetime):
         mock_datetime.datetime.now.return_value = datetime.datetime(2026, 11, 9, 14, 5, 6)
-        oTestsuite = junit.testsuite('suite', '0')
+        oTestsuite = junit.TestSuite('suite', '0')
         self.assertEqual('2026-11-09T14:05:06', oTestsuite.timestamp)
 
     @mock.patch('elfws.junit.platform.uname', return_value=('Linux', 'host<&>"', '', '', '', ''))
     def test_attributes_are_escaped(self, mock_uname):
-        oTestsuite = junit.testsuite('suite "a" & <b>', '0')
-        oTestcase = junit.testcase('case "c"', '0', 'class <d>')
-        oFailure = junit.failure('type \'e\'')
+        oTestsuite = junit.TestSuite('suite "a" & <b>', '0')
+        oTestcase = junit.TestCase('case "c"', '0', 'class <d>')
+        oFailure = junit.Failure('type \'e\'')
         oFailure.add_text('text')
         oTestcase.add_failure(oFailure)
         oTestsuite.add_testcase(oTestcase)

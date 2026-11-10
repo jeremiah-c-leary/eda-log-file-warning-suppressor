@@ -19,24 +19,24 @@ def extract_cdc_evaluations(oReturn, lFile):
 
 def extract_cdc_results(oReturn, lFile, sID, sType):
     fWarningSectionFound = False
-    fTemp = False
+    fInResultList = False
     for iLineNumber, sLine in enumerate(lFile):
         if sLine.startswith('CDC Summary'):
             fWarningSectionFound = True
             continue
 
-        if fTemp:
+        if fInResultList:
            if sLine.startswith('---'):
                continue
            if sLine == '':
                break
-           oWarning = warning.create(sID, sLine, None, iLineNumber + 1)
+           oWarning = warning.LogWarning(sID, sLine, None, iLineNumber + 1)
            oReturn.add_warning(oWarning) 
 
         if fWarningSectionFound and sLine.startswith(sType):
             lLine = sLine.split()
             if lLine[-1] == '(0)':
                 break
-            fTemp = True
+            fInResultList = True
             continue
 

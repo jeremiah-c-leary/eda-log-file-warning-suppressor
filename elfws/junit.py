@@ -2,7 +2,7 @@ import platform
 import datetime
 
 
-class failure():
+class Failure():
     '''
     This class holds failure type attributes.
     '''
@@ -26,7 +26,7 @@ class failure():
         return lJunit
 
 
-class testcase():
+class TestCase():
     '''
     This class holds testcase attributes.
     '''
@@ -55,7 +55,7 @@ class testcase():
         return lJunit
 
 
-class testsuite():
+class TestSuite():
     '''
     This class holds testsuite attributes.
     '''
@@ -99,7 +99,7 @@ class testsuite():
         return lJunit
 
 
-class xmlfile():
+class XmlFile():
     '''
     This class holds testsuites.
     '''

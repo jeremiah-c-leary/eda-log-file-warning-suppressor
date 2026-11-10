@@ -25,7 +25,7 @@ def is_logfile(lFile):
 
 
 def extract_warnings(lFile):
-    oReturn = warning_list.create()
+    oReturn = warning_list.WarningList()
 
     lRules = extract_rule_ids_from_summary(lFile)
     iWarningLine = 0
@@ -46,7 +46,7 @@ def extract_warnings(lFile):
             iWarningLine += 1
         elif iWarningLine == 4:
             iWarningLine = 0
-            oWarning = warning.create(sID, sMessage, None, iLineNumber - 2) 
+            oWarning = warning.LogWarning(sID, sMessage, None, iLineNumber - 2) 
             oReturn.add_warning(oWarning)
 
     return oReturn
