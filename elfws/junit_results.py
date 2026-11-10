@@ -3,7 +3,7 @@ from elfws import junit
 from elfws import output_file
 
 
-def write_junit_file_if_requested(sJUnitFileName, oWarnList, oSupList):
+def write_junit_file_if_requested(sJUnitFileName, oResults):
     '''
     Writes a JUnit XML file if a file name was given on the command line.
 
@@ -11,15 +11,13 @@ def write_junit_file_if_requested(sJUnitFileName, oWarnList, oSupList):
 
       sJUnitFileName : (string) None when no JUnit file was requested
 
-      oWarnList : (warning_list object)
-
-      oSupList : (suppression_list object)
+      oResults : (SuppressionResults object)
 
     Returns: Nothing
     '''
     if not is_junit_file_requested(sJUnitFileName):
         return
-    lJUnitFile = generate_junit_xml_file(oWarnList, oSupList)
+    lJUnitFile = generate_junit_xml_file(oResults)
     output_file.write_junit_file(sJUnitFileName, lJUnitFile)
 
 
@@ -27,24 +25,22 @@ def is_junit_file_requested(sJUnitFileName):
     return sJUnitFileName is not None
 
 
-def generate_junit_xml_file(oWarnList, oSupList):
+def generate_junit_xml_file(oResults):
     '''
     Generates a JUnit XML file.
 
     Parameters:
 
-      oWarnList : (warning_list object)
-
-      oSupList : (suppression_list object)
+      oResults : (SuppressionResults object)
 
     Returns: (list of strings)
     '''
     oXmlFile = junit.XmlFile()
     oTestsuite = junit.TestSuite('eda-log-file-warning-suppressor', str(0))
 
-    oTestsuite.add_testcase(build_junit_unsuppressed_testcase(oWarnList))
-    oTestsuite.add_testcase(build_junit_unused_suppression_rule_testcase(oSupList))
-    oTestsuite.add_testcase(build_junit_multiply_suppressed_warnings_testcase(oWarnList))
+    oTestsuite.add_testcase(build_junit_unsuppressed_testcase(oResults.oWarnList))
+    oTestsuite.add_testcase(build_junit_unused_suppression_rule_testcase(oResults.oSupList))
+    oTestsuite.add_testcase(build_junit_multiply_suppressed_warnings_testcase(oResults.oWarnList))
 
     oXmlFile.add_testsuite(oTestsuite)
     return oXmlFile.build_junit()

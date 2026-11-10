@@ -6,8 +6,7 @@ from elfws import display
 from elfws import version
 from elfws import log_file
 from elfws import parser_loader
-from elfws import rule_matching
-from elfws import suppression_file
+from elfws import suppression_results
 from elfws import suppression
 from elfws import warning
 from elfws import warning_list
@@ -180,13 +179,9 @@ class test_functions(unittest.TestCase):
         lExpected.append('')
         lExpected.append('='*80)
 
-        oSupList = suppression_file.create_suppression_list(suppression_file.read_suppression_file('tests/subcommand/report/suppress_microsemi_designer_logfile.yaml'))
-        oWarnList = parser_loader.create_warning_list(log_file.read_log_file('tests/vendor/microsemi/designer/warning_messages.log'), 'tests/vendor/microsemi/designer/warning_messages.log')
+        oResults = suppression_results.apply_suppression_file('tests/vendor/microsemi/designer/warning_messages.log', 'tests/subcommand/report/suppress_microsemi_designer_logfile.yaml')
 
-
-        rule_matching.apply_suppression_rules_to_warnings(oWarnList, oSupList)
-
-        lActual = display.build_report_summary_section(oWarnList, oSupList)
+        lActual = display.build_report_summary_section(oResults)
 
         for iIndex, sLine in enumerate(lExpected):
             self.assertEqual(sLine, lActual[iIndex])

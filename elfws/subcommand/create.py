@@ -4,20 +4,14 @@ import sys
 import yaml
 
 from elfws import log_file
-from elfws import suppression_file
-from elfws.subcommand import suppress
+from elfws import suppression_results
 from elfws.exit_code import ExitCode
 
 
 def create(oCommandLineArguments):
 
-    oWarnList = log_file.read_warning_list(oCommandLineArguments.log_file)
-
-    if oCommandLineArguments.suppression_file is not None:
-        oSupList = suppression_file.read_suppression_list(oCommandLineArguments.suppression_file)
-        oWarnList = suppress.extract_non_suppressed_warnings(oWarnList, oSupList)
-
-    dSup = create_suppression_dict(oWarnList)
+    lWarnings = extract_warnings_to_suppress(oCommandLineArguments.log_file, oCommandLineArguments.suppression_file)
+    dSup = create_suppression_dict(lWarnings)
 
     with open(oCommandLineArguments.output_suppression_file, 'w') as file:
         yaml.dump(dSup, file)
@@ -25,20 +19,44 @@ def create(oCommandLineArguments):
     sys.exit(ExitCode.SUCCESS)
 
 
-def create_suppression_dict(oWarnList):
+def extract_warnings_to_suppress(sLogFileName, sSuppressionFileName):
+    '''
+    Returns the warnings which the existing suppression file does not already suppress.
+
+    Parameters:
+
+      sLogFileName : (string)
+
+      sSuppressionFileName : (string) None when no existing suppression file was given
+
+    Returns: (list of warning objects)
+    '''
+    if not was_suppression_file_given(sSuppressionFileName):
+        oWarnList = log_file.read_warning_list(sLogFileName)
+        return oWarnList.get_warnings()
+
+    oResults = suppression_results.apply_suppression_file(sLogFileName, sSuppressionFileName)
+    return oResults.oWarnList.get_unsuppressed_warnings()
+
+
+def was_suppression_file_given(sSuppressionFileName):
+    return sSuppressionFileName is not None
+
+
+def create_suppression_dict(lWarnings):
     '''
     Creates a suppression dictionary that will suppress all warnings in a file.
 
     Parameters:
 
-      oWarnList : (warning list object)
+      lWarnings : (list of warning objects)
 
     Returns: (dictionary)
     '''
     dReturn = {}
     dReturn['suppress'] = {}
     dReturn['suppress']['rules'] = {}
-    for oWarning in oWarnList.get_warnings():
+    for oWarning in lWarnings:
         sId = oWarning.get_id()
         lKeys = list(dReturn['suppress']['rules'].keys())
         if sId not in lKeys:
