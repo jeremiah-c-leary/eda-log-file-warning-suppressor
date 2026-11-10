@@ -9,6 +9,9 @@ import yaml
 from . import suppression
 from . import suppression_list
 
+# Parser modules which have already been imported, keyed by tool path.
+dToolModuleCache = {}
+
 
 def read_suppression_file(sFileName):
     '''
@@ -485,12 +488,24 @@ def import_vendor_module(sToolPath):
 
       sToolPath   : (string)
 
-    Returns : (module)
+    Returns : (module) or None if the module could not be imported
     '''
-    spec = importlib.util.spec_from_file_location("tool", sToolPath + '.py')
-    tool = importlib.util.module_from_spec(spec)
-    sys.modules['tool'] = tool
-    spec.loader.exec_module(tool)
+    sToolPath = os.path.abspath(sToolPath)
+    if sToolPath in dToolModuleCache:
+        return dToolModuleCache[sToolPath]
+
+    sModuleName = 'elfws_parser_' + re.sub(r'\W', '_', sToolPath)
+    try:
+        spec = importlib.util.spec_from_file_location(sModuleName, sToolPath + '.py')
+        tool = importlib.util.module_from_spec(spec)
+        sys.modules[sModuleName] = tool
+        spec.loader.exec_module(tool)
+    except Exception as e:
+        sys.modules.pop(sModuleName, None)
+        print('WARNING: Could not load parser ' + sToolPath + '.py : ' + repr(e), file=sys.stderr)
+        tool = None
+
+    dToolModuleCache[sToolPath] = tool
     return tool
 
 
@@ -533,7 +548,7 @@ def get_vendors(sVendorPath):
     Returns: List of directory names
     '''
     lReturn = []
-    lListing = os.listdir(sVendorPath)
+    lListing = sorted(os.listdir(sVendorPath))
     for sListing in lListing:
         if sListing.startswith('__'):
             continue
@@ -553,13 +568,17 @@ def get_tools(sVendorPath):
     Returns: list of tool names
     '''
     lReturn = []
-    lListing = os.listdir(sVendorPath)
+    lListing = sorted(os.listdir(sVendorPath))
     for sListing in lListing:
         if sListing.startswith('__'):
             continue
         if sListing == 'utils.py':
             continue
         if sListing.startswith('.'):
+            continue
+        if not sListing.endswith('.py'):
+            continue
+        if not os.path.isfile(os.path.join(sVendorPath, sListing)):
             continue
         lReturn.append(os.path.join(sVendorPath, remove_extension(sListing)))
     return lReturn
@@ -618,6 +637,8 @@ def get_tool_module(lLogFile, fVendor):
     for sVendorPath in fVendor():
         for sToolPath in get_tools(sVendorPath):
             toolModule = import_vendor_module(sToolPath)
+            if toolModule is None:
+                continue
             if toolModule.is_logfile(lLogFile):
                 return toolModule
 
@@ -648,9 +669,7 @@ def create_warning_list(lLogFile, sLogFileName):
 
     Returns:  (warning list object)
     '''
-    mTool = get_built_in_tool_module(lLogFile)
-    if mTool is None:
-        mTool = get_user_defined_tool_module(lLogFile)
+    mTool = get_vendor_tool_module(lLogFile)
     if mTool is None:
         print('ERROR: File ' + sLogFileName + ' is not recognized as a supported logfile.')
         sys.exit(2)
