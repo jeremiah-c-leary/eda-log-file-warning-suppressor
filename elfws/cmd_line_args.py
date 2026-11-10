@@ -2,6 +2,7 @@
 import argparse
 import sys
 
+from elfws import subcommand
 from elfws.exit_code import ExitCode
 
 
@@ -49,7 +50,7 @@ def build_create_subparser(oSubparser):
     parser.add_argument('output_suppression_file', help='Suppression file to create')
     parser.add_argument('--suppression_file', help='Existing suppression file to filter out existing')
 
-    parser.set_defaults(which='create')
+    parser.set_defaults(run_subcommand=subcommand.create.create)
 
 
 def build_report_subparser(oSubparser):
@@ -58,14 +59,14 @@ def build_report_subparser(oSubparser):
     parser.add_argument('report_file', help='Output report file')
     parser.add_argument('--junit', help='Generate JUnit XML file JUNIT')
 
-    parser.set_defaults(which='report')
+    parser.set_defaults(run_subcommand=subcommand.report.report)
 
 
 def build_suppress_subparser(oSubparser):
     parser = oSubparser.add_parser('suppress', help='Suppresses warnings in logfiles')
     add_file_arguments_to_parser(parser)
 
-    parser.set_defaults(which='suppress')
+    parser.set_defaults(run_subcommand=subcommand.suppress.suppress)
 
 
 def build_show_subparser(oSubparser):
@@ -73,10 +74,10 @@ def build_show_subparser(oSubparser):
     parser.add_argument('log_file', help='Log file to show warnings')
     parser.add_argument('--junit', help='Generate JUnit XML file JUNIT')
 
-    parser.set_defaults(which='show')
+    parser.set_defaults(run_subcommand=subcommand.show.show)
 
 
 def build_version_parser(oSubparser):
     parser = oSubparser.add_parser('version', help='Displays ELFWS version information')
 
-    parser.set_defaults(which='version')
+    parser.set_defaults(run_subcommand=subcommand.version.version)
