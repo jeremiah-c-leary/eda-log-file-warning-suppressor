@@ -23,14 +23,9 @@ def is_logfile(lFile):
 
 
 def extract_warnings(lFile):
-    oReturn = warning_list.WarningList()
-
     lWarningSection = extract_warning_section(lFile)
-    for sLintCheckId, lLintCheckLines in group_lines_by_lint_check(lWarningSection):
-        for oWarning in extract_lint_check_warnings(sLintCheckId, lLintCheckLines):
-            oReturn.add_warning(oWarning)
-
-    return oReturn
+    lLintChecks = group_lines_by_lint_check(lWarningSection)
+    return create_warning_list(lLintChecks)
 
 
 def extract_warning_section(lFile):
@@ -90,6 +85,14 @@ def extract_lint_check_id(sLine):
 
 def has_found_a_lint_check(lLintChecks):
     return len(lLintChecks) > 0
+
+
+def create_warning_list(lLintChecks):
+    oReturn = warning_list.WarningList()
+    for sLintCheckId, lLintCheckLines in lLintChecks:
+        for oWarning in extract_lint_check_warnings(sLintCheckId, lLintCheckLines):
+            oReturn.add_warning(oWarning)
+    return oReturn
 
 
 def extract_lint_check_warnings(sLintCheckId, lLintCheckLines):
