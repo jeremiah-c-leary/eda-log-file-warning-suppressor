@@ -1,5 +1,6 @@
 
 import unittest
+from unittest import mock
 
 
 from elfws import display
@@ -190,3 +191,19 @@ class test_functions(unittest.TestCase):
         self.assertEqual(0, display.maximum_id_length([]))
         self.assertEqual(1, display.maximum_id_length([warning.LogWarning('1')]))
         self.assertEqual(13, display.maximum_id_length([warning.LogWarning('11111'), warning.LogWarning('1111111111111'), warning.LogWarning('1')]))
+
+    @mock.patch('elfws.version.version', '0.1')
+    @mock.patch('elfws.display.datetime')
+    def test_build_results_lines(self, mock_datetime):
+        mock_datetime.now.return_value = 'Some Date'
+        oResults = suppression_results.create_results_without_suppression_file('tests/vendor/microsemi/designer/warning_messages.log')
+
+        lExpected = log_file.read_log_file('tests/elfws/show_output.txt')
+
+        self.assertEqual(lExpected, display.build_results_lines(oResults))
+
+    @mock.patch('sys.stdout')
+    def test_print_lines(self, mock_stdout):
+        display.print_lines(['first', 'second'])
+
+        mock_stdout.write.assert_has_calls([mock.call('first'), mock.call('\n'), mock.call('second'), mock.call('\n')])

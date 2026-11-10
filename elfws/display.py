@@ -22,11 +22,21 @@ def results(oResults):
 
     Returns : None
     '''
-    lPrint = build_header(oResults.sLogFileName, oResults.sSuppressionFileName)
-    lWarnings = oResults.oWarnList.get_unsuppressed_warnings()
-    lPrint.extend(build_warning_table(lWarnings))
-    lPrint.extend(build_report_summary_section(oResults))
-    for sLine in lPrint:
+    lLines = build_results_lines(oResults)
+    print_lines(lLines)
+
+
+def build_results_lines(oResults):
+    lReturn = []
+    lReturn.extend(build_header(oResults.sLogFileName, oResults.sSuppressionFileName))
+    lUnsuppressedWarnings = oResults.oWarnList.get_unsuppressed_warnings()
+    lReturn.extend(build_warning_table(lUnsuppressedWarnings))
+    lReturn.extend(build_report_summary_section(oResults))
+    return lReturn
+
+
+def print_lines(lLines):
+    for sLine in lLines:
         print(sLine)
 
 
