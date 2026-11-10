@@ -54,7 +54,7 @@ def extract_message_errors(oReturn, lFile):
 def extract_message_summary(oReturn, lFile, sID, sType):
     fWarningSectionFound = False
     for iLineNumber, sLine in enumerate(lFile):
-        if vendor_utils.sequence_of_lines_starts_with(iLineNumber, lFile, ['Message Summary', '----', 'Count', '----']):
+        if vendor_utils.do_lines_start_with_sequence(iLineNumber, lFile, ['Message Summary', '----', 'Count', '----']):
             fWarningSectionFound = True
             continue
         if fWarningSectionFound:

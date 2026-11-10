@@ -12,7 +12,7 @@ STATISTIC_LABEL_WIDTH = 22
 STATISTIC_VALUE_WIDTH = 5
 
 
-def results(oResults):
+def print_results(oResults):
     '''
     Displays results of a subcommand to the terminal window.
 
@@ -76,13 +76,13 @@ def build_warning_table(lWarningList, iIndent=0):
     if len(lWarningList) == 0:
         return []
 
-    iWarningIdLength = maximum_id_length(lWarningList)
+    iWarningIdLength = find_maximum_id_length(lWarningList)
     lReturn = []
     lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-    lReturn.append(table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
+    lReturn.append(build_table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
     lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
     for oWarning in lWarningList:
-        lReturn.append(table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
+        lReturn.append(build_table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
     lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
     lReturn.append('')
 
@@ -102,13 +102,13 @@ def build_table_row_seperator(iFirstColumnLength, iIndent=0):
     Returns: (string)
     '''
     sIndent = ' '*iIndent
-    iIdCellWidth = id_column_width(iFirstColumnLength) + CELL_PADDING
+    iIdCellWidth = calculate_id_column_width(iFirstColumnLength) + CELL_PADDING
     iLineNumberCellWidth = LINE_NUMBER_COLUMN_WIDTH + CELL_PADDING
     iMessageCellWidth = REPORT_WIDTH - iIndent - iIdCellWidth - iLineNumberCellWidth - NUMBER_OF_COLUMN_SEPARATORS
     return sIndent + '-'*iIdCellWidth + '+' + '-'*iLineNumberCellWidth + '+' + '-'*iMessageCellWidth
 
 
-def id_column_width(iIdLength):
+def calculate_id_column_width(iIdLength):
     return max(MINIMUM_ID_COLUMN_WIDTH, iIdLength)
 
 
@@ -274,7 +274,7 @@ def build_report_summary_section(oResults):
     return lReturn
 
 
-def maximum_id_length(lWarnings):
+def find_maximum_id_length(lWarnings):
     '''
     Returns the maximum length of warnings in a list.
 
@@ -290,7 +290,7 @@ def maximum_id_length(lWarnings):
     return iReturn
 
 
-def table_header_format_string(iIdLength, iIndent):
+def build_table_header_format_string(iIdLength, iIndent):
     '''
     Returns the format string for a table row.
 
@@ -302,10 +302,10 @@ def table_header_format_string(iIdLength, iIndent):
 
     Returns : (string)
     '''
-    return table_format_string(iIdLength, iIndent, 's')
+    return build_table_format_string(iIdLength, iIndent, 's')
 
 
-def table_row_format_string(iIdLength, iIndent):
+def build_table_row_format_string(iIdLength, iIndent):
     '''
     Returns the format string for a table row.
 
@@ -317,10 +317,10 @@ def table_row_format_string(iIdLength, iIndent):
 
     Returns : (string)
     '''
-    return table_format_string(iIdLength, iIndent, 'd')
+    return build_table_format_string(iIdLength, iIndent, 'd')
 
 
-def table_format_string(iIdLength, iIndent, sLineNumberType):
+def build_table_format_string(iIdLength, iIndent, sLineNumberType):
     '''
     Returns the format string shared by the table header and rows.
 
@@ -335,5 +335,5 @@ def table_format_string(iIdLength, iIndent, sLineNumberType):
     Returns : (string)
     '''
     sReturn = iIndent * ' '
-    sReturn += ' {0:<' + str(id_column_width(iIdLength)) + 's} | {1:' + str(LINE_NUMBER_COLUMN_WIDTH) + sLineNumberType + '} | {2:s}'
+    sReturn += ' {0:<' + str(calculate_id_column_width(iIdLength)) + 's} | {1:' + str(LINE_NUMBER_COLUMN_WIDTH) + sLineNumberType + '} | {2:s}'
     return sReturn

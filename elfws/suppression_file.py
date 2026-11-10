@@ -26,7 +26,7 @@ def read_suppression_file(sFileName):
     Returns:  dictionary
     '''
     try:
-        return value_or_default(load_yaml_file(sFileName), {})
+        return replace_missing_with_default(load_yaml_file(sFileName), {})
     except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
         exit_with_suppression_file_error(e)
 
@@ -209,7 +209,7 @@ def add_index_to_path(lPath, iIndex):
     return lPath[:-1] + [lPath[-1] + '[' + str(iIndex) + ']']
 
 
-def value_or_default(oValue, oDefault):
+def replace_missing_with_default(oValue, oDefault):
     if is_missing(oValue):
         return oDefault
     return oValue
@@ -278,4 +278,4 @@ def update_suppression_options(oSupRule, dSup):
 
     Returns: Nothing
     '''
-    oSupRule.set_options(value_or_default(dSup.get('options'), []))
+    oSupRule.set_options(replace_missing_with_default(dSup.get('options'), []))

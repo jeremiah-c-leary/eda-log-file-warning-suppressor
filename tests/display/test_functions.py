@@ -187,10 +187,10 @@ class test_functions(unittest.TestCase):
         for iIndex, sLine in enumerate(lExpected):
             self.assertEqual(sLine, lActual[iIndex])
 
-    def test_maximum_id_length(self):
-        self.assertEqual(0, display.maximum_id_length([]))
-        self.assertEqual(1, display.maximum_id_length([warning.LogWarning('1')]))
-        self.assertEqual(13, display.maximum_id_length([warning.LogWarning('11111'), warning.LogWarning('1111111111111'), warning.LogWarning('1')]))
+    def test_find_maximum_id_length(self):
+        self.assertEqual(0, display.find_maximum_id_length([]))
+        self.assertEqual(1, display.find_maximum_id_length([warning.LogWarning('1')]))
+        self.assertEqual(13, display.find_maximum_id_length([warning.LogWarning('11111'), warning.LogWarning('1111111111111'), warning.LogWarning('1')]))
 
     @mock.patch('elfws.version.version', '0.1')
     @mock.patch('elfws.display.datetime')
