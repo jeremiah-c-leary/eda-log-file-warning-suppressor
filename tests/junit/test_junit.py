@@ -2,7 +2,6 @@
 import datetime
 import os
 from pathlib import Path
-import sys
 import unittest
 from unittest import mock
 
@@ -24,16 +23,13 @@ class test_arguments(unittest.TestCase):
         if os.path.isfile(sXmlFile):
             os.remove(sXmlFile)
 
+    @mock.patch('sys.argv', ['elfws', 'show', sWarningFile, '--junit', sXmlFile])
     @mock.patch('sys.stdout')
     def test_report_w_junit_output(self, mockStdout):
-        sys.argv = ['elfws', 'show', sWarningFile, '--junit', sXmlFile]
-
-        try:
+        with self.assertRaises(SystemExit) as oContext:
             __main__.main()
-        except SystemExit as e:
-            iExitStatus = e.args[0]
 
-        self.assertEqual(iExitStatus, 0)
+        self.assertEqual(oContext.exception.code, 0)
 
         lExpected = utils.read_log_file(os.path.join(os.path.dirname(__file__), 'junit_output.xml'))
         lActual = utils.read_log_file(sXmlFile)

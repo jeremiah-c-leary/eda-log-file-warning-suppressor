@@ -54,12 +54,10 @@ class test_functions(unittest.TestCase):
 
     @mock.patch('sys.stdout')
     def test_read_suppression_file_w_error(self, mock_stdout):
-
-        try:
+        with self.assertRaises(SystemExit) as oContext:
             utils.read_suppression_file(os.path.join(os.path.dirname(__file__),'error_suppress.yaml'))
-        except SystemExit as e:
-            self.assertEqual(e.code, 1)
-            pass
+
+        self.assertEqual(oContext.exception.code, 1)
 
     def test_create_suppression_list(self):
 
@@ -277,10 +275,10 @@ class test_functions(unittest.TestCase):
 
     @mock.patch('sys.stdout')
     def test_create_warning_list(self, mock_stdout):
-        try:
+        with self.assertRaises(SystemExit) as oContext:
             utils.create_warning_list(['Not a log file'], 'logfile_name')
-        except SystemExit:
-            pass
+
+        self.assertEqual(oContext.exception.code, 2)
 
         mock_stdout.write.assert_has_calls([
             mock.call('ERROR: File logfile_name is not recognized as a supported logfile.'), mock.call('\n')

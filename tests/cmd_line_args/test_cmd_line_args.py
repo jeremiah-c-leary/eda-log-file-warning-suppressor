@@ -10,10 +10,10 @@ class testCmdLineArgsModule(unittest.TestCase):
     @mock.patch('sys.stdout')
     @mock.patch('sys.argv', ['elfws'])
     def test_parse_command_line_arguments_w_no_args(self, mockStdout):
-        try:
+        with self.assertRaises(SystemExit) as oContext:
             cmd_line_args.parse_command_line_arguments()
-        except SystemExit:
-            pass
+
+        self.assertEqual(oContext.exception.code, 3)
 
         sOutput = 'usage: elfws [-h] {create,report,show,suppress,version} ...\n'
         sOutput += '\n'
@@ -37,10 +37,10 @@ class testCmdLineArgsModule(unittest.TestCase):
     @mock.patch('sys.stdout')
     @mock.patch('sys.argv', ['elfws', 'suppress', '-h'])
     def test_parse_command_line_arguments_w_suppress_only_w_dash_h(self, mockStdout):
-        try:
+        with self.assertRaises(SystemExit) as oContext:
             cmd_line_args.parse_command_line_arguments()
-        except SystemExit:
-            pass
+
+        self.assertEqual(oContext.exception.code, 0)
 
         sOutput = 'usage: elfws suppress [-h] log_file suppression_file\n'
         sOutput += '\n'
