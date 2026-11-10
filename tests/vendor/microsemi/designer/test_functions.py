@@ -96,3 +96,9 @@ class testFunctions(unittest.TestCase):
         oWarningList = designer.extract_warnings(lLogFile)
         self.assertEqual(1, oWarningList.get_number_of_warnings())
         self.assertEqual('first line second line', oWarningList.warnings[0].get_message())
+
+    def test_extract_id_and_message(self):
+        self.assertEqual(('ABC', 'msg: with colon'), designer.extract_id_and_message('Warning: ABC: msg: with colon'))
+        self.assertEqual(('ABC', ''), designer.extract_id_and_message('Warning: ABC:'))
+        self.assertEqual(('NO_ID', 'has spaces: msg'), designer.extract_id_and_message('Warning: has spaces: msg'))
+        self.assertEqual(('NO_ID', 'no separator'), designer.extract_id_and_message('Warning: no separator'))

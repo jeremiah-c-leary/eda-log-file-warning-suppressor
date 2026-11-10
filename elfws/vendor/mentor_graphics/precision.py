@@ -37,9 +37,28 @@ def extract_warnings(lFile):
 
 
 def extract_id_and_message(sLine):
-    sId, sMessage = vendor_utils.split_id_and_message(sLine)
-    sId = remove_surrounding_brackets(sId)
-    return vendor_utils.reject_ids_containing_spaces(sLine, sId, sMessage)
+    sText = text_after_keyword(sLine)
+    if not has_id_separator(sText):
+        return vendor_utils.NO_ID, sText.strip()
+
+    sId, sMessage = sText.split(':', 1)
+    sId = remove_surrounding_brackets(sId.strip())
+    if contains_spaces(sId):
+        return vendor_utils.NO_ID, sText.strip()
+
+    return sId, sMessage.strip()
+
+
+def text_after_keyword(sLine):
+    return sLine.split(':', 1)[1]
+
+
+def has_id_separator(sText):
+    return ':' in sText
+
+
+def contains_spaces(sText):
+    return ' ' in sText
 
 
 def remove_surrounding_brackets(sId):

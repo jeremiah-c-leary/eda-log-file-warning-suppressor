@@ -46,5 +46,24 @@ def extract_warnings(lFile):
 
 
 def extract_id_and_message(sLine):
-    sId, sMessage = vendor_utils.split_id_and_message(sLine)
-    return vendor_utils.reject_ids_containing_spaces(sLine, sId, sMessage)
+    sText = text_after_keyword(sLine)
+    if not has_id_separator(sText):
+        return vendor_utils.NO_ID, sText.strip()
+
+    sId, sMessage = sText.split(':', 1)
+    if contains_spaces(sId.strip()):
+        return vendor_utils.NO_ID, sText.strip()
+
+    return sId.strip(), sMessage.strip()
+
+
+def text_after_keyword(sLine):
+    return sLine.split(':', 1)[1]
+
+
+def has_id_separator(sText):
+    return ':' in sText
+
+
+def contains_spaces(sText):
+    return ' ' in sText

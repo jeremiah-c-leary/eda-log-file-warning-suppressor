@@ -54,3 +54,8 @@ class testFunctions(unittest.TestCase):
         oWarningList = synplify_pro.extract_warnings(['@W: no second colon here'])
         self.assertEqual('NO_ID', oWarningList.get_warnings()[0].get_id())
         self.assertEqual('no second colon here', oWarningList.get_warnings()[0].get_message())
+
+    def test_extract_id_and_message(self):
+        self.assertEqual(('CL169', '"top.v":12:3|Pruning unused register'), synplify_pro.extract_id_and_message('@W: CL169 :"top.v":12:3|Pruning unused register'))
+        self.assertEqual(('two words', 'msg'), synplify_pro.extract_id_and_message('@W: two words: msg'))
+        self.assertEqual(('NO_ID', 'no separator'), synplify_pro.extract_id_and_message('@W: no separator'))

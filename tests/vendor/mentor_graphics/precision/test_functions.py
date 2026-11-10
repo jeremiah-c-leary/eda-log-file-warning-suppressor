@@ -76,3 +76,9 @@ class testFunctions(unittest.TestCase):
         oWarningList = tool.extract_warnings(['# Warning: noSecondColon'])
         self.assertEqual('NO_ID', oWarningList.get_warnings()[0].get_id())
         self.assertEqual('noSecondColon', oWarningList.get_warnings()[0].get_message())
+
+    def test_extract_id_and_message(self):
+        self.assertEqual(('45729', 'Input port unused'), tool.extract_id_and_message('# Warning: [45729]: Input port unused'))
+        self.assertEqual(('abc', 'msg'), tool.extract_id_and_message('# Warning: abc: msg'))
+        self.assertEqual(('NO_ID', 'has spaces: msg'), tool.extract_id_and_message('# Warning: has spaces: msg'))
+        self.assertEqual(('NO_ID', 'noSeparator'), tool.extract_id_and_message('# Warning: noSeparator'))
