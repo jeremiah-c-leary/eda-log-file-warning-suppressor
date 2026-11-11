@@ -1,0 +1,54 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Check release tag matches package version
+        run: |
+          PACKAGE_VERSION=$(python -c "from elfws.version import version; print(version)")
+          if [ "$PACKAGE_VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "Release tag $GITHUB_REF_NAME does not match the package version $PACKAGE_VERSION in elfws/version.py"
+            exit 1
+          fi
+
+      - name: Build distributions
+        run: |
+          pip install build twine
+          python -m build
+          twine check --strict dist/*
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: distributions
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/project/elfws/
+
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: distributions
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
