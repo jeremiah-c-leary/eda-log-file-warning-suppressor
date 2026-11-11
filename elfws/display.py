@@ -1,4 +1,3 @@
-
 from datetime import datetime
 
 from elfws import version
@@ -61,71 +60,6 @@ def build_header(sLogFileName, sSuppressionFileName):
     lReturn.append('')
 
     return lReturn
-
-
-def build_warning_table(lWarningList, iIndent=0):
-    '''
-    Creates the warning table given a warning list.
-
-    Parameters:
-
-      lWarningList : (list of warning objects)
-
-    Returns: (list of strings)
-    '''
-    if len(lWarningList) == 0:
-        return []
-
-    iWarningIdLength = find_maximum_id_length(lWarningList)
-    lReturn = []
-    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-    lReturn.append(build_table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
-    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-    for oWarning in lWarningList:
-        lReturn.append(build_table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
-    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
-    lReturn.append('')
-
-    return lReturn
-
-
-def build_table_row_seperator(iFirstColumnLength, iIndent=0):
-    '''
-    Creates a row separator for the warning table.
-
-    Parameters :
-
-      iFirstColumnLength : (integer)
-
-      iIndent : (integer)
-
-    Returns: (string)
-    '''
-    sIndent = ' '*iIndent
-    iIdCellWidth = calculate_id_column_width(iFirstColumnLength) + CELL_PADDING
-    iLineNumberCellWidth = LINE_NUMBER_COLUMN_WIDTH + CELL_PADDING
-    iMessageCellWidth = REPORT_WIDTH - iIndent - iIdCellWidth - iLineNumberCellWidth - NUMBER_OF_COLUMN_SEPARATORS
-    return sIndent + '-'*iIdCellWidth + '+' + '-'*iLineNumberCellWidth + '+' + '-'*iMessageCellWidth
-
-
-def calculate_id_column_width(iIdLength):
-    return max(MINIMUM_ID_COLUMN_WIDTH, iIdLength)
-
-
-def build_stat_line(sString, iNumber):
-    '''
-    Creates a line for the statistics in the footer.
-
-    Parameters:
-
-      sString : (string)
-
-      iNumber : (integer)
-
-    Returns : (string)
-    '''
-    sFormat = '    {0:<' + str(STATISTIC_LABEL_WIDTH) + 's} : {1:' + str(STATISTIC_VALUE_WIDTH) + 'd}'
-    return sFormat.format(sString, iNumber)
 
 
 def build_table_of_contents():
@@ -201,6 +135,51 @@ def build_suppressed_warning_table(oSuppression, iIndent=0):
     return build_warning_table(oSuppression.get_suppressed_warnings(), iIndent)
 
 
+def build_warning_table(lWarningList, iIndent=0):
+    '''
+    Creates the warning table given a warning list.
+
+    Parameters:
+
+      lWarningList : (list of warning objects)
+
+    Returns: (list of strings)
+    '''
+    if len(lWarningList) == 0:
+        return []
+
+    iWarningIdLength = find_maximum_id_length(lWarningList)
+    lReturn = []
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
+    lReturn.append(build_table_header_format_string(iWarningIdLength, iIndent).format('ID', 'Line #', 'Warning Message'))
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
+    for oWarning in lWarningList:
+        lReturn.append(build_table_row_format_string(iWarningIdLength, iIndent).format(oWarning.get_id(), oWarning.get_linenumber(), oWarning.get_message()))
+    lReturn.append(build_table_row_seperator(iWarningIdLength, iIndent))
+    lReturn.append('')
+
+    return lReturn
+
+
+def build_table_row_seperator(iFirstColumnLength, iIndent=0):
+    '''
+    Creates a row separator for the warning table.
+
+    Parameters :
+
+      iFirstColumnLength : (integer)
+
+      iIndent : (integer)
+
+    Returns: (string)
+    '''
+    sIndent = ' '*iIndent
+    iIdCellWidth = calculate_id_column_width(iFirstColumnLength) + CELL_PADDING
+    iLineNumberCellWidth = LINE_NUMBER_COLUMN_WIDTH + CELL_PADDING
+    iMessageCellWidth = REPORT_WIDTH - iIndent - iIdCellWidth - iLineNumberCellWidth - NUMBER_OF_COLUMN_SEPARATORS
+    return sIndent + '-'*iIdCellWidth + '+' + '-'*iLineNumberCellWidth + '+' + '-'*iMessageCellWidth
+
+
 def build_suppression_item(oSuppression, iIndent=0):
     '''
     Creates a formatted report of suppression data.
@@ -274,6 +253,22 @@ def build_report_summary_section(oResults):
     return lReturn
 
 
+def build_stat_line(sString, iNumber):
+    '''
+    Creates a line for the statistics in the footer.
+
+    Parameters:
+
+      sString : (string)
+
+      iNumber : (integer)
+
+    Returns : (string)
+    '''
+    sFormat = '    {0:<' + str(STATISTIC_LABEL_WIDTH) + 's} : {1:' + str(STATISTIC_VALUE_WIDTH) + 'd}'
+    return sFormat.format(sString, iNumber)
+
+
 def find_maximum_id_length(lWarnings):
     '''
     Returns the maximum length of warnings in a list.
@@ -337,3 +332,7 @@ def build_table_format_string(iIdLength, iIndent, sLineNumberType):
     sReturn = iIndent * ' '
     sReturn += ' {0:<' + str(calculate_id_column_width(iIdLength)) + 's} | {1:' + str(LINE_NUMBER_COLUMN_WIDTH) + sLineNumberType + '} | {2:s}'
     return sReturn
+
+
+def calculate_id_column_width(iIdLength):
+    return max(MINIMUM_ID_COLUMN_WIDTH, iIdLength)
