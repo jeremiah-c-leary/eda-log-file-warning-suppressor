@@ -1,5 +1,6 @@
 
 [run]
+source = elfws
 omit =
     # Ignore tests
     */tests/*

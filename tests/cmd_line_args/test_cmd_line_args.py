@@ -1,11 +1,19 @@
 
 
+import sys
 import unittest
 from unittest import mock
 
 from elfws import cmd_line_args
 from elfws import subcommand
 from elfws import error
+
+
+def get_argparse_options_heading():
+    if sys.version_info < (3, 10):
+        return 'optional arguments:\n'
+    return 'options:\n'
+
 
 class testCmdLineArgsModule(unittest.TestCase):
 
@@ -29,7 +37,7 @@ class testCmdLineArgsModule(unittest.TestCase):
         sOutput += '    suppress            Suppresses warnings in logfiles\n'
         sOutput += '    version             Displays ELFWS version information\n'
         sOutput += '\n'
-        sOutput += 'options:\n'
+        sOutput += get_argparse_options_heading()
         sOutput += '  -h, --help            show this help message and exit\n'
 
         mockStdout.write.assert_has_calls([
@@ -50,7 +58,7 @@ class testCmdLineArgsModule(unittest.TestCase):
         sOutput += '  log_file          Log file to check for warnings\n'
         sOutput += '  suppression_file  YAML formatted warning suppression file\n'
         sOutput += '\n'
-        sOutput += 'options:\n'
+        sOutput += get_argparse_options_heading()
         sOutput += '  -h, --help        show this help message and exit\n'
 
         mockStdout.write.assert_has_calls([
