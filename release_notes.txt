@@ -1,26 +1,90 @@
 New Features
 ------------
 
-  issue #10:
-    Capture and display exceptions from PyYAML.
+  issue #43:
+    Adds the ability for users to provide their own parsers with the
+    ELFWS_USER_VENDOR_DIR environment variable.
 
-  issue #26:
-    Adds parsing of Vivado Methodology reports.
-
-  issue #27:
-    Adds parsing of Synplify Pro log files.
+  issue #49:
+    Adds exit code 6 when the log file cannot be read.
 
 Retired Issues
 --------------
 
-  None
+  issue #62:
+    Additional output formats (JSON, SARIF and Markdown summary) are not planned.
+
+  issue #64:
+    Baseline / diff mode is not planned.
 
 Bug Fixes
 ---------
 
-  None
+  issue #45:
+    Warnings on the last line of a log file are no longer dropped.
+
+  issue #46:
+    Suppression rule warning IDs must now match the entire warning ID.
+    Note:  Rules relying on prefix matching must add .* to the ID.
+           For example, use "Synth 8-1.*" to match "Synth 8-10".
+
+  issue #47:
+    Malformed suppression rules are reported with their location instead of
+    silently discarding the rules after them.
+
+  issue #48:
+    Invalid regular expressions in suppression rules are reported instead of
+    causing a traceback.
+
+  issue #49:
+    Log files which are missing or contain non-UTF-8 characters no longer
+    cause a traceback.
+
+  issue #50:
+    JUnit files use a 24-hour timestamp and escape XML attributes.
+
+  issue #51:
+    User-defined parsers now take precedence over built-in parsers.
+
+  issue #52:
+    Parser loading ignores non-Python files and reports parsers which fail to load.
+
+  issue #53:
+    The create subcommand escapes regular expression characters in the rules it writes.
+
+  issue #54:
+    The Questa CDC run log parser no longer crashes on single-token summary lines.
+
+  issue #70:
+    "python -m elfws" now runs ELFWS.
+
+  issue #78:
+    Precision and Synplify Pro warnings without an ID now use NO_ID.
+
+  issue #80:
+    Questa Lint warnings are no longer dropped or reported under the wrong check.
 
 Miscellaneous
 -------------
 
-  None
+  issue #106:
+    Python 3.9 or newer is required.
+    Packaging moves from setup.py to pyproject.toml.
+
+  issue #77:
+    Renames the warning, warning list, suppression and suppression list classes
+    to LogWarning, WarningList, Suppression and SuppressionList.
+    Note:  warning.create() and warning_list.create() still work in
+           user-defined parsers, but are deprecated and will be removed in a
+           future release.
+
+  issue #55:
+    Documentation corrections.
+
+  issue #57, #102, #104, #108:
+    Continuous integration tests Python 3.9 through 3.14, checks code style,
+    and publishes releases to PyPI.
+
+  issue #60, #72, #73, #74, #75, #76, #78, #79, #80, #81, #93, #95, #97, #100:
+    Internal refactoring for readability.  No change in behavior other than
+    the bug fixes listed above.

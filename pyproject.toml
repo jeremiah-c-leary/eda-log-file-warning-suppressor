@@ -15,7 +15,7 @@ authors = [
 ]
 keywords = ["eda", "warning", "suppression", "logfile"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: End Users/Desktop",
     "Natural Language :: English",
