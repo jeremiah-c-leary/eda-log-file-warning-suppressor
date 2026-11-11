@@ -1,6 +1,8 @@
 Installation
 ============
 
+ELFWS requires Python 3.9 or newer.
+
 There are two methods to install ELFWS.
 
 PIP
@@ -24,9 +26,9 @@ The latest development version can be cloned from the git hub repo.
 
   git clone https://github.com/jeremiah-c-leary/eda-log-file-warning-suppressor.git
 
-Then install using the setup.py file.
+Then install it from the cloned directory.
 
 .. code-block:: bash
 
-  python setup.py install
+  pip install .
 
