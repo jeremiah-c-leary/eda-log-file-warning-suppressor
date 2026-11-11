@@ -77,6 +77,8 @@ Key Features
 Installation
 ------------
 
+ELFWS requires Python 3.9 or newer.
+
 You can get the latest released version of ELFWS via **pip**.
 
 .. code-block:: bash
@@ -87,13 +89,13 @@ The latest development version can be cloned...
 
 .. code-block:: bash
 
-    git clone https://github.com/jeremiah-c-leary/eda-log-file-warning-supressor.git
+    git clone https://github.com/jeremiah-c-leary/eda-log-file-warning-suppressor.git
 
 ...and then installed locally...
 
 .. code-block:: bash
 
-    python setup.py install
+    pip install .
 
 
 Usage
