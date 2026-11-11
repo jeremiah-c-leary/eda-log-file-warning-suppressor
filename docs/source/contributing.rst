@@ -26,6 +26,24 @@ However, I would appreciate any suggestions to improve the code base.
 
 Create an issue and use the **refactor** label for any code which could be improved.
 
+Code Checks
+###########
+
+Every pull request runs these checks, in addition to the unit tests.
+Run them locally before submitting (they require Python 3.11 or newer):
+
+.. code-block:: bash
+
+   pip install pyflakes sdsort
+
+   python -m unittest
+   pyflakes elfws $(find tests -name '*.py' -not -path 'tests/user_defined_tools/*')
+   sdsort --check elfws
+
+* **pyflakes** reports unused imports and variables, and undefined names.
+* **sdsort** checks that functions follow the *Stepdown Rule*: each function is defined below the functions which use it, so the code reads from top to bottom.
+  Running :code:`sdsort elfws` without :code:`--check` reorders the functions for you.
+
 Feature Requests
 ################
 

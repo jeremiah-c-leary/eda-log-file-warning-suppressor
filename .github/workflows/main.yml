@@ -40,6 +40,25 @@ jobs:
           coverage run -m unittest
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v1
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install lint tools
+        run: pip install pyflakes==4.1.0 sdsort==1.3.1
+
+      - name: Check for unused code and undefined names
+        run: pyflakes elfws $(find tests -name '*.py' -not -path 'tests/user_defined_tools/*')
+
+      - name: Check functions are in stepdown order
+        run: sdsort --check elfws
       
 #      - name: SonarCloud Scan
 #        uses: SonarSource/sonarcloud-github-action@master
