@@ -1,4 +1,3 @@
-
 from elfws import warning
 from elfws import warning_list
 
@@ -115,9 +114,6 @@ class LintCheck():
                 lReturn.append(self.build_warning(sLine, lContinuationLines, iLineNumber))
         return lReturn
 
-    def is_warning_start(self, sLine):
-        return sLine.startswith(self.sId + ':')
-
     def collect_continuation_lines(self, iStartIndex):
         lReturn = []
         for iLineNumber, sLine in self.lLines[iStartIndex:]:
@@ -128,6 +124,9 @@ class LintCheck():
 
     def is_end_of_message(self, sLine):
         return sLine == '' or self.is_warning_start(sLine)
+
+    def is_warning_start(self, sLine):
+        return sLine.startswith(self.sId + ':')
 
     def build_warning(self, sFirstLine, lContinuationLines, iLineNumber):
         sMessage = sFirstLine[len(self.sId) + 1:].lstrip()

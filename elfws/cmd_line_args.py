@@ -1,4 +1,3 @@
-
 import argparse
 import sys
 
@@ -40,11 +39,6 @@ def print_help_if_no_command_line_options_given(oParser):
         raise error.ElfwsError('', ExitCode.NO_COMMAND_LINE_ARGUMENTS)
 
 
-def add_file_arguments_to_parser(oParser):
-    oParser.add_argument('log_file', help='Log file to check for warnings')
-    oParser.add_argument('suppression_file', help='YAML formatted warning suppression file')
-
-
 def build_create_subparser(oSubparser):
     parser = oSubparser.add_parser('create', help='Create suppression file')
     parser.add_argument('log_file', help='Log file with warnings to extract')
@@ -68,6 +62,11 @@ def build_suppress_subparser(oSubparser):
     add_file_arguments_to_parser(parser)
 
     parser.set_defaults(run_subcommand=subcommand.suppress.suppress)
+
+
+def add_file_arguments_to_parser(oParser):
+    oParser.add_argument('log_file', help='Log file to check for warnings')
+    oParser.add_argument('suppression_file', help='YAML formatted warning suppression file')
 
 
 def build_show_subparser(oSubparser):

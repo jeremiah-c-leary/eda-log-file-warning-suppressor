@@ -1,4 +1,3 @@
-
 import re
 import yaml
 
@@ -210,12 +209,6 @@ def add_index_to_path(lPath, iIndex):
     return lPath[:-1] + [lPath[-1] + '[' + str(iIndex) + ']']
 
 
-def replace_missing_with_default(oValue, oDefault):
-    if is_missing(oValue):
-        return oDefault
-    return oValue
-
-
 def has_errors(lErrors):
     return len(lErrors) > 0
 
@@ -230,10 +223,6 @@ def has_message(dSup):
 
 def is_rules_key(sKey):
     return sKey == 'rules'
-
-
-def is_missing(oValue):
-    return oValue is None
 
 
 def is_mapping(oValue):
@@ -280,3 +269,13 @@ def update_suppression_options(oSupRule, dSup):
     Returns: Nothing
     '''
     oSupRule.set_options(replace_missing_with_default(dSup.get('options'), []))
+
+
+def replace_missing_with_default(oValue, oDefault):
+    if is_missing(oValue):
+        return oDefault
+    return oValue
+
+
+def is_missing(oValue):
+    return oValue is None
