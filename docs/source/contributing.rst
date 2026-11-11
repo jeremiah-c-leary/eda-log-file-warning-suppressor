@@ -57,3 +57,13 @@ I plan to update ELFWS as I run into tools where I need to suppress warnings.
 If there is a tool that is currently not supported, then create an issue with the **Vendor Tool** label.
 
 Provide a small sample showing the format of the warnings and I can add it or show you how to add it.
+
+Releasing
+#########
+
+Publishing a GitHub release uploads ELFWS to PyPI automatically.
+
+1. Update the version in :code:`elfws/version.py` and the release notes, and merge them to master.
+2. Create a GitHub release whose tag is the version number, without a leading *v* (for example :code:`0.12.0`).
+
+The release fails without publishing anything if the tag does not match :code:`elfws/version.py`.
